@@ -1,0 +1,21 @@
+<!DOCTYPE html> <!-- This base.html file is essentially the header across the entire website, the other pages such as 'blog' and 'signup' are dynamically added to this base.html depending on usage needs via Jinja2 -->
+<html>
+	<head>
+		<link type ="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
+		<title>Udacity - Marsh Blog</title>
+	</head>
+
+	<body>
+		<div class="nav-links">
+			<a href="/" class="home-link">Home</a>
+			<a href="/blog" class="blog-link">Blog</a>
+			<a href="/blog/signup" class="signup-link">Sign Up!</a>
+			<a href="/blog/newpost" class="newpost-link">New Post!</a>
+		</div>
+		<h1 class="blog-header">Udacity - Marsh Blog</h1>
+
+	<div id="content"> <!--This sets aside (and assigns an id) a spot for jinja templates to insert another html file's contents -->
+		{% block content %}
+		{% endblock %}
+	</div>
+</html>
