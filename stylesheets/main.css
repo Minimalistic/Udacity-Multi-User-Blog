@@ -1,4 +1,7 @@
 /* * {border:1px solid red} */
+
+/* START General Styling */
+
 .nav-links {
 	text-align: center;
 }
@@ -6,3 +9,16 @@
 .blog-header {
 	text-align: center;
 }
+
+.error {
+	color:red;
+}
+
+/* END General Styling */
+
+
+/* START User Signup Styling */
+
+
+
+/* END User Signup Styling */
