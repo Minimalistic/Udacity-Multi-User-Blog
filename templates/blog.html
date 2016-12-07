@@ -1,6 +1,10 @@
-{% extends "base.html" %} <!-- This instructs Jinja2 to take base.html and then add this file to it for a unified page -->
+{% extends "base.html" %}
 
 {% block content %}
-	<h2>Blog Page!</h2>
+
+  {% for p in posts %}
+    {{ p.render() | safe }}
+    <br><br>
+  {% endfor %}
 
 {% endblock %}
