@@ -1,11 +1,7 @@
-<!DOCTYPE html>
+{% extends "base.html" %} <!-- This instructs Jinja2 to take base.html and then add this file to it for a unified page -->
 
-<html>
-  <head>
-    <title>WELCOME - REPLACE THIS MOSTLY WITH BASE.HTML</title>
-  </head>
+{% block content %}
 
-  <body>
-    <h2>Welcome, {{username}}!</h2>
-  </body>
-</html>
+<h2>Welcome, {{username}}!</h2>
+
+{% endblock %}
