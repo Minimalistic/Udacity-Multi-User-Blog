@@ -1,0 +1,863 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"flex",
+				"flex-end"
+			],
+			[
+				"al",
+				"align-items"
+			],
+			[
+				"shopping",
+				"shopping_list_html"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "marshproject.py",
+			"settings":
+			{
+				"buffer_size": 3792,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/base.html",
+			"settings":
+			{
+				"buffer_size": 838,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/blog.html",
+			"settings":
+			{
+				"buffer_size": 180,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/login.html",
+			"settings":
+			{
+				"buffer_size": 10,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/logout.html",
+			"settings":
+			{
+				"buffer_size": 11,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/newpost.html",
+			"settings":
+			{
+				"buffer_size": 444,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/post.html",
+			"settings":
+			{
+				"buffer_size": 9,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/signup.html",
+			"settings":
+			{
+				"buffer_size": 813,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/welcome.html",
+			"settings":
+			{
+				"buffer_size": 192,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "stylesheets/main.css",
+			"settings":
+			{
+				"buffer_size": 253,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app.yaml",
+			"settings":
+			{
+				"buffer_size": 230,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 331.0,
+		"last_filter": "Package Control: ",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"colo",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"co",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"orig",
+				"Package Control: Install Package"
+			],
+			[
+				"alig",
+				"Package Control: Install Package"
+			],
+			[
+				"color",
+				"Colorsublime: Install Theme"
+			]
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"Package Control: Install Package",
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start"
+	],
+	"file_history":
+	[
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/marshproject.py",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/stylesheets/main.css",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/app.yaml",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/welcome.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/post.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/newpost.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/logout.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/login.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/blog.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/signup.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/base.html",
+		"/Users/jasonmarsh/Downloads/hw4/app.yaml",
+		"/Users/jasonmarsh/Downloads/hw4/templates/welcome.html",
+		"/Users/jasonmarsh/Downloads/hw4/templates/signup-form.html",
+		"/Users/jasonmarsh/Downloads/hw4/templates/post.html",
+		"/Users/jasonmarsh/Downloads/hw4/templates/rot13-form.html",
+		"/Users/jasonmarsh/Downloads/hw4/templates/permalink.html",
+		"/Users/jasonmarsh/Downloads/hw4/templates/newpost.html",
+		"/Users/jasonmarsh/Downloads/hw4/templates/login-form.html",
+		"/Users/jasonmarsh/Downloads/hw4/templates/front.html",
+		"/Users/jasonmarsh/Downloads/hw4/templates/base.html",
+		"/Users/jasonmarsh/Downloads/hw4/static/main.css",
+		"/Users/jasonmarsh/Downloads/hw4/blog.py",
+		"/Users/jasonmarsh/Downloads/hw4/index.yaml",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/app.yaml",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/static/main.css",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/templates/welcome.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/templates/signup-form.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/templates/post.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/templates/permalink.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/templates/newpost.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/templates/login-form.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/templates/front.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/templates/base.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/blog.py",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-reverse/templates/rot13-form.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog/templates/newpost.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog/basicblog.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/basicblog/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/basicblog/stylesheets/main.css",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/basicblog/templates/post.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/basicblog/templates/newpost.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/basicblog/templates/blog.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/basicblog/basicblog.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/basicblog/templates/stylesheets/main.css",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/basicblog/templates/css/main.css",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ProjectPortfolio/css/main.css",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/basicblog/templates/main.css",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/asciichan/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/asciichan/asciichan.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/asciichan/templates/front.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/user_signup/user_signup.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/user_signup/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/user_signup/templates/welcome.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/user_signup/templates/signup_form.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/user_signup/templates/signup-form.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/user_signup/index.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Start_user_pw/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Start_user_pw/play.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/my_rot13/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/rot13_hw/hw2/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/my_rot13/rot13.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/rot13_hw/hw2/rot13.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/rot13_hw/hw2/templates/rot13_form.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/rot13_hw/hw2/index.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/rot13_hw/hw2/templates/rot13-form.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/rot13_hw/hw2/blog.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Templates_start/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Templates_start/templates.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Rot13_attempt/untitled.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Templates_start/templates/shoppingList.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Templates_start/templates/rot13.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Rot13_attempt/templates/hello_form.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Rot13_attempt/app.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Hello_World_continued/play.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/start_over_hello_world_2/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/start_over_hello_world_2/play.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Start_Over_Hello_World/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Start_Over_Hello_World/start_over_hello_world_2/play.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Start_Over_Hello_World/main_test.py",
+		"/Users/jasonmarsh/Library/Application Support/Sublime Text 3/Packages/User/Origami.sublime-settings",
+		"/Users/jasonmarsh/Library/Application Support/Sublime Text 3/Packages/Origami/Origami.sublime-settings",
+		"/Users/jasonmarsh/Library/Application Support/Sublime Text 3/Packages/Colorsublime/Colorsublime.sublime-settings",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/Start_Over/play.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/tutorials/hello_world/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/tutorials/hello_world/main_test.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/tutorials/hello_world/main.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13_test/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13_test/templates/rot13.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13_test/templates.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13_T/templates/rot13.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13_learn/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13_T/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13_T/rot13.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13_T/templates.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13/templates/rot13.html",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13/templates.py",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13/app.yaml",
+		"/Users/jasonmarsh/Dropbox/Documents/Coding/Udacity/ROT13_Template_Refactor.zip"
+	],
+	"find":
+	{
+		"height": 44.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"Content",
+			"post",
+			"Content",
+			"render_front",
+			"content",
+			"CONTENTS",
+			"render",
+			"self",
+			"Post",
+			"content",
+			"p",
+			"SignUp",
+			"size",
+			"cs",
+			"subject",
+			"Content",
+			"posts",
+			"gql",
+			"content",
+			"posts",
+			"Post",
+			"gql",
+			"order by",
+			"10",
+			"front",
+			"Form",
+			"contents",
+			"content",
+			"contents",
+			"handler",
+			"newpost",
+			"datetime",
+			"created",
+			"date",
+			"blog",
+			"red",
+			";\n",
+			"Content",
+			"/blog",
+			"subject",
+			"title",
+			"TITLE",
+			"entry",
+			"art",
+			"arts",
+			"blog",
+			"html",
+			"arts",
+			"title",
+			"\tdef post(self):",
+			"subject",
+			"title",
+			"arts",
+			"contents",
+			"Art",
+			"title",
+			"800px",
+			"blog",
+			"newpost",
+			"post",
+			"front",
+			"MainPage",
+			"front",
+			"ascii",
+			"blog",
+			"pass",
+			"email",
+			"have_error",
+			"string",
+			"signup",
+			"-form",
+			"unit",
+			"blog",
+			"rot13-form",
+			"template",
+			"render_str",
+			"t",
+			"write",
+			"self.write",
+			"template_dir",
+			"str",
+			"template",
+			"text",
+			"render",
+			"template_dir",
+			"base",
+			"return",
+			"write",
+			"self.write",
+			"n",
+			"form_html",
+			"food",
+			"post",
+			"jinja"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"subject"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "marshproject.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3792,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 7,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "templates/base.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 838,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "templates/blog.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 180,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "templates/login.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "templates/logout.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "templates/newpost.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 444,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "templates/post.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "templates/signup.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 813,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "templates/welcome.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 192,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 9,
+					"file": "stylesheets/main.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 253,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 10,
+					"file": "app.yaml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 230,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/YAML/YAML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				0,
+				1,
+				2,
+				2
+			],
+			[
+				1,
+				0,
+				3,
+				1
+			],
+			[
+				2,
+				1,
+				3,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.612061225043,
+			0.687198893229,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.535824283156,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "marshblog.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"main.css",
+				"ProjectPortfolio/css/main.css"
+			],
+			[
+				"blog.html",
+				"basicblog/templates/blog.html"
+			],
+			[
+				"",
+				"asciichan/templates/front.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 2,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 260.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
