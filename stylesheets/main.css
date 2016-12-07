@@ -1,13 +1,53 @@
-/* * {border:1px solid red} */
+/* {border:1px solid red} */
 
 /* START General Styling */
+
+body {
+	max-width: 800px;
+	margin: 0 auto;
+}
+.post {
+	margin: 0 auto;
+	max-width: 800px;
+}
 
 .nav-links {
 	text-align: center;
 }
 
 .blog-header {
-	text-align: center;
+}
+
+.post-heading {
+	display:flex;
+	align-items:center;
+	justify-content: center;
+
+}
+
+.post-title {
+	float:left;
+	width:100%;
+	align-self: flex-end;
+}
+
+.post-title h2 {
+	margin-bottom: 0;
+}
+
+.post-date {
+	text-align:right;
+	width:100%;
+}
+
+.post-date h4{
+	margin-bottom:0;
+	color:#bcbcbc;
+}
+
+.post-content {
+	border: 2px black;
+	border-style: solid none none none;
 }
 
 .error {
