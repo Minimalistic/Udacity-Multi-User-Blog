@@ -21,7 +21,7 @@ class StevesBlogHandler(webapp2.RequestHandler):
 	def render(self, template, **kw):
 		self.write(self.render_str(template, **kw))
 
-""" Form submittion processing functions provided by Udacity """
+""" Form submission processing functions provided by Udacity """
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 def valid_username(username):
