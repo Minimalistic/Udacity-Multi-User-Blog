@@ -4,8 +4,6 @@ import re
 
 import jinja2
 
-from google.appengine.ext import db
-
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
 								autoescape = True)
@@ -23,7 +21,7 @@ class StevesBlogHandler(webapp2.RequestHandler):
 	def render(self, template, **kw):
 		self.write(self.render_str(template, **kw))
 
-""" Form submission processing functions provided by Udacity """
+""" Form submittion processing functions provided by Udacity """
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 def valid_username(username):
@@ -37,29 +35,13 @@ EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
-class Post(db.Model): #class for defining an entity.
-	subject = db.StringProperty(required = True)
-	content = db.TextProperty(required = True)
-	created = db.DateTimeProperty(auto_now_add = True)
-	last_modified = db.DateTimeProperty(auto_now = True)
-
-	def render(self):
-		self._render_text = self.content.replace('\n', '<br>')
-		return render_str("newpost.html", p = self)
-
 class Base(StevesBlogHandler):
 	def get(self):
 		self.render("base.html")
 
 class BlogFront(StevesBlogHandler):
-	def render_front(self, subject="", content="", error=""):
-		contents = db.GqlQuery("SELECT * FROM Post "
-								"ORDER BY created DESC LIMIT 10")
-
-		self.render("blog.html", subject=subject, content=content, error=error, contents=contents)
-
 	def get(self):
-		self.render_front()
+		self.render("blog.html")
 
 class SignUp(StevesBlogHandler):
 
@@ -115,20 +97,6 @@ class Logout(StevesBlogHandler):
 class NewPost(StevesBlogHandler):
 	def get(self):
 		self.render("newpost.html")
-
-	def post(self):
-		subject = self.request.get("subject")
-		content = self.request.get("content")
-
-		if subject and content:
-			p = Post(subject = subject, content = content)
-			p.put() #Stores Post 'p' in the database.
-
-			self.redirect("/blog")
-		else:
-			error = "You need to input both a subect and some content!"
-			self.Post(subject, content, error)
-
 
 app = webapp2.WSGIApplication([('/', Base),
 								('/blog/?', BlogFront),
