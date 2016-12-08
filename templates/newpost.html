@@ -1,14 +1,18 @@
-{% extends "base.html" %} <!-- This instructs Jinja2 to take base.html and then add this file to it for a unified page -->
+{% extends "base.html" %}
 
 {% block content %}
-	<h2>New Post</h2>
+  <h2>new post</h2>
 
-	<form method="post">
-			<div>subject</div>
-			<input type="text" name="subject" value="{{subject}}">
+    <form method="post">
+      <label>
+        <div>subject</div>
+        <input type="text" name="subject" value="{{subject}}">
+      </label>
 
+      <label>
         <div>blog</div>
         <textarea name="content">{{content}}</textarea>
+      </label>
 
       <div class="error">{{error}}</div>
 

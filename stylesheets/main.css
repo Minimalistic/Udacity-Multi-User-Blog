@@ -2,6 +2,9 @@
 
 /* START General Styling */
 
+.label {text-align: right}
+      .error {color: red}
+
 body {
 	max-width: 800px;
 	margin: 0 auto;

@@ -1,15 +1,15 @@
 <div class="post">
   <div class="post-heading">
     <div class="post-title">
-      <h2>{{p.subject}}</h2>
+      {{p.subject}}
     </div>
 
     <div class="post-date">
-      <h4>{{p.created.strftime("%b %d, %Y")}}</h4>
+      {{p.created.strftime("%b %d, %Y")}}
     </div>
   </div>
 
   <div class="post-content">
-    <p>{{p._render_text | safe}}</p>
+    {{p._render_text | safe}}
   </div>
 </div>
