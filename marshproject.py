@@ -14,7 +14,7 @@ template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
 
-secret = 'fart'
+secret = 'AnAbundanceOfFlatulence'
 
 def render_str(template, **params):
     t = jinja_env.get_template(template)
@@ -180,6 +180,33 @@ EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
+class EditPost(BlogHandler):
+	def get(self, post_id):
+
+		if self.user:
+			self.render("editpost.html")
+		else:
+			self.redirect("/login")
+
+        def post(self,post_id):
+           key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+           post = db.get(key)
+           if not self.user:
+             self.redirect('/blog')
+
+           post.subject = self.request.get('subject')
+           post.content = self.request.get('content')
+
+           if post.subject and post.content:
+          
+              post.put()
+              self.redirect('/blog/%s' % str(post.key().id()))
+           else:
+            error = "subject and content, please!"
+            self.render("editpost.html", subject=post.subject, content=post.content, error=error)
+
+
+
 class Signup(BlogHandler):
     def get(self):
         self.render("signup-form.html")
@@ -271,15 +298,83 @@ class Welcome(BlogHandler):
         else:
             self.redirect('/unit2/signup')
 
+class Delete(BlogHandler):
+    
+    def post(self,post_id):
+         if self.user:
+          key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+          post = db.get(key)
+          db.delete(key)
+          self.redirect('/blog')
+
+         else:
+             self.redirect('/blog')
+
+class Comment(db.Model):
+    comment = db.StringProperty(required=True)
+    post = db.ReferenceProperty(Post)
+    user = db.ReferenceProperty(User)
+
+
+class NewComment(BlogHandler):
+
+    def get(self,post_id):
+
+        if not self.user:
+            return self.redirect("/login")
+        key = db.Key.from_path("Post", int(post_id), parent=blog_key())
+        post = db.get(key)
+        
+        subject = post.subject
+        content = post.content
+        self.render(
+            "newcomment.html",
+            subject=subject,
+            content=content,
+            post=post.key(),
+            user=self.user.key(),
+            )
+
+    def post(self,post_id):
+        if self.user:
+            key = db.Key.from_path("Post", int(post_id), parent=blog_key())
+            post = db.get(key)
+            if not post:
+                self.error(404)
+                return
+            if not self.user:
+                return self.redirect("login")
+            comment = self.request.get("comment")
+
+            if comment:
+                # check how author was defined
+            
+                c = Comment(comment=comment,user = self.user.key(),post=post.key())
+                c.put()
+                self.redirect("/blog/%s" % str(post.key().id()))
+
+            else:
+                error = "please comment"
+                self.render(
+                    "permalink.html",
+                    post=post,
+                    content=content,
+                    error=error)
+        else:
+            self.redirect("/login")
+
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/unit2/signup', Unit2Signup),
                                ('/unit2/welcome', Welcome),
                                ('/blog/?', BlogFront),
                                ('/blog/([0-9]+)', PostPage),
                                ('/blog/newpost', NewPost),
+                               ('/blog/editpost/([0-9]+)', EditPost),
+                               ('/blog/delete/([0-9]+)', Delete),
                                ('/signup', Register),
                                ('/login', Login),
                                ('/logout', Logout),
                                ('/unit3/welcome', Unit3Welcome),
+                               ('/blog/newcomment/([0-9]+)', NewComment),
                                ],
                               debug=True)

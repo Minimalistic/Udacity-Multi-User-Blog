@@ -1,0 +1,119 @@
+/* {border:1px solid red} */
+
+body {
+	max-width: 800px;
+	margin: 0 auto;
+	padding-left:1em;
+	padding-right:1em;
+}
+
+.post {
+	margin: 0 auto;
+	max-width: 800px;
+}
+
+.title-nav {
+	background-color:#efefef;
+	max-width:75%;
+	margin: 0 auto;
+	margin-top:1em;
+	display:flex;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.toolbar-nav {
+	background-color:#efefef;
+	max-width:50%;
+	margin: 0 auto;
+	padding-left:1em;
+	padding-bottom:.7em;
+	display:flex;
+	border-radius: 0px 0px 10px 10px;
+
+}
+
+.toolbar-nav a {
+	text-decoration: none;
+	text-color: black;
+}
+.toolbar-nav a:hover {
+	text-decoration: underline;
+}
+
+.main-title {
+	font-size:1.5em;
+	display:flex;
+	width:100%;
+	align-self: center;
+	padding-left:.7em;
+	text-decoration: none;
+	color:black;
+}
+
+.main-title:hover {
+	text-decoration: underline;
+}
+
+.nav-links {
+	padding:1em;
+	padding-top:2em;
+	display:flex;
+}
+
+.login-area {
+	padding:1em;
+	text-align:right;
+	width:30%;
+}
+
+.login-link {
+	text-decoration: none;
+	color:black;
+}
+
+.login-link:hover {
+	text-decoration: underline;
+}
+
+.blog-header {
+}
+
+.post-heading {
+	display:flex;
+	align-items:center;
+	justify-content: center;
+
+}
+
+.post-title {
+	width:70%;
+	display:flex;
+
+}
+
+.post-title h2 {
+
+}
+
+.post-date {
+	text-align:right;
+	width:30%;
+}
+
+.post-date h4{
+	margin-bottom:0;
+	color:#bcbcbc;
+}
+
+.post-content {
+	border: 2px black;
+	border-style: solid none none none;
+}
+
+.error {
+	color:red;
+}
+
+.label {
+	text-align: right
+}
