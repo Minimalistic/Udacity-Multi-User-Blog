@@ -125,7 +125,6 @@ class Post(db.Model):
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
     last_modified = db.DateTimeProperty(auto_now = True)
-    author = db.StringProperty(required=True)
 
     def render(self):
         self._render_text = self.content.replace('\n', '<br>')
@@ -163,12 +162,12 @@ class NewPost(BlogHandler):
         author = self.user.name('author')
 
         if subject and content:
-            p = Post(parent = blog_key(), subject = subject, content = content)
+            p = Post(parent = blog_key(), subject = subject, content = content, author = author)
             p.put()
             self.redirect('/blog/%s' % str(p.key().id()))
         else:
             error = "subject and content, please!"
-            self.render("newpost.html", subject=subject, content=content, error=error)
+            self.render("newpost.html", subject=subject, content=content, error=error, author=author)
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 def valid_username(username):
@@ -206,7 +205,6 @@ class EditPost(BlogHandler):
            else:
             error = "subject and content, please!"
             self.render("editpost.html", subject=post.subject, content=post.content, error=error)
-
 
 
 class Signup(BlogHandler):
