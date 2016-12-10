@@ -34,7 +34,7 @@ body {
 
 .toolbar-nav a {
 	text-decoration: none;
-	text-color: black;
+	color: black;
 }
 .toolbar-nav a:hover {
 	text-decoration: underline;
