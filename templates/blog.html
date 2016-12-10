@@ -5,7 +5,7 @@
   {% for p in posts %}
   	{% set id = post_id %}
 	<a href="{{'/blog/editpost/%s' % id}}">Edit Button Not Working Yet</a>
-	<h3>Post author is:{{author}}</h3>
+	<h4>Post author is: {{ p.author }}</h4>
     {{ p.render() | safe }}
     <br><br>
   {% endfor %}
