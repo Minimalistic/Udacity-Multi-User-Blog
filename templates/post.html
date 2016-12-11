@@ -1,5 +1,9 @@
 <div class="post">
 
+  <h4>
+    Post author is: {{ p.author }}
+  </h4>
+
   <div class="post-heading">
 
     <h2 class="post-title">
@@ -13,6 +17,7 @@
   </div>
 
   <div class="post-content">
+
 
     <p>
       {{p._render_text | safe}}

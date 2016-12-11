@@ -168,7 +168,7 @@ class NewPost(BlogHandler):
             self.redirect('/blog/%s' % str(p.key().id()))
         else:
             error = "subject and content, please!"
-            self.render("newpost.html", subject=subject, content=content, error=error, author=author)
+            self.render("newpost.html", subject = subject, content = content, error = error, author = author)
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 def valid_username(username):
@@ -190,23 +190,22 @@ class EditPost(BlogHandler):
 		else:
 			self.redirect("/login")
 
-        def post(self,post_id):
-           key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-           post = db.get(key)
-           if not self.user:
-             self.redirect('/blog')
+       	def post(self, post_id):
+			key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+			post = db.get(key)
 
-           post.subject = self.request.get('subject')
-           post.content = self.request.get('content')
+			if not self.user:
+				self.redirect('/blog')
 
-           if post.subject and post.content:
-          
-              post.put()
-              self.redirect('/blog/%s' % str(post.key().id()))
-           else:
-            error = "subject and content, please!"
-            self.render("editpost.html", subject=post.subject, content=post.content, error=error)
+			subject = self.request.get('subject')
+			content = self.request.get('content')
 
+			if subject and content:
+				post.put()
+				self.redirect('/blog/%s' % str(post.key().id()))
+			else:
+				error = "subject and content, please!"
+				self.render("editpost.html", subject=subject, content=content, error=error)
 
 class Signup(BlogHandler):
     def get(self):
@@ -301,15 +300,15 @@ class Welcome(BlogHandler):
 
 class Delete(BlogHandler):
     
-    def post(self,post_id):
-         if self.user:
-          key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-          post = db.get(key)
-          db.delete(key)
-          self.redirect('/blog')
+	def post(self,post_id):
+		if self.user:
+			key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+			post = db.get(key)
+			db.delete(key)
+			self.redirect('/blog')
 
-         else:
-             self.redirect('/blog')
+		else:
+			self.redirect('/blog')
 
 class Comment(db.Model):
     comment = db.StringProperty(required=True)
@@ -337,32 +336,32 @@ class NewComment(BlogHandler):
             )
 
     def post(self,post_id):
-        if self.user:
-            key = db.Key.from_path("Post", int(post_id), parent=blog_key())
-            post = db.get(key)
-            if not post:
-                self.error(404)
-                return
-            if not self.user:
-                return self.redirect("login")
-            comment = self.request.get("comment")
+		if self.user:
+			key = db.Key.from_path("Post", int(post_id), parent=blog_key())
+			post = db.get(key)
+			if not post:
+				self.error(404)
+				return
+			if not self.user:
+				return self.redirect("login")
+			comment = self.request.get("comment")
 
-            if comment:
-                # check how author was defined
+			if comment:
+				# check how author was defined
             
-                c = Comment(comment=comment,user = self.user.key(),post=post.key())
-                c.put()
-                self.redirect("/blog/%s" % str(post.key().id()))
+				c = Comment(comment=comment,user = self.user.key(),post=post.key())
+				c.put()
+				self.redirect("/blog/%s" % str(post.key().id()))
 
-            else:
-                error = "please comment"
-                self.render(
-                    "permalink.html",
-                    post=post,
-                    content=content,
-                    error=error)
-        else:
-            self.redirect("/login")
+			else:
+				error = "please comment"
+				self.render(
+	            		"permalink.html",
+					post=post,
+					content=content,
+					error=error)
+		else:
+			self.redirect("/login")
 
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/unit2/signup', Unit2Signup),
@@ -370,7 +369,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/blog/?', BlogFront),
                                ('/blog/([0-9]+)', PostPage),
                                ('/blog/newpost', NewPost),
-                               ('/blog/editpost/(\d+)', EditPost),
+                               ('/blog/editpost/([0-9])', EditPost),
                                ('/blog/delete/([0-9]+)', Delete),
                                ('/signup', Register),
                                ('/login', Login),
