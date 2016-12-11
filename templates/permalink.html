@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {{post.render() | safe}}
-  
+
+	{% for p in posts %}
+	
+	{{ p.render() | safe }}
+	<h1>edit post button goes here</h1>
+	<a method="get" href="/blog/editpost{{p.key().id()}}">edit button</a>
+	
+
+  {% endfor %}
+
 {% endblock %}

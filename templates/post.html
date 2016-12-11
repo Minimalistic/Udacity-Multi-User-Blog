@@ -1,5 +1,4 @@
 <div class="post">
-
   <h4>
     Post author is: {{ p.author }}
   </h4>
@@ -7,7 +6,7 @@
   <div class="post-heading">
 
     <h2 class="post-title">
-      {{p.subject}}
+      <a href="/blog/{{p.key().id()}}">{{ p.subject }}</a>
     </h2>
 
     <h4 class="post-date">
