@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {{post.render() | safe}}
-  
+	<a method="get" href="/blog/{{post.key().id()}}">Edit Post</a>
+  {{ post.render() | safe }}
 {% endblock %}
