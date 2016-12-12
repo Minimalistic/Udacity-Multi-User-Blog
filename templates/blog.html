@@ -3,8 +3,9 @@
 {% block content %}
 
 	{% for p in posts %}
-
+	<a method="post" href="/blog/{{p.key().id()}}">Edit Post</a>
 	{{ p.render() | safe }}
+
 
 	<br><br>
 

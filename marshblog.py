@@ -201,9 +201,8 @@ class EditPost(BlogHandler):
 			content = self.request.get('content')
 
 			if subject and content:
-				p = Post(parent = blog_key(), subject = subject, content = content, author = author)
-				p.put()
-				self.redirect('/blog/%s' % str(p.key().id()))
+				post.put()
+				self.redirect('/blog/%s' % str(post.key().id()))
 			else:
 				error = "subject and content, please!"
 				self.render("editpost.html", subject=subject, content=content, error=error)
@@ -332,7 +331,7 @@ class NewComment(BlogHandler):
             "newcomment.html",
             subject=subject,
             content=content,
-            post=p.key(),
+            post=post.key(),
             user=self.user.key(),
             )
 
@@ -350,9 +349,9 @@ class NewComment(BlogHandler):
 			if comment:
 				# check how author was defined
             
-				c = Comment(comment=comment,user = self.user.key(),post=p.key())
+				c = Comment(comment=comment,user = self.user.key(),post=post.key())
 				c.put()
-				self.redirect("/blog/%s" % str(p.key().id()))
+				self.redirect("/blog/%s" % str(post.key().id()))
 
 			else:
 				error = "please comment"
