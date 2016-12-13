@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Edit post</h2>
-  <form>
-    <textarea type="text"> </textarea>
-  </form>
-{{ post.render() | safe }}
+  <h2>Below content should be only blog post's content</h2>
+<p>
+{{ post.content }}
+</p>
+
 {% endblock %}
