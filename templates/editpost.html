@@ -1,9 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Below content should be only blog post's content</h2>
-<p>
-{{ post.content }}
-</p>
+
+<h2>Edit Post</h2>
+
+<form method="post">
+	<label>
+		<div>Subject</div>
+		<input type="text" name="subject" value="{{ post.subject }}">
+	</label>
+
+	<label>
+		<div>Content</div>
+		<textarea name="content">{{ post.content }}</textarea>
+	</label>
+
+<div class="error">{{ error }}</div>
+
+<input type="submit">
+</form>
 
 {% endblock %}

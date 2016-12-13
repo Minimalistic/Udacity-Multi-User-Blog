@@ -182,12 +182,13 @@ class EditPost(BlogHandler):
 			content = self.request.get('content')
 
 			if subject and content:
+				post = Post(parent = blog_key(), subject = subject, content = content)
 				post.put()
 				self.redirect('/blog/%s' % str(post.key().id()))
 			else:
 				error = "subject and content, please!"
 				self.render("editpost.html", subject=subject, content=content, error=error)
-				
+
 class NewPost(BlogHandler):
     def get(self):
         if self.user:
