@@ -136,17 +136,6 @@ class BlogFront(BlogHandler):
         posts = greetings = Post.all().order('-created')
         self.render('blog.html', posts = posts)
 
-class PostPage(BlogHandler):
-    def get(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
-
-        if not post:
-            self.error(404)
-            return
-
-        self.render("permalink.html", post = post)
-
 class NewPost(BlogHandler):
     def get(self):
         if self.user:
@@ -182,11 +171,26 @@ EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
+class PostPage(BlogHandler):
+    def get(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        post = db.get(key)
+
+        if not post:
+            self.error(404)
+            return
+
+        self.render("permalink.html", post = post)
+
 class EditPost(BlogHandler):
 	def get(self, post_id):
+		key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+		post = db.get(key)
 
 		if self.user:
-			self.render("editpost.html")
+			self.render("editpost.html", post = post)
+
+
 		else:
 			self.redirect("/login")
 
