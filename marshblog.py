@@ -160,34 +160,32 @@ class PostPage(BlogHandler):
         self.render("permalink.html", post = post)
 
 class EditPost(BlogHandler):
-	def get(self, post_id):
-		key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-		post = db.get(key)
+    def get(self, post_id):
 
-		if self.user:
-			self.render("editpost.html", post = post)
+        if self.user:
+            self.render("editpost.html", post = post)
 
+        else:
+            self.redirect("/login")
 
-		else:
-			self.redirect("/login")
+    def post(self, post_id):
 
-       	def post(self, post_id):
-			key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-			post = db.get(key)
+        if not self.user:
+            self.redirect('/blog')
 
-			if not self.user:
-				self.redirect('/blog')
+        subject = self.request.get('subject')
+        content = self.request.get('content')
 
-			subject = self.request.get('subject')
-			content = self.request.get('content')
-
-			if subject and content:
-				post = Post(parent = blog_key(), subject = subject, content = content)
-				post.put()
-				self.redirect('/blog/%s' % str(post.key().id()))
-			else:
-				error = "subject and content, please!"
-				self.render("editpost.html", subject=subject, content=content, error=error)
+        if subject and content:
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
+            post.subject = subject
+            post.content = content
+            post.put()
+            self.redirect('/blog/%s' % post_id)
+        else:
+            error = "subject and content, please!"
+            self.render("editpost.html", subject=subject, content=content, error=error)
 
 class NewPost(BlogHandler):
     def get(self):
@@ -341,32 +339,32 @@ class NewComment(BlogHandler):
             )
 
     def post(self,post_id):
-		if self.user:
-			key = db.Key.from_path("Post", int(post_id), parent=blog_key())
-			post = db.get(key)
-			if not post:
-				self.error(404)
-				return
-			if not self.user:
-				return self.redirect("login")
-			comment = self.request.get("comment")
-
-			if comment:
-				# check how author was defined
+        if self.user:
+            key = db.Key.from_path("Post", int(post_id), parent=blog_key())
+            post = db.get(key)
+            if not post:
+                self.error(404)
+                return
+            if not self.user:
+                return self.redirect("login")
+            comment = self.request.get("comment")
             
-				c = Comment(comment=comment,user = self.user.key(),post=post.key())
-				c.put()
-				self.redirect("/blog/%s" % str(post.key().id()))
+            if comment:
+                # check how author was defined
+            
+                c = Comment(comment=comment,user = self.user.key(),post=post.key())
+                c.put()
+                self.redirect("/blog/%s" % str(post.key().id()))
 
-			else:
-				error = "please comment"
-				self.render(
-	            		"permalink.html",
-					post=post,
-					content=content,
-					error=error)
-		else:
-			self.redirect("/login")
+            else:
+                error = "please comment"
+                self.render(
+                        "permalink.html",
+                        post=post,
+                        content=content,
+                        error=error)
+        else:
+            self.redirect("/login")
 
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/unit2/signup', Unit2Signup),
