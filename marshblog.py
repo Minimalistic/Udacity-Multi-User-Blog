@@ -14,7 +14,7 @@ template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
 
-secret = 'AnAbundanceOfFlatulence'
+secret = 'TheMostSecretOfSecrets'
 
 def render_str(template, **params):
     t = jinja_env.get_template(template)
@@ -60,9 +60,9 @@ class BlogHandler(webapp2.RequestHandler):
         uid = self.read_secure_cookie('user_id')
         self.user = uid and User.by_id(int(uid))
 
-def render_post(response, post):
-    response.out.write('<b>' + post.subject + '</b><br>')
-    response.out.write(post.content)
+def render_post(response, post_tool):
+    response.out.write('<b>' + post_tool.subject + '</b><br>')
+    response.out.write(post_tool.content)
 
 class MainPage(BlogHandler): # This renders the base.html if user goes to 
     def get(self):           # the root address
@@ -152,24 +152,24 @@ def valid_email(email):
 class PostPage(BlogHandler):
     def get(self, post_id):
         key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
-        post = db.get(key)
+        post_tool = db.get(key)
 
-        if not post:
+        if not post_tool:
             self.error(404)
             return
 
-        self.render("permalink.html", post = post)
+        self.render("permalink.html", post_tool = post_tool)
 
 class EditPost(BlogHandler):
     def get(self, post_id):
         key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
-        post = db.get(key)
+        post_tool = db.get(key)
 
         if self.user:
             self.render("editpost.html",
-                        post = post,
-                        subject = post.subject,
-                        content = post.content,
+                        post_tool = post_tool,
+                        subject = post_tool.subject,
+                        content = post_tool.content,
                         post_id = post_id)
 
         else:
@@ -177,7 +177,7 @@ class EditPost(BlogHandler):
 
     def post(self, post_id):
         key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
-        post = db.get(key)
+        post_tool = db.get(key)
 
         if not self.user:
             self.redirect('/blog')
@@ -188,14 +188,14 @@ class EditPost(BlogHandler):
 
             if subject and content:
                 key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
-                post = db.get(key)
+                post_tool = db.get(key)
 
-                post.subject = subject
-                post.content = content
+                post_tool.subject = subject
+                post_tool.content = content
 
-                post.put()
+                post_tool.put()
                 
-                self.redirect('/blog/%s' % str(post.key().id()))
+                self.redirect('/blog/%s' % str(post_tool.key().id()))
             else:
                 error = "subject and content, please!"
                 self.render("editpost.html", subject=subject, content=content, error=error)
@@ -216,15 +216,18 @@ class NewPost(BlogHandler):
         author = self.user.name
 
         if subject and content:
-            newposter = PostDatabase(parent = blog_key(),
+            post_tool = PostDatabase(parent = blog_key(),
                                             subject = subject,
                                             content = content,
                                             author = author)
-            newposter.put()
-            self.redirect('/blog/%s' % str(newposter.key().id()))
+            post_tool.put()
+            self.redirect('/blog/%s' % str(post_tool.key().id()))
         else:
             error = "subject and content, please!"
-            self.render("newpost.html", subject = subject, content = content, error = error)
+            self.render("newpost.html",
+                        subject = subject,
+                        content = content,
+                        error = error)
 
 class Signup(BlogHandler):
     def get(self):

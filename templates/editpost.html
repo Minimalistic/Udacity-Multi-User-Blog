@@ -7,12 +7,12 @@
 <form method="post">
 	<label>
 		<div>Subject</div>
-		<input type="text" name="subject" value="{{ post.subject }}">
+		<input type="text" name="subject" value="{{ post_tool.subject }}">
 	</label>
 
 	<label>
 		<div>Content</div>
-		<textarea name="content">{{ post.content }}</textarea>
+		<textarea name="content">{{ post_tool.content }}</textarea>
 	</label>
 
 <div class="error">{{ error }}</div>
