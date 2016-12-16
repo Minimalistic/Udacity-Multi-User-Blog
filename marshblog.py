@@ -64,10 +64,9 @@ def render_post(response, post):
     response.out.write('<b>' + post.subject + '</b><br>')
     response.out.write(post.content)
 
-class MainPage(BlogHandler):
-  def get(self):
-      self.render('base.html')
-
+class MainPage(BlogHandler): # This renders the base.html if user goes to 
+    def get(self):           # the root address
+        self.render('base.html')
 
 ##### user stuff
 def make_salt(length = 5):
@@ -120,21 +119,23 @@ class User(db.Model):
 def blog_key(name = 'default'):
     return db.Key.from_path('blogs', name)
 
-class Post(db.Model):
+class PostDatabase(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
     last_modified = db.DateTimeProperty(auto_now = True)
     author = db.StringProperty()
 
-    def render(self):
+    def render(self): # renderpost is used to render jinja templates
         self._render_text = self.content.replace('\n', '<br>')
-        return render_str("post.html", p = self)
+        return render_str("post.html", renderpost = self)
 
 class BlogFront(BlogHandler):
     def get(self):
-        posts = Post.all().order('-created')
-        self.render('blog.html', posts = posts)
+        allposts = db.GqlQuery  \
+        ("SELECT * FROM PostDatabase ORDER BY created DESC LIMIT 10")
+        self.render('blog.html',    # takes the allposts db query and
+                    allposts = allposts) # renders results
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 def valid_username(username):
@@ -150,7 +151,7 @@ def valid_email(email):
 
 class PostPage(BlogHandler):
     def get(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
         post = db.get(key)
 
         if not post:
@@ -161,7 +162,7 @@ class PostPage(BlogHandler):
 
 class EditPost(BlogHandler):
     def get(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
         post = db.get(key)
 
         if self.user:
@@ -175,7 +176,7 @@ class EditPost(BlogHandler):
             self.redirect("/login")
 
     def post(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
         post = db.get(key)
 
         if not self.user:
@@ -186,7 +187,7 @@ class EditPost(BlogHandler):
             content = self.request.get('content')
 
             if subject and content:
-                key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+                key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
                 post = db.get(key)
 
                 post.subject = subject
@@ -215,9 +216,12 @@ class NewPost(BlogHandler):
         author = self.user.name
 
         if subject and content:
-            p = Post(parent = blog_key(), subject = subject, content = content, author = author)
-            p.put()
-            self.redirect('/blog/%s' % str(p.key().id()))
+            newposter = PostDatabase(parent = blog_key(),
+                                            subject = subject,
+                                            content = content,
+                                            author = author)
+            newposter.put()
+            self.redirect('/blog/%s' % str(newposter.key().id()))
         else:
             error = "subject and content, please!"
             self.render("newpost.html", subject = subject, content = content, error = error)
@@ -243,6 +247,7 @@ class Signup(BlogHandler):
         if not valid_password(self.password):
             params['error_password'] = "That wasn't a valid password."
             have_error = True
+            
         elif self.password != self.verify:
             params['error_verify'] = "Your passwords didn't match."
             have_error = True
@@ -317,7 +322,7 @@ class Delete(BlogHandler):
     
     def post(self,post_id):
         if self.user:
-            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
             post = db.get(key)
             db.delete(key)
             self.redirect('/blog')
@@ -327,7 +332,7 @@ class Delete(BlogHandler):
 
 class Comment(db.Model):
     comment = db.StringProperty(required=True)
-    post = db.ReferenceProperty(Post)
+    post = db.ReferenceProperty(PostDatabase)
     user = db.ReferenceProperty(User)
 
 
@@ -337,7 +342,7 @@ class NewComment(BlogHandler):
 
         if not self.user:
             return self.redirect("/login")
-        key = db.Key.from_path("Post", int(post_id), parent=blog_key())
+        key = db.Key.from_path("PostDatabase", int(post_id), parent=blog_key())
         post = db.get(key)
         
         subject = post.subject
@@ -352,7 +357,7 @@ class NewComment(BlogHandler):
 
     def post(self,post_id):
         if self.user:
-            key = db.Key.from_path("Post", int(post_id), parent=blog_key())
+            key = db.Key.from_path("PostDatabase", int(post_id), parent=blog_key())
             post = db.get(key)
             if not post:
                 self.error(404)

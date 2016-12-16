@@ -1,16 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+		<div class="toolbar-nav">
+			<a href="/blog/newpost">New Post</a>
+		</div>
 
-	{% for p in posts %}
-
-	{{ p.render() | safe }}
-
-
-	<br><br>
-
-	{% endfor %}
+  {% for renderpost in allposts %}
+    {{ renderpost.render() | safe }}
+    <br><br>
+  {% endfor %}
 
 {% endblock %}
-
-

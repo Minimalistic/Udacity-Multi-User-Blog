@@ -1,28 +1,19 @@
-<div class="post">
+<div class="article">
+  <div class="article-heading">
+    <div class="article-title">
+      <a method="get" href="/blog/{{renderpost.key().id()}}">{{renderpost.subject}}
+      </a>
+    </div>
 
-  <h4>
-    Post author is: {{ p.author }}
-  </h4>
-
-  <div class="post-heading">
-
-    <h2 class="post-title">
-        <a method="get" href="/blog/{{p.key().id()}}">{{p.subject}}</a>
-    </h2>
-
-    <h4 class="post-date">
-      {{p.created.strftime("%b %d, %Y")}}
-    </h4>
-
+    <div class="article-date">
+      <h4>
+        author: {{ renderpost.author }}
+      </h4>
+      {{renderpost.created.strftime("%b %d, %Y")}}
+    </div>
   </div>
 
-  <div class="post-content">
-
-
-    <p>
-      {{p._render_text | safe}}
-    </p>
-
+  <div class="article-content">
+    {{renderpost._render_text | safe}}
   </div>
-  
 </div>
