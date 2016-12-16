@@ -1,11 +1,15 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
+{% block content %}
 <html>
   <head>
-    <title>Unit 2 Signup</title>
+    <title>Welcome Page</title>
   </head>
 
   <body>
     <h2>Welcome, {{username}}!</h2>
+    <a href="/blog">Go to Blog</a>
   </body>
 </html>
+
+{% endblock %}
