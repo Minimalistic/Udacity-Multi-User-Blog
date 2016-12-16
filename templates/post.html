@@ -10,9 +10,9 @@
 
     <div class="article-date">
       <h4>
-        author: {{ renderpost.author }}
+        author: {{ renderpost.fetchUserName() }}
       </h4>
-      {{renderpost.created.strftime("%b %d, %Y")}}
+      {{ renderpost.created.strftime("%b %d, %Y") }}
     </div>
   </div>
 

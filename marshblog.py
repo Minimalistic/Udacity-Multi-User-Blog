@@ -124,7 +124,11 @@ class PostDatabase(db.Model):
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
     last_modified = db.DateTimeProperty(auto_now = True)
-    author = db.StringProperty()
+    user_id = db.IntegerProperty(required = True)
+
+    def fetchUserName(self):
+        user = User.by_id(self.user_id)
+        return user.name
 
     def render(self): # renderpost is used to render jinja templates
         self._render_text = self.content.replace('\n', '<br>')
@@ -162,43 +166,26 @@ class PostPage(BlogHandler):
 
 class EditPost(BlogHandler):
     def get(self, post_id):
-        key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
-        post_tool = db.get(key)
-
         if self.user:
-            self.render("editpost.html",
-                        post_tool = post_tool,
-                        subject = post_tool.subject,
-                        content = post_tool.content,
-                        post_id = post_id)
+            key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
+            post_tool = db.get(key)
 
-        else:
-            self.redirect("/login")
+            if post_tool.user_id == self.user.key().id():
+                self.write("Is correct user")
+            else:
+                self.write("not self.user")
 
     def post(self, post_id):
-        key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
-        post_tool = db.get(key)
-
         if not self.user:
-            self.redirect('/blog')
+            self.write("NOT SELF.USER")
 
-        if self.user:
-            subject = self.request.get('subject')
-            content = self.request.get('content')
+        subject = self.request.get('subject')
+        content = self.request.get('content')
 
-            if subject and content:
-                key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
-                post_tool = db.get(key)
-
-                post_tool.subject = subject
-                post_tool.content = content
-
-                post_tool.put()
-                
-                self.redirect('/blog/%s' % str(post_tool.key().id()))
-            else:
-                error = "subject and content, please!"
-                self.render("editpost.html", subject=subject, content=content, error=error)
+        if subject and content:
+            self.write("IS SUBJECT AND CONTENT")
+        else:
+            self.write("ELSE")
 
 class NewPost(BlogHandler):
     def get(self):
@@ -209,17 +196,16 @@ class NewPost(BlogHandler):
 
     def post(self):
         if not self.user:
-            self.redirect('/blog')
+            self.write("NOT SELF.USER")
 
         subject = self.request.get('subject')
         content = self.request.get('content')
-        author = self.user.name
 
         if subject and content:
             post_tool = PostDatabase(parent = blog_key(),
+                                            user_id = self.user.key().id(),
                                             subject = subject,
-                                            content = content,
-                                            author = author)
+                                            content = content)
             post_tool.put()
             self.redirect('/blog/%s' % str(post_tool.key().id()))
         else:
@@ -326,7 +312,7 @@ class Delete(BlogHandler):
     def post(self,post_id):
         if self.user:
             key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
-            post = db.get(key)
+            post_tool = db.get(key)
             db.delete(key)
             self.redirect('/blog')
 
@@ -346,7 +332,7 @@ class NewComment(BlogHandler):
         if not self.user:
             return self.redirect("/login")
         key = db.Key.from_path("PostDatabase", int(post_id), parent=blog_key())
-        post = db.get(key)
+        post_tool = db.get(key)
         
         subject = post.subject
         content = post.content
@@ -361,7 +347,7 @@ class NewComment(BlogHandler):
     def post(self,post_id):
         if self.user:
             key = db.Key.from_path("PostDatabase", int(post_id), parent=blog_key())
-            post = db.get(key)
+            post_tool = db.get(key)
             if not post:
                 self.error(404)
                 return
