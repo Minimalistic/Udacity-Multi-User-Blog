@@ -20,10 +20,10 @@
 	"buffers":
 	[
 		{
-			"file": "marshproject.py",
+			"file": "marshblog.py",
 			"settings":
 			{
-				"buffer_size": 3792,
+				"buffer_size": 12588,
 				"line_ending": "Unix"
 			}
 		},
@@ -31,7 +31,7 @@
 			"file": "templates/base.html",
 			"settings":
 			{
-				"buffer_size": 838,
+				"buffer_size": 663,
 				"line_ending": "Unix"
 			}
 		},
@@ -39,23 +39,23 @@
 			"file": "templates/blog.html",
 			"settings":
 			{
-				"buffer_size": 180,
+				"buffer_size": 241,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "templates/login.html",
+			"file": "templates/editpost.html",
 			"settings":
 			{
-				"buffer_size": 10,
+				"buffer_size": 385,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "templates/logout.html",
+			"file": "templates/login-form.html",
 			"settings":
 			{
-				"buffer_size": 11,
+				"buffer_size": 647,
 				"line_ending": "Unix"
 			}
 		},
@@ -63,7 +63,17 @@
 			"file": "templates/newpost.html",
 			"settings":
 			{
-				"buffer_size": 444,
+				"buffer_size": 559,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/permalink.html",
+			"settings":
+			{
+				"buffer_size": 174,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -71,15 +81,16 @@
 			"file": "templates/post.html",
 			"settings":
 			{
-				"buffer_size": 9,
+				"buffer_size": 483,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "templates/signup.html",
+			"file": "templates/signup-form.html",
 			"settings":
 			{
-				"buffer_size": 813,
+				"buffer_size": 1278,
 				"line_ending": "Unix"
 			}
 		},
@@ -87,15 +98,16 @@
 			"file": "templates/welcome.html",
 			"settings":
 			{
-				"buffer_size": 192,
+				"buffer_size": 140,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "stylesheets/main.css",
+			"file": "static/main.css",
 			"settings":
 			{
-				"buffer_size": 253,
+				"buffer_size": 1788,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -103,7 +115,7 @@
 			"file": "app.yaml",
 			"settings":
 			{
-				"buffer_size": 230,
+				"buffer_size": 209,
 				"line_ending": "Unix"
 			}
 		}
@@ -182,16 +194,16 @@
 	],
 	"file_history":
 	[
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/post.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/signup.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/logout.html",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/login.html",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/marshproject.py",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/stylesheets/main.css",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/app.yaml",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/welcome.html",
-		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/post.html",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/newpost.html",
-		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/logout.html",
-		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/login.html",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/blog.html",
-		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/signup.html",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/base.html",
 		"/Users/jasonmarsh/Downloads/hw4/app.yaml",
 		"/Users/jasonmarsh/Downloads/hw4/templates/welcome.html",
@@ -295,9 +307,21 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"user",
+			"id",
+			".get",
+			"get",
+			"User",
+			"newpost",
+			"newposter",
+			"post",
+			"newpost",
+			"post",
+			"text",
+			"edit",
 			"Content",
 			"post",
 			"Content",
@@ -399,12 +423,13 @@
 		"regex": false,
 		"replace_history":
 		[
+			"post_tool",
 			"subject"
 		],
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
@@ -415,37 +440,39 @@
 			[
 				{
 					"buffer": 0,
-					"file": "marshproject.py",
+					"file": "marshblog.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3792,
+						"buffer_size": 12588,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								5699,
+								5699
 							]
 						],
 						"settings":
 						{
+							"history_list_is_closing": true,
 							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2211.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 7,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -454,15 +481,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 838,
+						"buffer_size": 663,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								490,
+								491
 							]
 						],
 						"settings":
@@ -471,10 +498,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 288.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -483,15 +510,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 180,
+						"buffer_size": 241,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								25,
+								25
 							]
 						],
 						"settings":
@@ -502,24 +529,112 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "templates/login.html",
+					"file": "templates/editpost.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10,
+						"buffer_size": 385,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								312,
+								302
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 139.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "templates/login-form.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 647,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								100,
+								104
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "templates/newpost.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 559,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								196,
+								200
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "templates/permalink.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 174,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								25,
+								25
 							]
 						],
 						"settings":
@@ -534,53 +649,58 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "templates/logout.html",
+					"buffer": 7,
+					"file": "templates/post.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11,
+						"buffer_size": 483,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								294,
+								295
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax"
+							"history_list_is_closing": true,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 52.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "templates/newpost.html",
+					"buffer": 8,
+					"file": "templates/signup-form.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 444,
+						"buffer_size": 1278,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								102,
+								106
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax"
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -590,20 +710,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "templates/post.html",
+					"buffer": 9,
+					"file": "templates/welcome.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9,
+						"buffer_size": 140,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								65,
+								65
 							]
 						],
 						"settings":
@@ -616,97 +736,6 @@
 					},
 					"stack_index": 3,
 					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "templates/signup.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 813,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "templates/welcome.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 192,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 9,
-					"file": "stylesheets/main.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 253,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
 				}
 			]
 		},
@@ -716,11 +745,47 @@
 			[
 				{
 					"buffer": 10,
+					"file": "static/main.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1788,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								123,
+								123
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 11,
 					"file": "app.yaml",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 230,
+						"buffer_size": 209,
 						"regions":
 						{
 						},
@@ -739,7 +804,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 11,
 					"type": "text"
 				}
 			]
@@ -792,7 +857,7 @@
 		"rows":
 		[
 			0.0,
-			0.535824283156,
+			0.759450135991,
 			1.0
 		]
 	},
@@ -805,7 +870,7 @@
 	"project": "marshblog.sublime-project",
 	"replace":
 	{
-		"height": 40.0
+		"height": 82.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -847,7 +912,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 2,
+	"selected_group": 0,
 	"settings":
 	{
 	},
