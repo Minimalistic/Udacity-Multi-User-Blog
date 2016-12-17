@@ -20,10 +20,23 @@
 	"buffers":
 	[
 		{
+			"contents": "import os\nimport re\nimport random\nimport hashlib\nimport hmac\nfrom string import letters\nfrom models import *\n\nimport webapp2\nimport jinja2\n\ntemplate_dir = os.path.join(os.path.dirname(__file__), 'templates')\njinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),\n                               autoescape = True)\n\nsecret = 'TheMostSecretOfSecrets'\n\ndef render_str(template, **params):\n    t = jinja_env.get_template(template)\n    return t.render(params)\n\ndef make_secure_val(val):\n    return '%s|%s' % (val, hmac.new(secret, val).hexdigest())\n\ndef check_secure_val(secure_val):\n    val = secure_val.split('|')[0]\n    if secure_val == make_secure_val(val):\n        return val\n\nclass BlogHandler(webapp2.RequestHandler):\n    def write(self, *a, **kw):\n        self.response.out.write(*a, **kw)\n\n    def render_str(self, template, **params):\n        params['user'] = self.user\n        return render_str(template, **params)\n\n    def render(self, template, **kw):\n        self.write(self.render_str(template, **kw))\n\n    def set_secure_cookie(self, name, val):\n        cookie_val = make_secure_val(val)\n        self.response.headers.add_header(\n            'Set-Cookie',\n            '%s=%s; Path=/' % (name, cookie_val))\n\n    def read_secure_cookie(self, name):\n        cookie_val = self.request.cookies.get(name)\n        return cookie_val and check_secure_val(cookie_val)\n\n    def login(self, user):\n        self.set_secure_cookie('user_id', str(user.key().id()))\n\n    def logout(self):\n        self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')\n\n    def initialize(self, *a, **kw):\n        webapp2.RequestHandler.initialize(self, *a, **kw)\n        uid = self.read_secure_cookie('user_id')\n        self.user = uid and User.by_id(int(uid))\n\ndef render_post(response, post_tool):\n    response.out.write('<b>' + post_tool.subject + '</b><br>')\n    response.out.write(post_tool.content)\n\nclass MainPage(BlogHandler): # This renders the base.html if user goes to \n    def get(self):           # the root address\n        self.render('base.html')\n\n##### user stuff\ndef make_salt(length = 5):\n    return ''.join(random.choice(letters) for x in xrange(length))\n\ndef make_pw_hash(name, pw, salt = None):\n    if not salt:\n        salt = make_salt()\n    h = hashlib.sha256(name + pw + salt).hexdigest()\n    return '%s,%s' % (salt, h)\n\ndef valid_pw(name, password, h):\n    salt = h.split(',')[0]\n    return h == make_pw_hash(name, password, salt)\n\ndef users_key(group = 'default'):\n    return db.Key.from_path('users', group)\n\n\n\n##### blog stuff\n\ndef blog_key(name = 'default'):\n    return db.Key.from_path('blogs', name)\n\nclass PostDatabase(db.Model):\n    subject = db.StringProperty(required = True)\n    content = db.TextProperty(required = True)\n    created = db.DateTimeProperty(auto_now_add = True)\n    last_modified = db.DateTimeProperty(auto_now = True)\n    user_id = db.IntegerProperty(required = True)\n\n    def fetchUserName(self):\n        user = User.by_id(self.user_id)\n        return user.name\n\n    def render(self): # renderpost is used to render jinja templates\n        self._render_text = self.content.replace('\\n', '<br>')\n        return render_str(\"post.html\", renderpost = self)\n\nclass BlogFront(BlogHandler):\n    def get(self):\n        allposts = db.GqlQuery  \\\n        (\"SELECT * FROM PostDatabase ORDER BY created DESC LIMIT 10\")\n        self.render('blog.html',    # takes the allposts db query and\n                    allposts = allposts) # renders results\n\nUSER_RE = re.compile(r\"^[a-zA-Z0-9_-]{3,20}$\")\ndef valid_username(username):\n    return username and USER_RE.match(username)\n\nPASS_RE = re.compile(r\"^.{3,20}$\")\ndef valid_password(password):\n    return password and PASS_RE.match(password)\n\nEMAIL_RE  = re.compile(r'^[\\S]+@[\\S]+\\.[\\S]+$')\ndef valid_email(email):\n    return not email or EMAIL_RE.match(email)\n\nclass PostPage(BlogHandler):\n    def get(self, post_id):\n        key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())\n        post_tool = db.get(key)\n\n        if not post_tool:\n            self.error(404)\n            return\n\n        self.render(\"permalink.html\", post_tool = post_tool)\n\nclass EditPost(BlogHandler):\n    def get(self, post_id):\n        if self.user:\n            key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())\n            post_tool = db.get(key)\n            # Check to see if the logged in user is the post's author\n            if post_tool.user_id == self.user.key().id(): \n                self.render(\"editpost.html\",\n                            post_tool = post_tool,\n                            subject = post_tool.subject,\n                            content = post_tool.content,\n                            post_id = post_id)\n            else:\n                self.write(\"not self.user\")\n        else: # Isn't a user, told they need to be one and offers signup\n            self.write(\"Must be a registered user.\")\n\n    def post(self, post_id):\n        subject = self.request.get('subject')\n        content = self.request.get('content')\n\n        if subject and content:\n            self.write(\"IS SUBJECT AND CONTENT\")\n        else: # In case user tries to submit an empty edit form\n            self.write(\"ELSE\")\n\nclass NewPost(BlogHandler):\n    def get(self):\n        if self.user:\n            self.render(\"newpost.html\")\n        else:\n            self.redirect(\"/login\")\n\n    def post(self):\n        if not self.user:\n            self.write(\"NOT SELF.USER\")\n\n        subject = self.request.get('subject')\n        content = self.request.get('content')\n\n        if subject and content:\n            post_tool = PostDatabase(parent = blog_key(),\n                                            user_id = self.user.key().id(),\n                                            subject = subject,\n                                            content = content)\n            post_tool.put()\n            self.redirect('/blog/%s' % str(post_tool.key().id()))\n        else:\n            error = \"subject and content, please!\"\n            self.render(\"newpost.html\",\n                        subject = subject,\n                        content = content,\n                        error = error)\n\nclass Signup(BlogHandler):\n    def get(self):\n        self.render(\"signup-form.html\")\n\n    def post(self):\n        have_error = False\n        self.username = self.request.get('username')\n        self.password = self.request.get('password')\n        self.verify = self.request.get('verify')\n        self.email = self.request.get('email')\n\n        params = dict(username = self.username,\n                      email = self.email)\n\n        if not valid_username(self.username):\n            params['error_username'] = \"That's not a valid username.\"\n            have_error = True\n\n        if not valid_password(self.password):\n            params['error_password'] = \"That wasn't a valid password.\"\n            have_error = True\n            \n        elif self.password != self.verify:\n            params['error_verify'] = \"Your passwords didn't match.\"\n            have_error = True\n\n        if not valid_email(self.email):\n            params['error_email'] = \"That's not a valid email.\"\n            have_error = True\n\n        if have_error:\n            self.render('signup-form.html', **params)\n        else:\n            self.done()\n\n    def done(self, *a, **kw):\n        raise NotImplementedError\n\nclass Register(Signup):\n    def done(self):\n        #make sure the user doesn't already exist\n        u = User.by_name(self.username)\n        if u:\n            msg = 'That user already exists.'\n            self.render('signup-form.html', error_username = msg)\n        else:\n            u = User.register(self.username, self.password, self.email)\n            u.put()\n\n            self.login(u)\n            self.redirect('/welcome')\n\nclass Login(BlogHandler):\n    def get(self):\n        self.render('login-form.html')\n\n    def post(self):\n        username = self.request.get('username')\n        password = self.request.get('password')\n\n        u = User.login(username, password)\n        if u:\n            self.login(u)\n            self.redirect('/welcome')\n        else:\n            msg = 'Invalid login'\n            self.render('login-form.html', error = msg)\n\nclass Logout(BlogHandler):\n    def get(self):\n        self.logout()\n        self.redirect('/blog')\n\nclass WelcomeUser(BlogHandler):\n    def get(self):\n        if self.user:\n            self.render('welcome.html', username = self.user.name)\n        else:\n            self.redirect('/signup')\n\nclass Delete(BlogHandler):\n    \n    def post(self,post_id):\n        if self.user:\n            key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())\n            post_tool = db.get(key)\n            db.delete(key)\n            self.redirect('/blog')\n\n        else:\n            self.redirect('/blog')\n\nclass Comment(db.Model):\n    comment = db.StringProperty(required=True)\n    post = db.ReferenceProperty(PostDatabase)\n    user = db.ReferenceProperty(User)\n\n\nclass NewComment(BlogHandler):\n\n    def get(self,post_id):\n\n        if not self.user:\n            return self.redirect(\"/login\")\n        key = db.Key.from_path(\"PostDatabase\", int(post_id), parent=blog_key())\n        post_tool = db.get(key)\n        \n        subject = post.subject\n        content = post.content\n        self.render(\n            \"newcomment.html\",\n            subject=subject,\n            content=content,\n            post=post.key(),\n            user=self.user.key(),\n            )\n\n    def post(self,post_id):\n        if self.user:\n            key = db.Key.from_path(\"PostDatabase\", int(post_id), parent=blog_key())\n            post_tool = db.get(key)\n            if not post:\n                self.error(404)\n                return\n            if not self.user:\n                return self.redirect(\"login\")\n            comment = self.request.get(\"comment\")\n\n            if comment:\n                # check how author was defined\n            \n                c = Comment(comment=comment,user = self.user.key(),post=post.key())\n                c.put()\n                self.redirect(\"/blog/%s\" % str(post.key().id()))\n\n            else:\n                error = \"please comment\"\n                self.render(\n                        \"permalink.html\",\n                    post=post,\n                    content=content,\n                    error=error)\n        else:\n            self.redirect(\"/login\")\n\napp = webapp2.WSGIApplication([('/', MainPage),\n                               ('/blog/?', BlogFront),\n                               ('/blog/([0-9]+)', PostPage),\n                               ('/blog/newpost', NewPost),\n                               ('/blog/editpost/([0-9]+)', EditPost),\n                               ('/blog/delete/([0-9]+)', Delete),\n                               ('/signup', Register),\n                               ('/login', Login),\n                               ('/logout', Logout),\n                               ('/welcome', WelcomeUser),\n                               ('/blog/newcomment/([0-9]+)', NewComment),\n                               ],\n                              debug=True)\n",
 			"file": "marshblog.py",
+			"file_size": 11923,
+			"file_write_time": 131264741900000000,
 			"settings":
 			{
-				"buffer_size": 12588,
+				"buffer_size": 11157,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "models.py",
+			"settings":
+			{
+				"buffer_size": 37,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -81,7 +94,7 @@
 			"file": "templates/post.html",
 			"settings":
 			{
-				"buffer_size": 483,
+				"buffer_size": 494,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -90,7 +103,8 @@
 			"file": "templates/signup-form.html",
 			"settings":
 			{
-				"buffer_size": 1278,
+				"buffer_size": 1292,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -98,7 +112,8 @@
 			"file": "templates/welcome.html",
 			"settings":
 			{
-				"buffer_size": 140,
+				"buffer_size": 220,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -194,6 +209,8 @@
 	],
 	"file_history":
 	[
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/models.py",
+		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/myauth.py",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/post.html",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/signup.html",
 		"/Users/jasonmarsh/GitHub/udacity-basicblog-start/templates/logout.html",
@@ -307,9 +324,34 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"render_str",
+			"cookie_val",
+			"check_secure_val",
+			"hash",
+			"make_pw_hash",
+			"model",
+			"edit",
+			"perm",
+			"welcome",
+			"user_id",
+			".key().id()",
+			"self.user",
+			"self.use",
+			"self.user.key",
+			"user_id",
+			"db.get",
+			"if u",
+			"self.user",
+			"User",
+			"register",
+			"user",
+			"username",
+			"users_key",
+			"users",
+			"params",
 			"user",
 			"id",
 			".get",
@@ -412,10 +454,7 @@
 			"write",
 			"self.write",
 			"n",
-			"form_html",
-			"food",
-			"post",
-			"jinja"
+			"form_html"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -429,13 +468,13 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -444,29 +483,61 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12588,
+						"buffer_size": 11157,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5699,
-								5699
+								2550,
+								2550
 							]
 						],
 						"settings":
 						{
 							"history_list_is_closing": true,
+							"rulers":
+							[
+								80
+							],
 							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2211.0,
+						"translation.y": 1068.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "models.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 37,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								37,
+								37
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -476,7 +547,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "templates/base.html",
 					"semi_transient": false,
 					"settings":
@@ -498,14 +569,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 288.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "templates/blog.html",
 					"semi_transient": false,
 					"settings":
@@ -529,11 +600,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "templates/editpost.html",
 					"semi_transient": false,
 					"settings":
@@ -545,8 +616,8 @@
 						"selection":
 						[
 							[
-								312,
-								302
+								88,
+								88
 							]
 						],
 						"settings":
@@ -554,14 +625,14 @@
 							"syntax": "Packages/HTML/HTML.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 139.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "templates/login-form.html",
 					"semi_transient": false,
 					"settings":
@@ -587,11 +658,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "templates/newpost.html",
 					"semi_transient": false,
 					"settings":
@@ -617,11 +688,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "templates/permalink.html",
 					"semi_transient": false,
 					"settings":
@@ -645,24 +716,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"file": "templates/post.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 483,
+						"buffer_size": 494,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								294,
-								295
+								308,
+								308
 							]
 						],
 						"settings":
@@ -673,27 +744,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 52.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 9,
 					"file": "templates/signup-form.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1278,
+						"buffer_size": 1292,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								102,
-								106
+								81,
+								87
 							]
 						],
 						"settings":
@@ -710,20 +781,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 10,
 					"file": "templates/welcome.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 140,
+						"buffer_size": 220,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								65,
-								65
+								86,
+								86
 							]
 						],
 						"settings":
@@ -734,7 +805,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -744,7 +815,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 10,
+					"buffer": 11,
 					"file": "static/main.css",
 					"semi_transient": false,
 					"settings":
@@ -756,8 +827,8 @@
 						"selection":
 						[
 							[
-								123,
-								123
+								392,
+								419
 							]
 						],
 						"settings":
@@ -770,7 +841,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 11,
 					"type": "text"
 				}
 			]
@@ -780,7 +851,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 11,
+					"buffer": 12,
 					"file": "app.yaml",
 					"semi_transient": false,
 					"settings":
@@ -804,7 +875,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 12,
 					"type": "text"
 				}
 			]
@@ -850,14 +921,14 @@
 		"cols":
 		[
 			0.0,
-			0.612061225043,
+			0.62149587089,
 			0.687198893229,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.759450135991,
+			0.572114461412,
 			1.0
 		]
 	},
