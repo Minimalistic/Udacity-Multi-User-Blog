@@ -1,5 +1,5 @@
 from google.appengine.ext import db
-from handlers.bloghandler import BlogHandler
+from bloghandler import BlogHandler
 
 class BlogFront(BlogHandler):
     def get(self):

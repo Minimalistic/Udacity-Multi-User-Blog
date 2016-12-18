@@ -2,6 +2,8 @@ import re
 import jinja2
 
 from helpyHelper import *
+from bloghandler import BlogHandler
+from blogfront import BlogFront
 import webapp2
 
 class MainPage(BlogHandler): # This renders the base.html if user goes to 
@@ -19,13 +21,6 @@ def valid_password(password):
 EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
-
-class BlogFront(BlogHandler):
-    def get(self):
-        allposts = db.GqlQuery  \
-        ("SELECT * FROM PostDatabase ORDER BY created DESC LIMIT 10")
-        self.render('blog.html',    # takes the allposts db query and
-                    allposts = allposts) # renders results
 
 class PostPage(BlogHandler):
     def get(self, post_id):
