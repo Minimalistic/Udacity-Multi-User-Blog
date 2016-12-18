@@ -1,12 +1,5 @@
-import jinja2
-
 from helpyHelper import *
-
 from google.appengine.ext import db
-
-template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
-                               autoescape = True)
 
 class User(db.Model):
     name = db.StringProperty(required = True)
@@ -35,8 +28,6 @@ class User(db.Model):
         if u and valid_pw(name, pw, u.pw_hash):
             return u
 
-secret = 'TheMostSecretOfSecrets'
-
 def render_str(template, **params):
     t = jinja_env.get_template(template)
     return t.render(params)
@@ -62,8 +53,12 @@ def valid_pw(name, password, h):
     salt = h.split(',')[0]
     return h == make_pw_hash(name, password, salt)
 
-def users_key(group = 'default'):
-    return db.Key.from_path('users', group)
+
 
 def blog_key(name = 'default'):
     return db.Key.from_path('blogs', name)
+
+
+def users_key(group = 'default'):
+    return db.Key.from_path('users', group)
+
