@@ -35,9 +35,9 @@ class BlogHandler(webapp2.RequestHandler):
         uid = self.read_secure_cookie('user_id')
         self.user = uid and User.by_id(int(uid))
 
-def render_post(response, post_tool):
-    response.out.write('<b>' + post_tool.subject + '</b><br>')
-    response.out.write(post_tool.content)
+    def render_post(response, post_tool):
+        response.out.write('<b>' + post_tool.subject + '</b><br>')
+        response.out.write(post_tool.content)
 
 class MainPage(BlogHandler): # This renders the base.html if user goes to 
     def get(self):           # the root address

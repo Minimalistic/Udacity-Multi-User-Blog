@@ -8,10 +8,11 @@ from google.appengine.ext import db
 
 import jinja2
 
-
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
+
+secret = 'TheMostSecretOfSecrets'
 
 class User(db.Model):
     name = db.StringProperty(required = True)
@@ -39,8 +40,6 @@ class User(db.Model):
         u = cls.by_name(name)
         if u and valid_pw(name, pw, u.pw_hash):
             return u
-
-secret = 'TheMostSecretOfSecrets'
 
 def render_str(template, **params):
     t = jinja_env.get_template(template)
@@ -72,6 +71,7 @@ def users_key(group = 'default'):
 
 def blog_key(name = 'default'):
     return db.Key.from_path('blogs', name)
+
 class PostDatabase(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
@@ -91,5 +91,3 @@ class Comment(db.Model):
     comment = db.StringProperty(required=True)
     post = db.ReferenceProperty(PostDatabase)
     user = db.ReferenceProperty(User)
-
-

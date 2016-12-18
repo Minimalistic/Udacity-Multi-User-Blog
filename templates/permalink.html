@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<a method="get" href="/blog/editpost/{{post_tool.key().id()}}">Edit Post</a>
-  {{ post_tool.render() | safe }}
+	{% if post_tool.user_id == user.key().id() %} <!-- check if author and render edit button -->
+		<a method="get" href="/blog/editpost/{{post_tool.key().id()}}">Edit Post</a>
+	{% endif %}
+{{ post_tool.render() | safe }}
 {% endblock %}
