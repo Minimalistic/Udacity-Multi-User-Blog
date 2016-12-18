@@ -28,7 +28,7 @@ class BlogHandler(webapp2.RequestHandler):
         self.set_secure_cookie('user_id', str(user.key().id()))
 
     def logout(self):
-        self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
+        self.response.headers.add_header('Set-Cookie','user_id=; Path=/')
 
     def initialize(self, *a, **kw):
         webapp2.RequestHandler.initialize(self, *a, **kw)
@@ -64,27 +64,32 @@ def valid_email(email):
 
 class PostPage(BlogHandler):
     def get(self, post_id):
-        key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
+        key = db.Key.from_path('PostDatabase',
+                                    int(post_id),
+                                    parent=blog_key())
         post_tool = db.get(key)
 
         if not post_tool:
             self.error(404)
             return
 
-        self.render("permalink.html", post_tool = post_tool)
+        self.render("permalink.html",
+                        post_tool = post_tool)
 
 class EditPost(BlogHandler):
     def get(self, post_id):
         if self.user:
-            key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
+            key = db.Key.from_path('PostDatabase',
+                                        int(post_id),
+                                        parent=blog_key())
             post_tool = db.get(key)
             # Check to see if the logged in user is the post's author
             if post_tool.user_id == self.user.key().id(): 
-                self.render("editpost.html",
-                            post_tool = post_tool,
-                            subject = post_tool.subject,
-                            content = post_tool.content,
-                            post_id = post_id)
+                self.render("editpost.html", 
+                                post_tool = post_tool,
+                                subject = post_tool.subject,
+                                content = post_tool.content,
+                                post_id = post_id)
             else:
                 self.write("not self.user")
         else: # Isn't a user, told they need to be one and offers signup
@@ -115,9 +120,9 @@ class NewPost(BlogHandler):
 
         if subject and content:
             post_tool = PostDatabase(parent = blog_key(),
-                                            user_id = self.user.key().id(),
-                                            subject = subject,
-                                            content = content)
+                                        user_id = self.user.key().id(),
+                                        subject = subject,
+                                        content = content)
             post_tool.put()
             self.redirect('/blog/%s' % str(post_tool.key().id()))
         else:
@@ -139,7 +144,7 @@ class Signup(BlogHandler):
         self.email = self.request.get('email')
 
         params = dict(username = self.username,
-                      email = self.email)
+                        email = self.email)
 
         if not valid_username(self.username):
             params['error_username'] = "That's not a valid username."
@@ -211,7 +216,9 @@ class Delete(BlogHandler):
     
     def post(self,post_id):
         if self.user:
-            key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
+            key = db.Key.from_path('PostDatabase',
+                                        int(post_id),
+                                        parent=blog_key())
             post_tool = db.get(key)
             db.delete(key)
             self.redirect('/blog')
@@ -225,22 +232,24 @@ class NewComment(BlogHandler):
 
         if not self.user:
             return self.redirect("/login")
-        key = db.Key.from_path("PostDatabase", int(post_id), parent=blog_key())
+        key = db.Key.from_path("PostDatabase",
+                                    int(post_id),
+                                    parent=blog_key())
         post_tool = db.get(key)
         
         subject = post.subject
         content = post.content
-        self.render(
-            "newcomment.html",
-            subject=subject,
-            content=content,
-            post=post.key(),
-            user=self.user.key(),
-            )
+        self.render("newcomment.html",
+                        subject=subject,
+                        content=content,
+                        post=post.key(),
+                        user=self.user.key())
 
     def post(self,post_id):
         if self.user:
-            key = db.Key.from_path("PostDatabase", int(post_id), parent=blog_key())
+            key = db.Key.from_path("PostDatabase",
+                                        int(post_id),
+                                        parent=blog_key())
             post_tool = db.get(key)
             if not post:
                 self.error(404)
@@ -252,17 +261,18 @@ class NewComment(BlogHandler):
             if comment:
                 # check how author was defined
             
-                c = Comment(comment=comment,user = self.user.key(),post=post.key())
+                c = Comment(comment=comment,
+                                user = self.user.key(),
+                                post=post.key())
                 c.put()
                 self.redirect("/blog/%s" % str(post.key().id()))
 
             else:
                 error = "please comment"
-                self.render(
-                        "permalink.html",
-                    post=post,
-                    content=content,
-                    error=error)
+                self.render("permalink.html",
+                                post=post,
+                                content=content,
+                                error=error)
         else:
             self.redirect("/login")
 

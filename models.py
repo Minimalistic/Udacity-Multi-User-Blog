@@ -32,9 +32,9 @@ class User(db.Model):
     def register(cls, name, pw, email = None):
         pw_hash = make_pw_hash(name, pw)
         return User(parent = users_key(),
-                    name = name,
-                    pw_hash = pw_hash,
-                    email = email)
+                    	name = name,
+                    	pw_hash = pw_hash,
+                    	email = email)
     @classmethod
     def login(cls, name, pw):
         u = cls.by_name(name)
