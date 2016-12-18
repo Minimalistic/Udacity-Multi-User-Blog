@@ -1,6 +1,7 @@
 import jinja2
 
 from helpyHelper import *
+
 from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -66,23 +67,3 @@ def users_key(group = 'default'):
 
 def blog_key(name = 'default'):
     return db.Key.from_path('blogs', name)
-
-class PostDatabase(db.Model):
-    subject = db.StringProperty(required = True)
-    content = db.TextProperty(required = True)
-    created = db.DateTimeProperty(auto_now_add = True)
-    last_modified = db.DateTimeProperty(auto_now = True)
-    user_id = db.IntegerProperty(required = True)
-
-    def fetchUserName(self):
-        user = User.by_id(self.user_id)
-        return user.name
-
-    def render(self): # renderpost is used to render jinja templates
-        self._render_text = self.content.replace('\n', '<br>')
-        return render_str("post.html", renderpost = self)
-
-class Comment(db.Model):
-    comment = db.StringProperty(required=True)
-    post = db.ReferenceProperty(PostDatabase)
-    user = db.ReferenceProperty(User)
