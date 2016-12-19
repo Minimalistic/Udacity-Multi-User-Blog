@@ -1,7 +1,7 @@
 import webapp2
 
 from helpyHelper import *
-from userModel import User
+from userModel import *
 
 class BlogHandler(webapp2.RequestHandler):
     def write(self, *a, **kw):

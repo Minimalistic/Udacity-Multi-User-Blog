@@ -4,23 +4,13 @@ import jinja2
 from helpyHelper import *
 from bloghandler import BlogHandler
 from blogfront import BlogFront
+from userModel import *
 import webapp2
 
 class MainPage(BlogHandler): # This renders the base.html if user goes to 
     def get(self):           # the root address
         self.render('base.html')
 
-USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-def valid_username(username):
-    return username and USER_RE.match(username)
-
-PASS_RE = re.compile(r"^.{3,20}$")
-def valid_password(password):
-    return password and PASS_RE.match(password)
-
-EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
-def valid_email(email):
-    return not email or EMAIL_RE.match(email)
 
 class PostPage(BlogHandler):
     def get(self, post_id):
