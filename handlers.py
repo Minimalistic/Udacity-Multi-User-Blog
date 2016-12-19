@@ -75,8 +75,8 @@ class PostPage(BlogHandler):
     def post(self, post_id):
         key = db.Key.from_path('PostDatabase',
                                     int(post_id),
-                                    parent=blog_key())
-        post_tool = db.get(key)
+                                    parent = blog_key())
+        post_tool = key.get()
         if post_tool and self.user:
             post_tool.likes += 1
             like = Like(post_id = int(post_id), author = self.user)
