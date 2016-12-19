@@ -3,7 +3,6 @@
 {% block content %}
 
 <h2>Edit Post</h2>
-
 <form method="post">
 	<label>
 		<div>Subject</div>
@@ -18,6 +17,11 @@
 <div class="error">{{ error }}</div>
 
 <input type="submit">
+</form>
+<br>
+<br>
+<form action="/blog/delete/{{ post_tool.key().id() }}" method="post" onsubmit="return confirm('Are you sure you want to delete this post?');">
+	<button type="submit">Delete This Post</button>
 </form>
 
 {% endblock %}

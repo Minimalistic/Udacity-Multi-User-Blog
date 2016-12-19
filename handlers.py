@@ -96,6 +96,19 @@ class EditPost(BlogHandler):
         else: # In case user tries to submit an empty edit form
             self.write("ELSE")
 
+class Delete(BlogHandler):
+    def post(self,post_id):
+        if self.user:
+            key = db.Key.from_path('PostDatabase',
+                                        int(post_id),
+                                        parent=blog_key())
+            post_tool = db.get(key)
+            db.delete(key)
+            self.redirect('/blog')
+
+        else:
+            self.redirect('/blog')
+
 class NewPost(BlogHandler):
     def get(self):
         if self.user:
@@ -204,18 +217,6 @@ class WelcomeUser(BlogHandler):
         else:
             self.redirect('/signup')
 
-class Delete(BlogHandler):
-    def post(self,post_id):
-        if self.user:
-            key = db.Key.from_path('PostDatabase',
-                                        int(post_id),
-                                        parent=blog_key())
-            post_tool = db.get(key)
-            db.delete(key)
-            self.redirect('/blog')
-
-        else:
-            self.redirect('/blog')
 
 class NewComment(BlogHandler):
     def get(self,post_id):
