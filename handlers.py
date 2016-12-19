@@ -88,13 +88,24 @@ class EditPost(BlogHandler):
             self.write("Must be a registered user.")
 
     def post(self, post_id):
+        key = db.Key.from_path('PostDatabase',
+                                    int(post_id),
+                                    parent=blog_key())
+        post_tool = db.get(key)
         subject = self.request.get('subject')
         content = self.request.get('content')
+
 
         if subject and content:
             self.write("IS SUBJECT AND CONTENT")
         else: # In case user tries to submit an empty edit form
-            self.write("ELSE")
+            error = "There must be a subject and content."
+            self.render("editpost.html", 
+                                post_tool = post_tool,
+                                subject = post_tool.subject,
+                                content = post_tool.content,
+                                post_id = post_id,
+                                error = error)
 
 class Delete(BlogHandler):
     def post(self,post_id):
