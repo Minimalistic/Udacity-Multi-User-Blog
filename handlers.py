@@ -60,13 +60,31 @@ class PostPage(BlogHandler):
                                     int(post_id),
                                     parent=blog_key())
         post_tool = db.get(key)
+        liked = None
+
+        if self.user:
+            liked = Like.gql("WHERE post_id = %s ORDER BY created DESC" % int(post_id))
 
         if not post_tool:
             self.error(404)
             return
 
         self.render("permalink.html",
-                        post_tool = post_tool)
+                        post_tool = post_tool,
+                        liked = liked)
+    def post(self, post_id):
+        key = db.Key.from_path('PostDatabase',
+                                    int(post_id),
+                                    parent=blog_key())
+        post_tool = db.get(key)
+        if post_tool and self.user:
+            post_tool.likes += 1
+            like = Like(post_id = int(post_id), author = self.user)
+            like.put()
+            post_tool.put()
+            time.sleep(0.2)
+        self.write("Wroked")
+
 
 class EditPost(BlogHandler):
     def get(self, post_id):
