@@ -122,10 +122,14 @@ class Delete(BlogHandler):
                                         parent=blog_key())
             post_tool = db.get(key)
             db.delete(key)
-            self.redirect('/blog')
+            self.redirect('/success')
 
         else:
             self.redirect('/blog')
+
+class Success(BlogHandler):
+    def get(self):
+        self.render('success.html', username = self.user.name)
 
 class NewPost(BlogHandler):
     def get(self):
