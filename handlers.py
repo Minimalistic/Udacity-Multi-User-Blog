@@ -1,16 +1,58 @@
-import re
-import jinja2
-
-from helpyHelper import *
-from bloghandler import BlogHandler
-from blogfront import BlogFront
-from userModel import *
 import webapp2
+
+from models import *
+from userModel import *
+
+class BlogHandler(webapp2.RequestHandler):
+    def write(self, *a, **kw):
+        self.response.out.write(*a, **kw)
+
+    def render_str(self, template, **params):
+        params['user'] = self.user
+        return render_str(template, **params)
+
+    def render(self, template, **kw):
+        self.write(self.render_str(template, **kw))
+
+    def set_secure_cookie(self, name, val):
+        cookie_val = make_secure_val(val)
+        self.response.headers.add_header(
+            'Set-Cookie',
+            '%s=%s; Path=/' % (name, cookie_val))
+
+    def read_secure_cookie(self, name):
+        cookie_val = self.request.cookies.get(name)
+        return cookie_val and check_secure_val(cookie_val)
+
+    def login(self, user):
+        self.set_secure_cookie('user_id', str(user.key().id()))
+
+    def logout(self):
+        self.response.headers.add_header('Set-Cookie','user_id=; Path=/')
+
+    def initialize(self, *a, **kw):
+        webapp2.RequestHandler.initialize(self, *a, **kw)
+        uid = self.read_secure_cookie('user_id')
+        self.user = uid and User.by_id(int(uid))
+
+    def render_post(response, post_tool):
+        response.out.write('<b>' + post_tool.subject + '</b><br>')
+        response.out.write(post_tool.content)
+
+def render_str(template, **params):
+    t = jinja_env.get_template(template)
+    return t.render(params)
 
 class MainPage(BlogHandler): # This renders the base.html if user goes to 
     def get(self):           # the root address
         self.render('base.html')
 
+class BlogFront(BlogHandler):
+    def get(self):
+        allposts = db.GqlQuery  \
+        ("SELECT * FROM PostDatabase ORDER BY created DESC LIMIT 10")
+        self.render('blog.html',    # takes the allposts db query and
+                    allposts = allposts) # renders results
 
 class PostPage(BlogHandler):
     def get(self, post_id):
@@ -82,7 +124,7 @@ class NewPost(BlogHandler):
                         content = content,
                         error = error)
 
-class Signup(BlogHandler):
+class SignUp(BlogHandler):
     def get(self):
         self.render("signup-form.html")
 
@@ -120,7 +162,7 @@ class Signup(BlogHandler):
     def done(self, *a, **kw):
         raise NotImplementedError
 
-class Register(Signup):
+class Register(SignUp):
     def done(self):
         #make sure the user doesn't already exist
         u = User.by_name(self.username)
@@ -163,7 +205,6 @@ class WelcomeUser(BlogHandler):
             self.redirect('/signup')
 
 class Delete(BlogHandler):
-    
     def post(self,post_id):
         if self.user:
             key = db.Key.from_path('PostDatabase',
@@ -177,7 +218,6 @@ class Delete(BlogHandler):
             self.redirect('/blog')
 
 class NewComment(BlogHandler):
-
     def get(self,post_id):
 
         if not self.user:
@@ -225,17 +265,3 @@ class NewComment(BlogHandler):
                                 error=error)
         else:
             self.redirect("/login")
-
-app = webapp2.WSGIApplication([('/', MainPage),
-                               ('/blog/?', BlogFront),
-                               ('/blog/([0-9]+)', PostPage),
-                               ('/blog/newpost', NewPost),
-                               ('/blog/editpost/([0-9]+)', EditPost),
-                               ('/blog/delete/([0-9]+)', Delete),
-                               ('/signup', Register),
-                               ('/login', Login),
-                               ('/logout', Logout),
-                               ('/welcome', WelcomeUser),
-                               ('/blog/newcomment/([0-9]+)', NewComment)
-                               ],
-                              debug=True)

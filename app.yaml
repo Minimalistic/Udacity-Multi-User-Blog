@@ -7,7 +7,7 @@ handlers:
   static_dir: static
 
 - url: /.*
-  script: mainhub.app
+  script: main.app
 
 libraries:
 - name: jinja2
