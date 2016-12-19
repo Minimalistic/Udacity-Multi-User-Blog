@@ -82,22 +82,29 @@ class EditPost(BlogHandler):
                                 subject = post_tool.subject,
                                 content = post_tool.content,
                                 post_id = post_id)
-            else:
-                self.write("not self.user")
-        else: # Isn't a user, told they need to be one and offers signup
-            self.write("Must be a registered user.")
 
     def post(self, post_id):
         key = db.Key.from_path('PostDatabase',
-                                    int(post_id),
-                                    parent=blog_key())
+                                        int(post_id),
+                                        parent=blog_key())
         post_tool = db.get(key)
-        subject = self.request.get('subject')
-        content = self.request.get('content')
 
+        if self.user:
+            subject = self.request.get('subject')
+            content = self.request.get('content')
+          
+            if subject and content:
+                key = db.Key.from_path('PostDatabase',
+                                        int(post_id),
+                                        parent=blog_key())
+                post_tool = db.get(key)
+                post_tool.subject = subject
+                post_tool.content = content
 
-        if subject and content:
-            self.write("IS SUBJECT AND CONTENT")
+                post_tool.put()
+                
+                self.redirect('/blog/%s' % str(post_tool.key().id()))
+
         else: # In case user tries to submit an empty edit form
             error = "There must be a subject and content."
             self.render("editpost.html", 
@@ -129,7 +136,7 @@ class NewPost(BlogHandler):
 
     def post(self):
         if not self.user:
-            self.write("NOT SELF.USER")
+            self.write("You must be logged in to make a new post.")
 
         subject = self.request.get('subject')
         content = self.request.get('content')
