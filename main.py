@@ -1,12 +1,7 @@
 import os
-import re
-import hmac
-import hashlib
-import random
 import jinja2
 import webapp2
 
-from string import letters
 from models import *
 from handlers import *
 from google.appengine.ext import db

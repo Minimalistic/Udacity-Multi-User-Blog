@@ -1,7 +1,7 @@
 import os
 import jinja2
 
-from userModel import *
+from userAuth import *
 from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')

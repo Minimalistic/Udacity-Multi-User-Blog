@@ -1,6 +1,9 @@
 import re
 import hmac
 import hashlib
+import random
+
+from string import letters
 from google.appengine.ext import db
 
 secret = 'TheMostSecretOfSecrets'

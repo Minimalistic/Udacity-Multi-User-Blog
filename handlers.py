@@ -1,7 +1,7 @@
 import webapp2
 
 from models import *
-from userModel import *
+from userAuth import *
 
 class BlogHandler(webapp2.RequestHandler):
     def write(self, *a, **kw):
