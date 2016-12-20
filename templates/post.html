@@ -20,7 +20,9 @@
     {{renderpost._render_text | safe}}
   </div>
     number of likes for this post: {{ renderpost.likes }}
-    <a method="post" href="/blog/">Like Post</a>
+    <form method="post">
+    <a href="/blog/{{renderpost.key().id()}}/like">Like</a>
+    </form>
 
 </form>
 </div>

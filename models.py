@@ -15,7 +15,8 @@ class PostDatabase(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
     user_id = db.IntegerProperty(required=True)
-    likes = db.IntegerProperty(default=0)
+    likes = db.IntegerProperty(required=False)
+    liked_by = db.ListProperty(str)
 
     def fetchUserName(self):
         user = User.by_id(self.user_id)

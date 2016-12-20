@@ -66,32 +66,13 @@ class PostPage(BlogHandler):
                                int(post_id),
                                parent=blog_key())
         post_tool = db.get(key)
-        liked = None
-
-        if self.user:
-            liked = Like.gql("WHERE post_id = %s ORDER BY created DESC"
-                             % int(post_id))
 
         if not post_tool:
             self.error(404)
             return
 
         self.render("permalink.html",
-                    post_tool=post_tool,
-                    liked=liked)
-
-    def post(self, post_id):
-        key = db.Key.from_path('PostDatabase',
-                               int(post_id),
-                               parent=blog_key())
-        post_tool = key.get()
-        if post_tool and self.user:
-            post_tool.likes += 1
-            like = Like(post_id=int(post_id), author=self.user)
-            like.put()
-            post_tool.put()
-            time.sleep(0.2)
-        self.write("Wroked")
+                    post_tool=post_tool)
 
 
 class EditPost(BlogHandler):
@@ -177,7 +158,9 @@ class NewPost(BlogHandler):
             post_tool = PostDatabase(parent=blog_key(),
                                      user_id=self.user.key().id(),
                                      subject=subject,
-                                     content=content)
+                                     content=content,
+                                     likes=0,
+                                     liked_by=[])
             post_tool.put()
             self.redirect('/blog/%s' % str(post_tool.key().id()))
         else:
@@ -187,6 +170,25 @@ class NewPost(BlogHandler):
                         content=content,
                         error=error)
 
+
+class LikePost(BlogHandler):
+
+    def get(self, post_id):
+        if not self.user:
+            self.redirect("/nanana")
+        else:
+            key = db.Key.from_path("PostDatabase", int(post_id), parent=blog_key())
+            post = db.get(key)
+            user_id = post.user_id
+            logged_user = self.user.name
+
+            if user_id == logged_user or logged_user in post.liked_by:
+                self.redirect("/error")
+            else:
+                post.likes += 1
+                post.liked_by.append(logged_user)
+                post.put()
+                self.redirect("/blog")
 
 class SignUp(BlogHandler):
     def get(self):
