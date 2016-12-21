@@ -60,12 +60,6 @@ class User(db.Model):
         if u and valid_pw(name, pw, u.pw_hash):
             return u
 
-
-class Like(db.Model):
-    post_id = db.IntegerProperty(required=True)
-    user_id = db.IntegerProperty(User)
-
-
 class Comment(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
     user_id = db.IntegerProperty(required=True)
