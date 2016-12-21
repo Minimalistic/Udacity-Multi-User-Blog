@@ -188,17 +188,16 @@ class LikePost(BlogHandler):
             post_tool.likes += -1
             post_tool.liked_by.remove(logged_user)
             post_tool.put()
-            time.sleep(.5)
-            self.write("unliked")
+            time.sleep(.1)
+            self.redirect('/blog')
         elif user_id != logged_user:
             post_tool.likes += 1
             post_tool.liked_by.append(logged_user)
             post_tool.put()
-            time.sleep(.5)
-            self.write("a like has been registered")
+            time.sleep(.1)
+            self.redirect('/blog')
         else:
-            self.write("You can't like your own post.")
-
+            self.write("Can't like your own post.")
 
 class SignUp(BlogHandler):
     def get(self):
