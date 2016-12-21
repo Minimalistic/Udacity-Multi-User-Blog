@@ -16,6 +16,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/logout', Logout),
                                ('/blog/like/([0-9]+)', LikePost),
                                ('/welcome', WelcomeUser),
-                               ('/blog/newcomment/([0-9]+)', NewComment)
+                               ('/([0-9]+)/newcomment/([0-9]+)',
+                                NewComment),
                                ],
                               debug=True)

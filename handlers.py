@@ -285,48 +285,25 @@ class WelcomeUser(BlogHandler):
 
 
 class NewComment(BlogHandler):
-    def get(self, post_id):
-
+    def get(self, post_id, user_id):
         if not self.user:
-            return self.redirect("/login")
-        key = db.Key.from_path("PostDatabase",
+            self.render('/login')
+        else:
+            self.render("newcomment.html")
+
+    def post(self, post_id, user_id):
+        if not self.user:
+            return
+
+        content = self.request.get('content')
+        user_name = self.user.name
+        key = db.Key.from_path('PostDatabase',
                                int(post_id),
                                parent=blog_key())
-        subject = post.subject
-        content = post.content
-        self.render("newcomment.html",
-                    subject=subject,
+        c = Comment(parent=key,
+                    user_id=int(user_id),
                     content=content,
-                    post=post.key(),
-                    user=self.user.key())
+                    user_name=user_name)
+        c.put()
 
-    def post(self, post_id):
-        if self.user:
-            key = db.Key.from_path("PostDatabase",
-                                   int(post_id),
-                                   parent=blog_key())
-            post_tool = db.get(key)
-            if not post:
-                self.error(404)
-                return
-            if not self.user:
-                return self.redirect("login")
-            comment = self.request.get("comment")
-
-            if comment:
-                # check how author was defined
-
-                c = Comment(comment=comment,
-                            user=self.user.key(),
-                            post=post.key())
-                c.put()
-                self.redirect("/blog/%s" % str(post.key().id()))
-
-            else:
-                error = "please comment"
-                self.render("permalink.html",
-                            post=post,
-                            content=content,
-                            error=error)
-        else:
-            self.redirect("/login")
+        self.redirect('/blog')

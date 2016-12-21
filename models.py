@@ -67,6 +67,8 @@ class Like(db.Model):
 
 
 class Comment(db.Model):
-    comment = db.StringProperty(required=True)
-    post_id = db.ReferenceProperty(PostDatabase)
-    user_id = db.IntegerProperty(User)
+    created = db.DateTimeProperty(auto_now_add=True)
+    user_id = db.IntegerProperty(required=True)
+    user_name = db.TextProperty(required=True)
+    content = db.TextProperty(required=True)
+    last_modified = db.DateTimeProperty(auto_now=True)
