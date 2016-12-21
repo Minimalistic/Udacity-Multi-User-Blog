@@ -176,16 +176,6 @@ class LikePost(BlogHandler):
     def get(self, post_id):
         if not self.user:
             self.redirect("/signup")
-        key = db.Key.from_path('PostDatabase',
-                               int(post_id),
-                               parent=blog_key())
-        post_tool = db.get(key)
-        user_id = post_tool.user_id
-        logged_user = self.user.name
-        if user_id == logged_user or logged_user in post_tool.liked_by:
-            self.write("author of post or already liked")
-        else:
-            self.write("Else")
 
     def post(self, post_id):
         key = db.Key.from_path('PostDatabase',
@@ -197,11 +187,11 @@ class LikePost(BlogHandler):
         if user_id == logged_user or logged_user in post_tool.liked_by:
             self.write("author of post or already liked")
         elif user_id != logged_user:
-            post_tool.likes += 1
+            post_tool.likes += 1 
             post_tool.liked_by.append(logged_user)
             post_tool.put()
             time.sleep(.5)
-            self.redirect("/blog")
+            self.write("a like has been registered")
 
 
 class SignUp(BlogHandler):
