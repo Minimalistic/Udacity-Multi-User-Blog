@@ -184,14 +184,20 @@ class LikePost(BlogHandler):
         post_tool = db.get(key)
         user_id = post_tool.user_id
         logged_user = self.user.key().id()
-        if user_id == logged_user or logged_user in post_tool.liked_by:
-            self.write("author of post or already liked")
+        if logged_user in post_tool.liked_by:
+            post_tool.likes += -1
+            post_tool.liked_by.remove(logged_user)
+            post_tool.put()
+            time.sleep(.5)
+            self.write("unliked")
         elif user_id != logged_user:
-            post_tool.likes += 1 
+            post_tool.likes += 1
             post_tool.liked_by.append(logged_user)
             post_tool.put()
             time.sleep(.5)
             self.write("a like has been registered")
+        else:
+            self.write("You can't like your own post.")
 
 
 class SignUp(BlogHandler):
