@@ -19,10 +19,9 @@
   <div class="article-content">
     {{renderpost._render_text | safe}}
   </div>
-    number of likes for this post: {{ renderpost.likes }}
-    <form method="post">
-    <a href="/blog/{{renderpost.key().id()}}/like">Like</a>
-    </form>
-
 </form>
 </div>
+number of likes for this post: {{ renderpost.likes }}
+<form action="/blog/like/{{renderpost.key().id()}}" method="post">
+  <button>like</button>
+</form>

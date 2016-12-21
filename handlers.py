@@ -1,4 +1,5 @@
 import webapp2
+import time
 
 
 from models import *
@@ -172,23 +173,34 @@ class NewPost(BlogHandler):
 
 
 class LikePost(BlogHandler):
-
     def get(self, post_id):
-        if not self.user:
-            self.redirect("/nanana")
+        key = db.Key.from_path('PostDatabase',
+                               int(post_id),
+                               parent=blog_key())
+        post_tool = db.get(key)
+        user_id = post_tool.user_id
+        logged_user = self.user.name
+        if user_id == logged_user or logged_user in post_tool.liked_by:
+            self.write("author of post or already liked")
         else:
-            key = db.Key.from_path("PostDatabase", int(post_id), parent=blog_key())
-            post = db.get(key)
-            user_id = post.user_id
-            logged_user = self.user.name
+            self.write("Else")
 
-            if user_id == logged_user or logged_user in post.liked_by:
-                self.redirect("/error")
-            else:
-                post.likes += 1
-                post.liked_by.append(logged_user)
-                post.put()
-                self.redirect("/blog")
+    def post(self, post_id):
+        key = db.Key.from_path('PostDatabase',
+                               int(post_id),
+                               parent=blog_key())
+        post_tool = db.get(key)
+        user_id = post_tool.user_id
+        logged_user = self.user.name
+        if user_id == logged_user or logged_user in post_tool.liked_by:
+            self.write("author of post or already liked")
+        else:
+            post_tool.likes += 1
+            post_tool.liked_by.append(logged_user)
+            post_tool.put()
+            time.sleep(.5)
+            self.redirect("/blog")
+
 
 class SignUp(BlogHandler):
     def get(self):
