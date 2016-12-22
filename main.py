@@ -1,5 +1,4 @@
 import webapp2
-import time
 
 from models import *
 from handlers import *
@@ -16,7 +15,8 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/logout', Logout),
                                ('/blog/like/([0-9]+)', LikePost),
                                ('/welcome', WelcomeUser),
-                               ('/([0-9]+)/newcomment/([0-9]+)',
-                                NewComment),
+                               ('/blog/([0-9]+)/addcomment/([0-9]+)', AddCommentHandler),
+                               ('/blog/([0-9]+)/([0-9]+)/editcomment/([0-9]+)', EditCommentHandler),
+                               ('/([0-9]+)/([0-9]+)/deletecomment/([0-9]+)', DeleteCommentHandler)
                                ],
                               debug=True)

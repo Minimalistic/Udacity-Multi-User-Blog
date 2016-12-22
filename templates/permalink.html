@@ -5,4 +5,16 @@
 		<a method="get" href="/blog/editpost/{{post_tool.key().id()}}">Edit Post</a>
 	{% endif %}
 {{ post_tool.render() | safe }}
+
+		<a href="/blog/{{post_tool.key().id()}}/addcomment/{{user.key().id()}}">
+			<div class="post__comment">POST COMMENT
+			</div>
+		</a>
+------
+<h1>
+{% for c in comments %}
+{{c.content}}
+{% endfor%}
+</h1>
+
 {% endblock %}
