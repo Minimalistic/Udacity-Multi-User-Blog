@@ -11,9 +11,14 @@
 			</div>
 		</a>
 ------
+<h3>==== Comments ====</h3>
 <h1>
 {% for c in comments %}
-{{c.content}}
+
+<h4>{{c.content}}</h4>
+<h5>-{{c.user_name}}</h5>
+----------------------------------------
+
 {% endfor%}
 </h1>
 

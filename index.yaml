@@ -11,6 +11,30 @@ indexes:
 # your application using appcfg.py.
 
 - kind: Comment
+  properties:
+  - name: content_id
+  - name: created
+    direction: desc
+
+- kind: Comment
+  properties:
+  - name: post_id
+  - name: created
+    direction: desc
+
+- kind: Comment
+  properties:
+  - name: post_id
+  - name: time_created
+    direction: desc
+
+- kind: Comment
+  properties:
+  - name: user_id
+  - name: created
+    direction: desc
+
+- kind: Comment
   ancestor: yes
   properties:
   - name: created
