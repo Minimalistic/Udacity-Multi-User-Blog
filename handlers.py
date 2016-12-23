@@ -298,7 +298,6 @@ class AddCommentHandler(BlogHandler):
         if not self.user:
             return
         comment_owner_text = self.user.name
-        comment_owner = self.request.get('comment_owner')
         comment_content = self.request.get('comment_content')
 
         key = db.Key.from_path('PostDatabase',

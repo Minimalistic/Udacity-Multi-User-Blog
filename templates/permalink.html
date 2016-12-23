@@ -5,11 +5,12 @@
 		<a method="get" href="/blog/editpost/{{post_tool.key().id()}}">Edit Post</a>
 	{% endif %}
 {{ post_tool.render() | safe }}
-
+	{% if post_tool.user_id != user.key().id() %} <!-- if post author is currently viewing post, don't render commenting button -->
 		<a href="/blog/{{post_tool.key().id()}}/addcomment/{{user.key().id()}}">
-			<div class="post__comment">POST COMMENT
+			<div class="post__comment">Leave a comment
 			</div>
 		</a>
+	{% endif %}
 ------
 <h3>==== Comments ====</h3>
 <h1>
