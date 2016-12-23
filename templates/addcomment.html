@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-  
-    <div class="newpost">
-        <div class="newpost__form">
-            <form method="post" autocomplete="off">
-                <textarea autofocus class="form__textarea" placeholder="Write a response..." type="text" name="comment_content">{{comment_content}}</textarea>
-                <input class="button-outline form__submit" type="submit" value="publish">
-                <span class="form__message">{{error}}</span>
+
+	<h2>New Comment</h2>
+	  <div class="newpost">
+	      <div class="text_form">
+	        <form method="post" autocomplete="off">
+              <textarea autofocus placeholder="Write a response..." type="text" name="comment_content">{{ comment_content }}</textarea>
+              <br>
+              <input type="submit" value="submit">
+              <span class="error">{{error}}</span>
             </form>
         </div>
     </div>
