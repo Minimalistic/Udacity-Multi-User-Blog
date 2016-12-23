@@ -13,13 +13,14 @@
 ------
 <h3>==== Comments ====</h3>
 <h1>
-{% for c in comments %}
+ <!-- check if author and render edit button -->
+	{% for c in comments %}
+		<h4>{{c.comment_content}}</h4>
+		<h5>-{{c.comment_owner}}</h5>
+		----------------------------------------
+	{% endfor%}
 
-<h4>{{c.content}}</h4>
-<h5>-{{c.user_name}}</h5>
-----------------------------------------
 
-{% endfor%}
 </h1>
 
 {% endblock %}

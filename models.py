@@ -60,9 +60,13 @@ class User(db.Model):
         if u and valid_pw(name, pw, u.pw_hash):
             return u
 
+
 class Comment(db.Model):
-    content = db.TextProperty(required=True)
+    comment_content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
-    user_id = db.IntegerProperty(required=True)
-    user_name = db.TextProperty(required=True)
+    comment_owner = db.IntegerProperty(required=True)
+
+    def getUserName(self):
+        user = User.by_id(self.comment_owner)
+        return user.name

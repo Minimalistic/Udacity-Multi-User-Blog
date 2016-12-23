@@ -18,6 +18,24 @@ indexes:
 
 - kind: Comment
   properties:
+  - name: created
+    direction: desc
+  - name: content
+
+- kind: Comment
+  properties:
+  - name: created
+    direction: desc
+  - name: user_id
+
+- kind: Comment
+  properties:
+  - name: created
+    direction: desc
+  - name: user_name
+
+- kind: Comment
+  properties:
   - name: post_id
   - name: created
     direction: desc
@@ -39,3 +57,8 @@ indexes:
   properties:
   - name: created
     direction: desc
+
+- kind: Comment
+  ancestor: yes
+  properties:
+  - name: key
