@@ -68,8 +68,7 @@ class PostPage(BlogHandler):
                                parent=blog_key())
         post_tool = db.get(key)
 
-        comments = db.GqlQuery \
-            ("SELECT * FROM Comment WHERE ancestor is :1 order by created desc limit 3", key)
+        comments = db.GqlQuery ("SELECT * FROM Comment WHERE ancestor is :1 order by created desc limit 3", key)
 
         if not post_tool:
             self.error(404)
@@ -298,7 +297,7 @@ class AddCommentHandler(BlogHandler):
     def post(self, post_id, user_id):
         if not self.user:
             return
-
+        comment_owner_text = self.user.name
         comment_owner = self.request.get('comment_owner')
         comment_content = self.request.get('comment_content')
 
@@ -308,7 +307,8 @@ class AddCommentHandler(BlogHandler):
 
         c = Comment(parent=key,
                     comment_owner=self.user.key().id(),
-                    comment_content=comment_content)
+                    comment_content=comment_content,
+                    comment_owner_text=comment_owner_text)
         c.put()
 
         self.redirect('/blog/' + post_id)

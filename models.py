@@ -66,6 +66,7 @@ class Comment(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
     comment_owner = db.IntegerProperty(required=True)
+    comment_owner_text = db.TextProperty(required=True)
 
     def getUserName(self):
         user = User.by_id(self.comment_owner)
