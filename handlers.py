@@ -317,13 +317,21 @@ class AddCommentHandler(BlogHandler):
 
 
 class EditCommentHandler(BlogHandler):
-    def get(self, post_id):
+    def get(self, post_id, comment_owner):
         if self.user:
-            self.write("test")
+            key = db.Key.from_path('PostDatabase',
+                                   int(post_id),
+                                   parent=blog_key())
+            comKey = db.Key.from_path('Comment',
+                                      int(comment_owner),
+                                      parent=key)
+            comment = db.get(key)
+            self.render("editcomment.html",
+                        comment_content=comment.comment_content) 
         else:
             self.write("test2") 
 
-    def post(self, post_id, post_user_id, comment_id):
+    def post(self, post_id):
         if not self.user:
             self.write("not self.user")
 
