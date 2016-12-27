@@ -15,6 +15,34 @@
 <h3>==== Comments ====</h3>
 <h1>
  <!-- check if author and render edit button -->
+{% for comment in comments %}
+
+      <div class="row">
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                {{comment.subject}}
+                |
+                <a href="/delete/{{comment.key().id()}}">
+                  delete
+                </a>
+                 |
+                <a href="/blog/editcomment/{{comment.key().id()}}">
+                  edit
+                </a>
+              </h3>
+            </div>
+            <div class="panel-body">
+              {{comment.content}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% endfor %}
+
 	{% for c in comments %}
 		<h4>{{c.comment_content}}</h4>
 		<h5>-{{c.comment_owner_text}}</h5>
