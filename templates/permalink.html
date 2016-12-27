@@ -24,11 +24,14 @@
             <div class="panel-heading">
               <h3 class="panel-title">
                 {{comment.subject}}
-                |
-                <a href="/delete/{{comment.key().id()}}">
-                  delete
-                </a>
-                 |
+				{% for c in comments %}
+            <blockquote>
+                <a href="/blog/deletecomment/{{post_tool.key().id()}}/{{c.comkey().id()}}">Delete</a>
+                <a class="comment-edit btn btn-primary pull-right" href="/blog/editcomment/{{post_tool.key().id()}}/{{c.key().id()}}">Edit</a>
+                <p>{{ c.comment }}</p>
+                <footer>{{ c.getUserName() }}</footer>
+            </blockquote>
+            {% endfor %}
                 <a href="/blog/editcomment/{{comment.key().id()}}">
                   edit
                 </a>

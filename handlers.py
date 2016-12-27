@@ -352,11 +352,11 @@ class EditCommentHandler(BlogHandler):
 
 class DeleteCommentHandler(BlogHandler):
 
-    def get(self, post_id, post_user_id, comment_id):
+    def get(self, post_id, comment_owner):
 
-        if self.user and self.user.key().id() == int(post_user_id):
-            postKey = db.Key.from_path('Post', int(post_id), parent=blog_key())
-            key = db.Key.from_path('Comment', int(comment_id), parent=postKey)
+        if self.user and self.user.key().id() == int(comment_owner):
+            postKey = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
+            comKey = db.Key.from_path('Comment', int(comment_owner), parent=postKey)
             comment = db.get(key)
             comment.delete()
 

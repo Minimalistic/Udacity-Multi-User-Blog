@@ -17,6 +17,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/welcome', WelcomeUser),
                                ('/blog/([0-9]+)/addcomment/([0-9]+)', AddCommentHandler),
                                ('/blog/editcomment/([0-9]+)', EditCommentHandler),
-                               ('/([0-9]+)/([0-9]+)/deletecomment/([0-9]+)', DeleteCommentHandler)
+                               ('/blog/deletecomment/([0-9]+)/([0-9]+)', DeleteCommentHandler)
                                ],
                               debug=True)
