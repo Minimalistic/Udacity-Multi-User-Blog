@@ -356,6 +356,4 @@ class EditCommentHandler(BlogHandler):
 
             post_tool.put()
 
-            self.write("comment edited")
-
-
+            self.redirect('/blog/' + post_id)
