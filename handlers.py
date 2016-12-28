@@ -342,4 +342,20 @@ class EditCommentHandler(BlogHandler):
                         comment_owner=comment_owner,
                         comment_content=post_tool.comment_content,
                         post_id=post_id)
+    def post(self, post_id, comment_owner):
+        if self.user:
+            comment_content = self.request.get('comment_content')
+            postKey = db.Key.from_path('PostDatabase',
+                                       int(post_id),
+                                       parent=blog_key())
+            key = db.Key.from_path('Comment',
+                                   int(comment_owner),
+                                   parent=postKey)
+            post_tool = db.get(key)
+            post_tool.comment_content = comment_content
+
+            post_tool.put()
+
+            self.write("comment edited")
+
 
