@@ -326,3 +326,20 @@ class DeleteCommentHandler(BlogHandler):
 
             self.write("Comment deleted.")
 
+class EditCommentHandler(BlogHandler):
+    def get(self,post_id, comment_owner):
+        if self.user:
+            postKey = db.Key.from_path('PostDatabase',
+                                       int(post_id),
+                                       parent=blog_key())
+            key = db.Key.from_path('Comment',
+                                   int(comment_owner),
+                                   parent=postKey)
+            post_tool = db.get(key)
+
+            self.render("editcomment.html",
+                        post_tool=post_tool,
+                        comment_owner=comment_owner,
+                        comment_content=post_tool.comment_content,
+                        post_id=post_id)
+
