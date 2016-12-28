@@ -321,7 +321,8 @@ class DeleteCommentHandler(BlogHandler):
                                        parent=blog_key())
             key = db.Key.from_path('Comment',
                          int(comment_owner), parent=postKey)
-
+            comment = db.get(key)
+            comment.delete()
 
             self.write("Comment deleted.")
 
