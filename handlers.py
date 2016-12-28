@@ -70,8 +70,6 @@ class PostPage(BlogHandler):
 
         comments = db.GqlQuery ("SELECT * FROM Comment WHERE ancestor is :1 order by created desc limit 3", key)
 
-        for comment in comments:
-            print(comments)
 
         if not post_tool:
             self.error(404)
@@ -315,55 +313,15 @@ class AddCommentHandler(BlogHandler):
 
         self.redirect('/blog/' + post_id)
 
-
-class EditCommentHandler(BlogHandler):
-    def get(self, post_id, comment_owner):
-        if self.user:
-            key = db.Key.from_path('PostDatabase',
-                                   int(post_id),
-                                   parent=blog_key())
-            comKey = db.Key.from_path('Comment',
-                                      int(comment_owner),
-                                      parent=key)
-            comment = db.get(key)
-            self.render("editcomment.html",
-                        comment_content=comment.comment_content) 
-        else:
-            self.write("test2") 
-
-    def post(self, post_id):
-        if not self.user:
-            self.write("not self.user")
-
-        if self.user and self.user.key().id() == int(post_user_id):
-            comment_content = self.request.get('comment_content')
-
-            comKey = db.Key.from_path('Comment', int(comment_owner), parent=blog_key)
-            key = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key)
-            comment = db.get(key)
-
-            comment.put()
-
-            self.redirect('/' + post_id)
-
-        else:
-            self.write("(post)You don't have permission to edit this comment.")
-
-
 class DeleteCommentHandler(BlogHandler):
+    def post(self, post_id, comment_owner):
+        if self.user:
+            postKey = db.Key.from_path('PostDatabase',
+                                       int(post_id),
+                                       parent=blog_key())
+            key = db.Key.from_path('Comment',
+                         int(comment_owner), parent=postKey)
 
-    def get(self, post_id, comment_owner):
 
-        if self.user and self.user.key().id() == int(comment_owner):
-            postKey = db.Key.from_path('PostDatabase', int(post_id), parent=blog_key())
-            comKey = db.Key.from_path('Comment', int(comment_owner), parent=postKey)
-            comment = db.get(key)
-            comment.delete()
+            self.write("Comment deleted.")
 
-            self.redirect('/' + post_id)
-
-        elif not self.user:
-            self.redirect('/login')
-
-        else:
-            self.write("You don't have permission to delete this comment.")
