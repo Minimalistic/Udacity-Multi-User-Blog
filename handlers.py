@@ -8,7 +8,6 @@ import webapp2
 import time
 
 from string import letters
-from models import *
 from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -73,8 +72,10 @@ def valid_pw(name, password, h):
 
 # Grouping key for users
 
+
 def users_key(group='default'):
     return db.Key.from_path('users', group)
+
 
 class PostDatabase(db.Model):
     subject = db.StringProperty(required=True)
@@ -177,11 +178,6 @@ class BlogHandler(webapp2.RequestHandler):
         response.out.write(post_tool.content)
 
 
-def render_str(template, **params):
-    t = jinja_env.get_template(template)
-    return t.render(params)
-
-
 class MainPage(BlogHandler):  # This renders the base.html if user goes to
     def get(self):            # the root address
         self.render('base.html')
@@ -189,7 +185,7 @@ class MainPage(BlogHandler):  # This renders the base.html if user goes to
 
 class BlogFront(BlogHandler):
     def get(self):
-        allposts = db.GqlQuery \
+        allposts = db.GqlQuery\
             ("SELECT * FROM PostDatabase ORDER BY created DESC LIMIT 10")
         self.render('blog.html',        # takes the allposts db query and
                     allposts=allposts)  # renders results
@@ -204,13 +200,13 @@ class PostPage(BlogHandler):
 
         comments = db.GqlQuery ("SELECT * FROM Comment WHERE ancestor is :1 order by created desc limit 3", key)
 
-
         if not post_tool:
             self.error(404)
             return
 
         self.render("permalink.html",
                     post_tool=post_tool, comments=comments)
+
 
 class EditPost(BlogHandler):
     def get(self, post_id):
@@ -335,6 +331,7 @@ class LikePost(BlogHandler):
         else:
             self.write("Can't like your own post.")
 
+
 class SignUp(BlogHandler):
     def get(self):
         self.render("signup-form.html")
@@ -446,6 +443,7 @@ class AddCommentHandler(BlogHandler):
 
         self.redirect('/blog/' + post_id)
 
+
 class DeleteCommentHandler(BlogHandler):
     def post(self, post_id, comment_owner):
         if self.user:
@@ -453,14 +451,16 @@ class DeleteCommentHandler(BlogHandler):
                                        int(post_id),
                                        parent=blog_key())
             key = db.Key.from_path('Comment',
-                         int(comment_owner), parent=postKey)
+                                   int(comment_owner),
+                                   parent=postKey)
             comment = db.get(key)
             comment.delete()
 
             self.redirect('/blog/' + post_id)
 
+
 class EditCommentHandler(BlogHandler):
-    def get(self,post_id, comment_owner):
+    def get(self, post_id, comment_owner):
         if self.user:
             postKey = db.Key.from_path('PostDatabase',
                                        int(post_id),
@@ -475,6 +475,7 @@ class EditCommentHandler(BlogHandler):
                         comment_owner=comment_owner,
                         comment_content=post_tool.comment_content,
                         post_id=post_id)
+
     def post(self, post_id, comment_owner):
         if self.user:
             comment_content = self.request.get('comment_content')
