@@ -10,37 +10,45 @@ import time
 from string import letters
 from google.appengine.ext import db
 
+# Assigns location of templates folder.
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+# This tells Jinja where the template folder can be found.
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
                                autoescape=True)
 
 secret = 'TheMostSecretOfSecrets'
-
+# REGEX FOR SIGNUP FORM
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-
-
-def valid_username(username):
-    return username and USER_RE.match(username)
-
-
 PASS_RE = re.compile(r"^.{3,20}$")
+EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 
+# FILE LEVEL FUNCTIONS
+
+def blog_key(name='default'):
+    return db.Key.from_path('blogs', name)
+
+def users_key(group='default'):
+    return db.Key.from_path('users', group)
+
+def post_key(post_id):
+    """
+    This key defines a post, and enables multiple groups on the site.
+    """
+    return db.Key.from_path('PostDatabase',
+                            int(post_id),
+                            parent=blog_key())
 
 def valid_password(password):
     return password and PASS_RE.match(password)
-
-
-EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
-
-
+def valid_username(username):
+    return username and USER_RE.match(username)
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
 # Cookie hashing
 
 
-def blog_key(name='default'):
-    return db.Key.from_path('blogs', name)
+
 
 
 def make_secure_val(val):
@@ -73,8 +81,7 @@ def valid_pw(name, password, h):
 # Grouping key for users
 
 
-def users_key(group='default'):
-    return db.Key.from_path('users', group)
+
 
 
 class PostDatabase(db.Model):
@@ -193,9 +200,7 @@ class BlogFront(BlogHandler):
 
 class PostPage(BlogHandler):
     def get(self, post_id):
-        key = db.Key.from_path('PostDatabase',
-                               int(post_id),
-                               parent=blog_key())
+        key = post_key(post_id)
         post_tool = db.get(key)
 
         comments = db.GqlQuery ("SELECT * FROM Comment WHERE ancestor is :1 order by created desc limit 3", key)
