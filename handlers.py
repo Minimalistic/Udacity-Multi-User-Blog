@@ -78,7 +78,6 @@ class PostPage(BlogHandler):
         self.render("permalink.html",
                     post_tool=post_tool, comments=comments)
 
-
 class EditPost(BlogHandler):
     def get(self, post_id):
         if self.user:
@@ -324,7 +323,7 @@ class DeleteCommentHandler(BlogHandler):
             comment = db.get(key)
             comment.delete()
 
-            self.write("Comment deleted.")
+            self.redirect('/blog/' + post_id)
 
 class EditCommentHandler(BlogHandler):
     def get(self,post_id, comment_owner):
