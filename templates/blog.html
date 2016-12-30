@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 		<div class="toolbar-nav">
-			<a href="/blog/newpost">New Post</a>
+			<a href="/blog/newpost">FOR NEW POST, HIDE IF NOT LOGGED IN</a>
 		</div>
 
-  {% for renderpost in allposts %}
+  {% for renderpost in articles %}
     {{ renderpost.render() | safe }}
     <br><br>
   {% endfor %}
