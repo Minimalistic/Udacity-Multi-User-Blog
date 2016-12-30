@@ -56,7 +56,7 @@ def checkPass2(pass1, pass2):
 
 def checkEmail(email):
     email2 = re.compile(r"^[\S]+@[\S]+.[\S]+$")
-    return email2.match(email) or email ==""
+    return email2.match(email) or email == ""
 
 
 # Cookie related
@@ -97,6 +97,7 @@ def valid_pw(name, pw, h):
     logging.warning("make = " + make_pw_hash(name, pw, salt))
     return h == make_pw_hash(name, pw, salt)
 
+
 # DATABASES ##################################################################
 
 # Create a database for user information
@@ -111,7 +112,7 @@ class User(db.Model):
 # Create a database for blog post information
 
 
-class PostDatabase(db.Model):
+class Article(db.Model):
     title = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
@@ -127,6 +128,7 @@ class Comment(db.Model):
     user = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
+
 
 # HANDLERS ###################################################################
 
@@ -159,7 +161,7 @@ class BlogHandler(webapp2.RequestHandler):
 class MainPage(BlogHandler):
     def get(self):
         articles = db.GqlQuery("SELECT * "
-                               "FROM PostDatabase "
+                               "FROM Article "
                                "ORDER BY created "
                                "DESC LIMIT 10")
         isLogged = self.isLogged()
@@ -298,9 +300,9 @@ class WelcomeHandler(BlogHandler):
             self.redirect("/signup")
 
 
-class PostLinkHandler(BlogHandler):
+class PostHandler(BlogHandler):
     def get(self, post_id):
-        key = db.Key.from_path('PostDatabase',
+        key = db.Key.from_path('Article',
                                int(post_id),
                                parent=blog_key())
         post_tool = db.get(key)
@@ -321,7 +323,7 @@ class PostLinkHandler(BlogHandler):
 
 class EditPost(BlogHandler):
     def get(self, post_id):
-        key = db.Key.from_path('PostDatabase',
+        key = db.Key.from_path('Article',
                                int(post_id),
                                parent=blog_key())
         post_tool = db.get(key)
@@ -332,7 +334,7 @@ class EditPost(BlogHandler):
                     post_id=post_id)
 
     def post(self, post_id):
-        key = db.Key.from_path('PostDatabase',
+        key = db.Key.from_path('Article',
                                int(post_id),
                                parent=blog_key())
         post_tool = db.get(key)
@@ -341,7 +343,7 @@ class EditPost(BlogHandler):
         content = self.request.get('content')
 
         if subject and content:
-            key = db.Key.from_path('PostDatabase',
+            key = db.Key.from_path('Article',
                                    int(post_id),
                                    parent=blog_key())
             post_tool = db.get(key)
@@ -364,7 +366,7 @@ class EditPost(BlogHandler):
 
 class Delete(BlogHandler):
     def post(self, post_id):
-        key = db.Key.from_path('PostDatabase',
+        key = db.Key.from_path('Article',
                                int(post_id),
                                parent=blog_key())
         db.delete(key)
@@ -378,30 +380,40 @@ class Success(BlogHandler):
 
 class NewPost(BlogHandler):
     def get(self):
-        self.render("newpost.html")
+        isLogged = self.isLogged()
+        if self.isLogged():
+            self.render("newpost.html",
+                        isLogged=isLogged)
+        else:
+            self.redirect("/signup")
 
     def post(self):
-        subject = self.request.get('subject')
+        title = self.request.get('subject')
         content = self.request.get('content')
+        username = self.isLogged()
 
-        if subject and content:
-            post_tool = PostDatabase(parent=blog_key(),
-                                     subject=subject,
-                                     content=content,
-                                     likes=0)
-            post_tool.put()
-            self.redirect('/%s' % str(post_tool.key().id()))
+        if title and content:
+            if username:
+                a = Article(title=title,
+                            content=content,
+                            user=username)
+                a.put()
+                self.redirect("/posts/" + str(a.key().id()))
+            else:
+                self.redirect("/signup")
+
         else:
             error = "subject and content, please!"
             self.render("newpost.html",
-                        subject=subject,
+                        isLogged=True,
+                        title=title,
                         content=content,
                         error=error)
 
 
 class LikePost(BlogHandler):
     def post(self, post_id):
-        key = db.Key.from_path('PostDatabase',
+        key = db.Key.from_path('Article',
                                int(post_id),
                                parent=blog_key())
         post_tool = db.get(key)
@@ -419,7 +431,7 @@ class AddCommentHandler(BlogHandler):
     def post(self, post_id):
         comment_content = self.request.get('comment_content')
 
-        key = db.Key.from_path('PostDatabase',
+        key = db.Key.from_path('Article',
                                int(post_id),
                                parent=blog_key())
 
@@ -432,7 +444,7 @@ class AddCommentHandler(BlogHandler):
 
 class DeleteCommentHandler(BlogHandler):
     def post(self, post_id):
-        postKey = db.Key.from_path('PostDatabase',
+        postKey = db.Key.from_path('Article',
                                    int(post_id),
                                    parent=blog_key())
         key = db.Key.from_path('Comment',
@@ -445,7 +457,7 @@ class DeleteCommentHandler(BlogHandler):
 
 class EditCommentHandler(BlogHandler):
     def get(self, post_id):
-        postKey = db.Key.from_path('PostDatabase',
+        postKey = db.Key.from_path('Article',
                                    int(post_id),
                                    parent=blog_key())
         key = db.Key.from_path('Comment',
@@ -459,7 +471,7 @@ class EditCommentHandler(BlogHandler):
 
     def post(self, post_id):
         comment_content = self.request.get('comment_content')
-        postKey = db.Key.from_path('PostDatabase',
+        postKey = db.Key.from_path('Article',
                                    int(post_id),
                                    parent=blog_key())
         key = db.Key.from_path('Comment',
@@ -476,7 +488,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ("/signup", SignUpHandler),
                                ("/login", LoginHandler),
                                ("/welcome", WelcomeHandler),
-                               ('/([0-9]+)', PostLinkHandler),
+                               ('/posts/([0-9]+)', PostHandler),
                                ('/newpost', NewPost),
                                ('/editpost/([0-9]+)', EditPost),
                                ('/delete/([0-9]+)', Delete),

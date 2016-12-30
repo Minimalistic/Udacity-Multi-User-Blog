@@ -1,24 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="toolbar-nav"> <!--this nav to go in it's own template-->
-      <a id="active" href="/blog/newpost">New Post</a>
-    </div>
-  <h2>new post</h2>
+  <h2>New Post</h2>
 
     <form method="post">
       <label>
-        <div>subject</div>
-        <input type="text" name="subject" value="{{subject}}">
+        <div>Title</div>
+        <input type="text" name="subject" value="{{title}}" placeholder="Enter a title...">
       </label>
 
       <label>
-        <div>blog</div>
-        <textarea name="content">{{content}}</textarea>
+        <div>Content</div>
+        <textarea name="content" placeholder="Write something...">{{content}}</textarea>
       </label>
 
       <div class="error">{{error}}</div>
 
-      <input type="submit">
+      <button type="submit">Submit</button>
     </form>
 {% endblock %}
