@@ -10,25 +10,25 @@
 			<a href="/" class="project-title">
 				Marsh Blog
 			</a>
-<!--
-			<div class="login-area">
 
-						(<a class="login-link" href="/logout">
-							logout
-						</a>)
-
-					<a class="login-link" href="/login">
-						login
-					</a>
-
+		<div class="login-area">
+					{% if isLogged %}
+						<a href="/logout">(Logout)</a>
+					{% else %}
 					|
 					<a class="login-link" href="/signup">
 						signup
 					</a>
--->
+					{% endif %}
+
 			</div>
 		</div>
-
+<!-- dynamic nav bar -->
+		{%if isLogged %}
+			<div class="toolbar-nav">
+				<a href="/blog/newpost">New post</a>
+			</div>
+		{% endif %}
 		<div id="content">
 			{% block content %}
 			{% endblock %}

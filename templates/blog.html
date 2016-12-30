@@ -2,10 +2,6 @@
 
 {% block content %}
 
-		<div class="toolbar-nav">
-			<a href="/blog/newpost">FOR NEW POST, HIDE IF NOT LOGGED IN</a>
-		</div>
-
   {% for renderpost in articles %}
     {{ renderpost.render() | safe }}
     <br><br>
