@@ -1,0 +1,13 @@
+<!-- JINJA2 CHILD TEMPLATE - FRONT -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- for each post in the posts table it calls render_post from the post class in main.py -->
+  <h3>Recent posts.</h3>
+  {% for post in posts %}
+    {{ post.render_post(post.key().id()) | safe }}
+    <br><br>
+  {% endfor %}
+
+{% endblock content %}

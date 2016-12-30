@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %} 
-	{% if post_tool.user_id == user.key().id() %} <!-- check if author and render edit button -->
 		<a method="get" href="/blog/editpost/{{post_tool.key().id()}}">Edit Post</a>
-	{% endif %}
-
 {{ post_tool.render() | safe }}
 
-		<a href="/blog/{{ post_tool.key().id() }}/addcomment/{{ user.key().id() }}">
+		<a href="/blog/addcomment"> 
 			Leave a comment
 		</a>
 		<br>
@@ -19,8 +16,7 @@
 
 	{% for comment in comments %}
 		<h4>{{comment.comment_content}}</h4>
-		<h5>-{{comment.comment_owner_text}}</h5>
-		{% if user and user.key().id() == comment.comment_owner %}
+		<h5>-comment owner goes here</h5>
 
 		<form action="/comment/delete/{{ post_tool.key().id() }}/{{ comment.key().id() }}" method="post" onsubmit="return confirm('Are you sure you want to delete this comment?');">
 			<button type="submit">Delete This Comment</button>
@@ -30,7 +26,6 @@
 		</form>
 	<br>
 		----------------------------------------
-		{% endif %}
 	{% endfor %}
 
 </h1>
