@@ -27,6 +27,7 @@
   <div class="article-footer">
     <h4>
       <form action="/like/{{ article.key().id() }}">
+      
       	{% if isLogged != article.user %}
       	        <button>like</button>
  		{% endif %}
