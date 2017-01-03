@@ -126,6 +126,11 @@ class Comment(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
 
 
+class Like(db.Model):
+    article_id = db.IntegerProperty(required=True)
+    user = db.StringProperty(required=True)
+
+
 # HANDLERS ###################################################################
 
 
@@ -285,6 +290,15 @@ class LoginHandler(BlogHandler):
                         error="A username and password are required.")
 
 
+class LogoutHandler(BlogHandler):
+    def get(self):
+        if self.isLogged():
+            self.response.headers.add_header("Set-Cookie", "username=; Path=/")
+            self.redirect("/signup")
+        else:
+            self.render("error.html",
+                error="Can't logout when not logged in.")
+
 class WelcomeHandler(BlogHandler):
     def get(self):
         username = self.isLogged()
@@ -397,16 +411,49 @@ class NewPost(BlogHandler):
                         error=error)
 
 
-class LikePost(BlogHandler):
+class LikePostHandler(BlogHandler):
+    def get(self, id):
+        username = self.isLogged()
+        article = Article.get_by_id(int(id))
+        if username:
+            if not article.user == username:
+                like = db.GqlQuery("SELECT * FROM Like WHERE article_id=" +
+                    str(id) + " AND user=\'" + username + "\'")
+                if(like.get()):
+                    like[0].delete()
+                    article.likes = article.likes - 1
+                    article.put()
+                    self.redirect("/posts/" + id)
+                else:
+                    like = Like(article_id=int(id), user=username)
+                    like.put()
+                    article.likes = article.likes + 1
+                    article.put()
+                    self.redirect("/posts/"+id)
+            else:
+                self.render("error.html", error="You can not like your own article!")
+        else:
+            self.redirect("/signup")
+
     def post(self, id):
-        key = db.Key.from_path('Article',
-                               int(id),
-                               parent=blog_key())
-        post_tool = db.get(key)
-        post_tool.likes += 1
-        post_tool.put()
-        time.sleep(.1)
-        self.redirect('/')
+        title = self.request.get("subject")
+        content = self.request.get("content")
+        username = self.isLogged()
+        article = Article.get_by_id(int(id))
+        if title and content:
+            if username:
+                if article.user==username:
+                    article.title = title
+                    article.content = content
+                    article.put()
+                    self.redirect("/posts/"+id)
+                else:
+                    self.render("error.html", error="You do not have acces to this action!")
+            else:
+                self.redirect("/signup")    
+        else:
+            error = "We need both a title and some content!"
+            self.render("editpost.html", title=title, content=content, error=error)
 
 
 class AddCommentHandler(BlogHandler):
@@ -473,12 +520,13 @@ class EditCommentHandler(BlogHandler):
 app = webapp2.WSGIApplication([('/', MainPage),
                                ("/signup", SignUpHandler),
                                ("/login", LoginHandler),
+                               ("/logout", LogoutHandler),
                                ("/welcome", WelcomeHandler),
                                ('/posts/([0-9]+)', PostHandler),
                                ('/newpost', NewPost),
                                ('/editpost/([0-9]+)', EditPost),
                                ('/delete/([0-9]+)', Delete),
-                               ('/like/([0-9]+)', LikePost),
+                               ('/like/([0-9]+)', LikePostHandler),
                                ('/success', Success),
                                ('/([0-9]+)/addcomment/([0-9]+)',
                                 AddCommentHandler),

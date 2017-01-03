@@ -121,6 +121,11 @@ body {
     border: 2px black;
     border-style: solid none none none;
 }
+
+.article-footer {
+    border: 1px grey;
+    border-style: solid none none none;
+}
 textarea {
     width:50%;
     height:5em;

@@ -21,13 +21,19 @@
     </div>
 
     <div class="article-content">
-      {{ article.content | safe }}
+      <p>
+        {{ article.content | safe }}
+      </p>
     </div>
   </form>
   </div>
-  number of likes for this post: {{ article.likes }}
-  <form action="/blog/like/{{article.key().id()}}" method="post">
-    <button>like</button>
-  </form>
+  <div class="article-footer">
+    <h4>
+      <form action="/like/{{ article.key().id() }}">
+        <button>like</button>
+        {{ article.likes }} people have liked this post
+      </form>
+    <h4>
+  </div>
 
 {% endblock %}
