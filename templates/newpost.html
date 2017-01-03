@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {%if isLogged %}
+      <div class="toolbox">
+        <a href="/">< Return to blog</a>
+      </div>
+    {% endif %}
   <h2>New Post</h2>
 
     <form method="post">

@@ -68,6 +68,19 @@ body {
     padding:.5em;
 }
 
+.toolbox a {
+    margin-right:1em;
+}
+
+.danger-zone {
+    width:100%;
+    color:red;
+
+}
+
+.danger-zone button {
+    color:red;
+}
 
 .article {
     margin: 0 auto;

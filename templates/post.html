@@ -5,7 +5,9 @@
 
       
   <div class="toolbox">
-  <a href="/">< Return to blog</a>
+
+    <a href="/">< Return to blog</a>
+
     {% if isLogged == article.user %}
       <a href="{{ "/editpost/" ~ article.key().id() }}">Edit This Post</a>
     {% endif %}

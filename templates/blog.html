@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- dynamic nav bar -->
+		{%if isLogged %}
+			<div class="toolbox">
+				<a href="/newpost">New post</a>
+			</div>
+		{% endif %}
 	{% for article in articles %}
 		<div class="article">
 			<div class="article-heading">
