@@ -323,12 +323,13 @@ class PostHandler(BlogHandler):
 
 class EditPost(BlogHandler):
     def get(self, id):
+        title = self.request.get("title")
         article = Article.get_by_id(int(id))
         username = self.isLogged()
         if article.user == username:
             self.render("editpost.html",
-                        title=article.title,
-                        content=article.content,
+                        title=title,
+                        article=article,
                         id=id)
         else:
             self.write("Dont have access to eit record")
@@ -359,13 +360,17 @@ class EditPost(BlogHandler):
                         error=error)
 
 
-class Delete(BlogHandler):
+class DeletePost(BlogHandler):
     def post(self, id):
-        key = db.Key.from_path('Article',
-                               int(id),
-                               parent=blog_key())
-        db.delete(key)
-        self.redirect('/success')
+        article = Article.get_by_id(int(id))
+        username = self.isLogged()
+        if (username and article.user == username):
+            article.delete()
+            time.sleep(.5)
+            self.render('success.html', message="Post deletion successful.")
+        else:
+            self.render("error.html", error="That's not permitted")
+
 
 
 class Success(BlogHandler):
@@ -520,7 +525,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/posts/([0-9]+)', PostHandler),
                                ('/newpost', NewPost),
                                ('/editpost/([0-9]+)', EditPost),
-                               ('/delete/([0-9]+)', Delete),
+                               ('/delete/([0-9]+)', DeletePost),
                                ('/like/([0-9]+)', LikePostHandler),
                                ('/success', Success),
                                ('/([0-9]+)/addcomment/([0-9]+)',

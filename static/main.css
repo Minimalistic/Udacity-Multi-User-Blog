@@ -8,7 +8,7 @@ body {
 }
 
 .main-project-bar {
-    background-color:#F2F2F2;
+    background-color:#e2e2e2;
     max-width:75%;
     margin: 0 auto;
     display:flex;
@@ -60,6 +60,14 @@ body {
 }
 
 /* END Toolbar Nav */
+
+.toolbox {
+    margin-top:.5em;
+    background-color:#e2e2e2;
+    border-radius: 5px 5px 5px 5px;
+    padding:.5em;
+}
+
 
 .article {
     margin: 0 auto;

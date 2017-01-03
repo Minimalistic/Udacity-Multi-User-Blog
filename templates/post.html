@@ -2,9 +2,18 @@
 
 {% block content %}
 
-<a href="/">Back to blog</a>
+
+      
+  <div class="toolbox">
+  <a href="/">< Return to blog</a>
+    {% if isLogged == article.user %}
+      <a href="{{ "/editpost/" ~ article.key().id() }}">Edit This Post</a>
+    {% endif %}
+
+  </div>
   <div class="article">
     <div class="article-heading">
+
       <div class="article-title">
         <a method="get" href="/posts/{{ article.key().id() }}">
           <h2>
@@ -25,21 +34,9 @@
       <p>
         {{ article.content | safe }}
       </p>
-        <h4>
-
-    <a href="{{ "/editpost/" ~ article.key().id() }}">Edit This Post</a>
-  </h4>
     </div>
 
   </form>
-  </div>
-  <div class="article-footer">
-    <h4>
-      <form action="/like/{{ article.key().id() }}">
-        <button>like</button>
-        {{ article.likes }} people have liked this post
-      </form>
-    <h4>
   </div>
 
 {% endblock %}
