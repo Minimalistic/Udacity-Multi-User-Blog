@@ -1,9 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
+	{% for article in articles %}
+		<div class="article">
+			<div class="article-heading">
+				<div class="article-title">
+					<a href={{ "/posts/" ~ article.key().id() }}>
+						<h2>
+							{{ article.title }}
+						</h2>
+					</a>
+				</div>
+				<div class="article-date">
+					<h4>
+						{{ article.created.strftime("%b %d, %Y") }} by {{ article.user }}
+					</h4>
+				</div>
+			</div>
 
-  {% for renderpost in articles %}
-    {{ renderpost.render() | safe }}
-    <br><br>
-  {% endfor %}
-	{% endblock %}
+			<div class="article-content">
+				{{ article.content | safe }}
+			</div>
+		</div>
+  number of likes for this post: {{ article.likes }}
+	<form action="/blog/like/{{article.key().id()}}" method="post">
+		<button>like</button>
+	</form>
+	{% endfor %}
+{% endblock %}

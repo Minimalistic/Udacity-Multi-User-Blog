@@ -33,10 +33,6 @@ def blog_key(name='default'):
     return db.Key.from_path('blogs', name)
 
 
-def render_str(template, **params):
-    t = jinja_env.get_template(template)
-    return t.render(params)
-
 # Checks for signup
 
 
@@ -165,7 +161,7 @@ class MainPage(BlogHandler):
                                "ORDER BY created "
                                "DESC LIMIT 10")
         isLogged = self.isLogged()
-        self.render('blog.html',        # takes the articles db query and
+        self.render("blog.html",        # takes the articles db query and
                     isLogged=isLogged,  # renders results
                     articles=articles)
 
@@ -301,41 +297,31 @@ class WelcomeHandler(BlogHandler):
 
 
 class PostHandler(BlogHandler):
-    def get(self, post_id):
-        key = db.Key.from_path('Article',
-                               int(post_id),
-                               parent=blog_key())
-        post_tool = db.get(key)
-
-        comments = db.GqlQuery("SELECT * "
-                               "FROM Comment WHERE "
-                               "ancestor is :1 "
-                               "order by created "
-                               "desc limit 3", key)
-
-        if not post_tool:
-            self.error(404)
-            return
-
-        self.render("permalink.html",
-                    post_tool=post_tool, comments=comments)
+    def get(self, id):
+        article = Article.get_by_id(int(id))
+        comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" +
+                               str(int(id)) + " ORDER BY created DESC")
+        self.render("post.html",
+                    isLogged=self.isLogged(),
+                    article=article,
+                    comments=comments)
 
 
 class EditPost(BlogHandler):
-    def get(self, post_id):
+    def get(self, id):
         key = db.Key.from_path('Article',
-                               int(post_id),
+                               int(id),
                                parent=blog_key())
         post_tool = db.get(key)
         self.render("editpost.html",
                     post_tool=post_tool,
                     subject=post_tool.subject,
                     content=post_tool.content,
-                    post_id=post_id)
+                    id=id)
 
-    def post(self, post_id):
+    def post(self, id):
         key = db.Key.from_path('Article',
-                               int(post_id),
+                               int(id),
                                parent=blog_key())
         post_tool = db.get(key)
 
@@ -344,7 +330,7 @@ class EditPost(BlogHandler):
 
         if subject and content:
             key = db.Key.from_path('Article',
-                                   int(post_id),
+                                   int(id),
                                    parent=blog_key())
             post_tool = db.get(key)
             post_tool.subject = subject
@@ -360,14 +346,14 @@ class EditPost(BlogHandler):
                         post_tool=post_tool,
                         subject=post_tool.subject,
                         content=post_tool.content,
-                        post_id=post_id,
+                        id=id,
                         error=error)
 
 
 class Delete(BlogHandler):
-    def post(self, post_id):
+    def post(self, id):
         key = db.Key.from_path('Article',
-                               int(post_id),
+                               int(id),
                                parent=blog_key())
         db.delete(key)
         self.redirect('/success')
@@ -412,9 +398,9 @@ class NewPost(BlogHandler):
 
 
 class LikePost(BlogHandler):
-    def post(self, post_id):
+    def post(self, id):
         key = db.Key.from_path('Article',
-                               int(post_id),
+                               int(id),
                                parent=blog_key())
         post_tool = db.get(key)
         post_tool.likes += 1
@@ -425,40 +411,40 @@ class LikePost(BlogHandler):
 
 class AddCommentHandler(BlogHandler):
 
-    def get(self, post_id):
+    def get(self, id):
         self.render("addcomment.html")
 
-    def post(self, post_id):
+    def post(self, id):
         comment_content = self.request.get('comment_content')
 
         key = db.Key.from_path('Article',
-                               int(post_id),
+                               int(id),
                                parent=blog_key())
 
         c = Comment(parent=key,
                     comment_content=comment_content)
         c.put()
 
-        self.redirect('/' + post_id)
+        self.redirect('/' + id)
 
 
 class DeleteCommentHandler(BlogHandler):
-    def post(self, post_id):
+    def post(self, id):
         postKey = db.Key.from_path('Article',
-                                   int(post_id),
+                                   int(id),
                                    parent=blog_key())
         key = db.Key.from_path('Comment',
                                parent=postKey)
         comment = db.get(key)
         comment.delete()
 
-        self.redirect('/' + post_id)
+        self.redirect('/' + id)
 
 
 class EditCommentHandler(BlogHandler):
-    def get(self, post_id):
+    def get(self, id):
         postKey = db.Key.from_path('Article',
-                                   int(post_id),
+                                   int(id),
                                    parent=blog_key())
         key = db.Key.from_path('Comment',
                                parent=postKey)
@@ -467,12 +453,12 @@ class EditCommentHandler(BlogHandler):
         self.render("editcomment.html",
                     post_tool=post_tool,
                     comment_content=post_tool.comment_content,
-                    post_id=post_id)
+                    id=id)
 
-    def post(self, post_id):
+    def post(self, id):
         comment_content = self.request.get('comment_content')
         postKey = db.Key.from_path('Article',
-                                   int(post_id),
+                                   int(id),
                                    parent=blog_key())
         key = db.Key.from_path('Comment',
                                parent=postKey)
@@ -481,7 +467,7 @@ class EditCommentHandler(BlogHandler):
 
         post_tool.put()
 
-        self.redirect('/' + post_id)
+        self.redirect('/' + id)
 
 
 app = webapp2.WSGIApplication([('/', MainPage),
