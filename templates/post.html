@@ -8,8 +8,9 @@
       <div class="article-title">
         <a method="get" href="/posts/{{ article.key().id() }}">
           <h2>
-            {{ article.title }}
+            {{ article.title }} 
           </h2>
+
         </a>
       </div>
 
@@ -24,6 +25,9 @@
       <p>
         {{ article.content | safe }}
       </p>
+        <h4>
+    <a href="/editpost/">Edit This Post</a>
+  </h4>
     </div>
   </form>
   </div>

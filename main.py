@@ -339,7 +339,7 @@ class EditPost(BlogHandler):
                                parent=blog_key())
         post_tool = db.get(key)
 
-        subject = self.request.get('subject')
+        title = self.request.get('subject')
         content = self.request.get('content')
 
         if subject and content:
