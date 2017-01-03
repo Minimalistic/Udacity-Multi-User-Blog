@@ -323,43 +323,38 @@ class PostHandler(BlogHandler):
 
 class EditPost(BlogHandler):
     def get(self, id):
-        key = db.Key.from_path('Article',
-                               int(id),
-                               parent=blog_key())
-        post_tool = db.get(key)
-        self.render("editpost.html",
-                    post_tool=post_tool,
-                    subject=post_tool.subject,
-                    content=post_tool.content,
-                    id=id)
+        article = Article.get_by_id(int(id))
+        username = self.isLogged()
+        if article.user == username:
+            self.render("editpost.html",
+                        title=article.title,
+                        content=article.content,
+                        id=id)
+        else:
+            self.write("Dont have access to eit record")
 
     def post(self, id):
         key = db.Key.from_path('Article',
                                int(id),
                                parent=blog_key())
-        post_tool = db.get(key)
 
-        title = self.request.get('subject')
+        title = self.request.get("title")
         content = self.request.get('content')
+        username = self.isLogged()
+        article = Article.get_by_id(int(id))
 
-        if subject and content:
-            key = db.Key.from_path('Article',
-                                   int(id),
-                                   parent=blog_key())
-            post_tool = db.get(key)
-            post_tool.subject = subject
-            post_tool.content = content
-
-            post_tool.put()
-
-            self.redirect('/%s' % str(post_tool.key().id()))
+        if title and content:
+            article.title = title
+            article.content = content
+            article.put()
+            self.redirect("/posts/" + id)
 
         else:  # In case user tries to submit an empty edit form
-            error = "There must be a subject and content."
+            error = "There must be a title and content."
             self.render("editpost.html",
-                        post_tool=post_tool,
-                        subject=post_tool.subject,
-                        content=post_tool.content,
+                        article=article,
+                        title=title,
+                        content=content,
                         id=id,
                         error=error)
 

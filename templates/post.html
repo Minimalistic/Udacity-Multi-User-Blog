@@ -26,9 +26,11 @@
         {{ article.content | safe }}
       </p>
         <h4>
-    <a href="/editpost/">Edit This Post</a>
+
+    <a href="{{ "/editpost/" ~ article.key().id() }}">Edit This Post</a>
   </h4>
     </div>
+
   </form>
   </div>
   <div class="article-footer">
