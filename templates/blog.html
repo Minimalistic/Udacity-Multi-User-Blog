@@ -27,7 +27,10 @@
   <div class="article-footer">
     <h4>
       <form action="/like/{{ article.key().id() }}">
-        <button>like</button>
+      	{% if isLogged != article.user %}
+      	        <button>like</button>
+ 		{% endif %}
+
         {{ article.likes }} people have liked this post
       </form>
     <h4>

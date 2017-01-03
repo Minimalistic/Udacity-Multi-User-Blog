@@ -429,9 +429,9 @@ class LikePostHandler(BlogHandler):
                     like.put()
                     article.likes = article.likes + 1
                     article.put()
-                    self.redirect("/posts/"+id)
+                    self.redirect("/posts/" + id)
             else:
-                self.render("error.html", error="You can not like your own article!")
+                self.render("error.html", error="You can't not like your own posts.")
         else:
             self.redirect("/signup")
 
