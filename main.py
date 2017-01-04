@@ -301,11 +301,10 @@ class LogoutHandler(BlogHandler):
 
 class WelcomeHandler(BlogHandler):
     def get(self):
-        username = self.isLogged()
-        if username:
+        isLogged = self.isLogged()
+        if isLogged:
             self.render("welcome.html",
-                        isLogged=True,
-                        username=username)
+                        isLogged=isLogged)
         else:
             self.redirect("/signup")
 
