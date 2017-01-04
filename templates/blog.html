@@ -29,18 +29,17 @@
 				{{ article.content | safe }}
 				</p>
 			</div>
+		<div class="article-footer">
+    		<h4>
+      			<form action="/like/{{ article.key().id() }}">
+					{% if isLogged != article.user %}
+      	       			<button>like</button>
+ 					{% endif %}
+        			{{ article.likes }} people have liked this post
+      			</form>
+    		<h4>
+  		</div>
 		</div>
-  <div class="article-footer">
-    <h4>
-      <form action="/like/{{ article.key().id() }}">
 
-      	{% if isLogged != article.user %}
-      	        <button>like</button>
- 		{% endif %}
-
-        {{ article.likes }} people have liked this post
-      </form>
-    <h4>
-  </div>
 	{% endfor %}
 {% endblock %}

@@ -423,15 +423,19 @@ class LikePostHandler(BlogHandler):
                     like[0].delete()
                     article.likes = article.likes - 1
                     article.put()
-                    self.redirect("/posts/" + id)
+                    time.sleep(.1)
+                    self.redirect("/")
                 else:
-                    like = Like(article_id=int(id), user=username)
+                    like = Like(article_id=int(id),
+                                user=username)
                     like.put()
                     article.likes = article.likes + 1
                     article.put()
-                    self.redirect("/posts/" + id)
+                    time.sleep(.1)
+                    self.redirect("/")
             else:
-                self.render("error.html", error="You can't not like your own posts.")
+                self.render("error.html",
+                            error="You can not like your own posts.")
         else:
             self.redirect("/signup")
 
@@ -442,18 +446,22 @@ class LikePostHandler(BlogHandler):
         article = Article.get_by_id(int(id))
         if title and content:
             if username:
-                if article.user==username:
+                if article.user == username:
                     article.title = title
                     article.content = content
                     article.put()
-                    self.redirect("/posts/"+id)
+                    self.redirect("/posts/" + id)
                 else:
-                    self.render("error.html", error="You do not have acces to this action!")
+                    self.render("error.html",
+                                error="You do not have acces to this action!")
             else:
-                self.redirect("/signup")    
+                self.redirect("/signup")
         else:
             error = "We need both a title and some content!"
-            self.render("editpost.html", title=title, content=content, error=error)
+            self.render("editpost.html",
+                        title=title,
+                        content=content,
+                        error=error)
 
 
 class AddCommentHandler(BlogHandler):
