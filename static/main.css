@@ -6,7 +6,7 @@ body {
     margin: 0 auto;
     padding-left:1em;
     padding-right:1em;
-    background-color:#D0EFF9;
+    background-color:#76B4BE;
 }
 
 .main-project-bar {
@@ -42,7 +42,7 @@ body {
 .toolbox a {
     border-radius: 10px 10px 10px 10px;
     border: #2A829F 2px solid;
-    margin-right:1em;
+    margin-right:.25em;
     background-color:white;
     padding:.5em;
 }
@@ -57,12 +57,16 @@ body {
     color:red;
 }
 
-.article {
+.panel-style {
     max-width: 800px;
     background-color: white;
     margin:.5em;
     border-radius: 10px 10px 10px 10px;
     border: #2A829F 2px solid;
+}
+
+.panel-style {
+    padding:1em;
 }
 
 .login-area {

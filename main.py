@@ -294,7 +294,7 @@ class LogoutHandler(BlogHandler):
     def get(self):
         if self.isLogged():
             self.response.headers.add_header("Set-Cookie", "username=; Path=/")
-            self.redirect("/signup")
+            self.render("success.html", message="Logged out successfully.")
         else:
             self.render("error.html",
                 error="Can't logout when not logged in.")
