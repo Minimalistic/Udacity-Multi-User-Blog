@@ -37,10 +37,16 @@
     </div>
 
   </form>
-    comments shou;d be here:
-                  {% for comm in commments %}
-                    {{comm.content}}
-                {% endfor %}
+  <div class="comment-style">
+    THIS IS A COMMENT:
+      <h2>
+      {% for comm in comments %}
+
+      {{ comments }}
+      {% endfor %}
+      </h2>
+
+  </div>
 
 {% endblock %}
   </div>

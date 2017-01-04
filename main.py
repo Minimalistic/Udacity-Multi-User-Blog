@@ -313,8 +313,8 @@ class WelcomeHandler(BlogHandler):
 class PostHandler(BlogHandler):
     def get(self, id):
         article = Article.get_by_id(int(id))
-        comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" +
-                               str(int(id)) + " ORDER BY created DESC")
+        comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" + 
+            str(int(id)) + " ORDER BY created DESC")
         self.render("post.html",
                     isLogged=self.isLogged(),
                     article=article,
@@ -484,10 +484,10 @@ class AddCommentHandler(BlogHandler):
 
         if content:
             if username:
-                c = Comment(content=content,
+                comment = Comment(content=content,
                             user=username,
                             article_id=int(id))
-                c.put()
+                comment.put()
                 self.write("comment made")
 
 
