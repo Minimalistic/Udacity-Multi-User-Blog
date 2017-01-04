@@ -1,18 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="panel-style">
 	<h2>New Comment</h2>
-	  <div class="newpost">
+	  <div class="addcomment">
 	      <div class="text_form">
-	        <form method="post" autocomplete="off">
-              <textarea autofocus placeholder="Write a response..." type="text" name="comment_content">{{ comment_content }}</textarea>
+	        <form method="post">
+              <textarea type="text" name="content"></textarea>
               <br>
-              <input type="submit" value="submit">
+              <button type="submit">Submit</button>
               <span class="error">{{error}}</span>
             </form>
         </div>
     </div>
+</div>
 
   
 {% endblock %}

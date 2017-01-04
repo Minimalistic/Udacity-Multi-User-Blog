@@ -469,22 +469,27 @@ class LikePostHandler(BlogHandler):
 
 
 class AddCommentHandler(BlogHandler):
-
     def get(self, id):
-        self.render("addcomment.html")
+        article = Article.get_by_id(int(id))
+        username = self.isLogged()
+        if self.isLogged():
+            self.render("addcomment.html",
+                        isLogged=True,
+                        article=article)
 
     def post(self, id):
-        comment_content = self.request.get('comment_content')
+        content = self.request.get("content")
+        article = Article.get_by_id(int(id))
+        username = self.isLogged()
 
-        key = db.Key.from_path('Article',
-                               int(id),
-                               parent=blog_key())
+        if content:
+            if username:
+                c = Comment(content=content,
+                            user=username,
+                            article_id=int(id))
+                c.put()
+                self.write("comment made")
 
-        c = Comment(parent=key,
-                    comment_content=comment_content)
-        c.put()
-
-        self.redirect('/' + id)
 
 
 class DeleteCommentHandler(BlogHandler):
@@ -540,7 +545,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/delete/([0-9]+)', DeletePost),
                                ('/like/([0-9]+)', LikePostHandler),
                                ('/success', Success),
-                               ('/([0-9]+)/addcomment/([0-9]+)',
+                               ('/posts/([0-9]+)/addcomment',
                                 AddCommentHandler),
                                ('/comment/delete/([0-9]+)/([0-9]+)',
                                 DeleteCommentHandler),

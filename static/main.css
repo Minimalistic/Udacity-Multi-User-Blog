@@ -130,7 +130,6 @@ box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
     text-align:right;
     padding-right:.5em;
     width:30%;
-
 }
 
 .article-date h4{
@@ -150,11 +149,23 @@ box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
     border-style: solid none none none;
     width:100%;
     display:flex;
+
 }
-8
-.post-likes {
+
+.like-group {
+    justify-content: space-between;
     width:100%;
+    padding-top:.25em;
+}
+.post-likes {
+
+}
+.add-comment: {
     text-align:right;
+}
+.add-comment button{
+    padding:.5em;
+    margin:.5em;
 }
 textarea {
     width:50%;

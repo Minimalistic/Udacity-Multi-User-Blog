@@ -31,16 +31,25 @@
 			</div>
 
 			<div class="article-footer">
-				      			<form action="/like/{{ article.key().id() }}">
-						{% if isLogged != article.user %}
-	      	       			<button>&#x2661 like</button>
-	 					{% endif %}
-	      			</form>
+						<div class="like-group">
+		 					<div class="post-likes">
+		        				This post has {{ article.likes }} likes
+								{% if isLogged != article.user %}
+							      	<form action="/like/{{ article.key().id() }}">
+			      	       				<button>&#x2661 like</button>
+				      				</form>
+		 						{% endif %}
+		        			</div>
+						</div>
 
-	 					<div class="post-likes">
-	        				This post has {{ article.likes }} likes
-	        			</div>
-
+	        			{% if isLogged %}
+		        			<div class="add-comment">
+		        				<form action="/posts/{{ article.key().id() }}/addcomment">
+		        					<button>Write a comment</button>
+		        				</form>
+		        			</div>
+		        		{% endif %}
+		        		
 
 
 
