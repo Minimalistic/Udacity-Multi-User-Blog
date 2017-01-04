@@ -45,6 +45,12 @@ body {
     margin-right:.25em;
     background-color:white;
     padding:.5em;
+    text-decoration: none;
+    color:black;
+}
+
+.toolbox a:hover {
+    text-decoration:underline;
 }
 
 .danger-zone {
@@ -134,14 +140,13 @@ body {
 .article-footer {
     border: 1px #2A829F;
     border-style: solid none none none;
-    display:flex;
     width:100%;
+    display:flex;
 }
 
-.article-footer h4 {
-    padding-left:.5em;
-    margin-top:.3em;
-    margin-bottom:.3em;
+.post-likes {
+    width:100%;
+    text-align:right;
 }
 textarea {
     width:50%;

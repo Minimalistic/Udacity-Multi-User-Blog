@@ -26,19 +26,25 @@
 
 			<div class="article-content">
 				<p>
-				{{ article.content | safe }}
+					{{ article.content | safe }}
 				</p>
 			</div>
-		<div class="article-footer">
-    		<h4>
-      			<form action="/like/{{ article.key().id() }}">
-					{% if isLogged != article.user %}
-      	       			<button>like</button>
- 					{% endif %}
-        			{{ article.likes }} people have liked this post
-      			</form>
-    		<h4>
-  		</div>
+
+			<div class="article-footer">
+				      			<form action="/like/{{ article.key().id() }}">
+						{% if isLogged != article.user %}
+	      	       			<button>&#x2661 like</button>
+	 					{% endif %}
+	      			</form>
+
+	 					<div class="post-likes">
+	        				This post has {{ article.likes }} likes
+	        			</div>
+
+
+
+
+	  		</div>
 		</div>
 
 	{% endfor %}
