@@ -297,7 +297,8 @@ class LogoutHandler(BlogHandler):
             self.render("success.html", message="Logged out successfully.")
         else:
             self.render("error.html",
-                error="Can't logout when not logged in.")
+                        error="Can't logout when not logged in.")
+
 
 class WelcomeHandler(BlogHandler):
     def get(self):
@@ -362,14 +363,15 @@ class EditPost(BlogHandler):
 class DeletePost(BlogHandler):
     def post(self, id):
         article = Article.get_by_id(int(id))
-        username = self.isLogged()
-        if (username and article.user == username):
+        isLogged = self.isLogged()
+        if (isLogged and article.user == isLogged):
             article.delete()
             time.sleep(.5)
-            self.render('success.html', message="Post deletion successful.")
+            self.render('success.html',
+                        message="Post deletion successful.")
         else:
-            self.render("error.html", error="That's not permitted")
-
+            self.render("error.html",
+                        error="That's not permitted")
 
 
 class Success(BlogHandler):

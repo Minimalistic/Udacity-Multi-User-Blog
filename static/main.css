@@ -6,7 +6,7 @@ body {
     margin: 0 auto;
     padding-left:1em;
     padding-right:1em;
-    background-color:#76B4BE;
+    background-color: #76B4BE
 }
 
 .main-project-bar {
@@ -18,10 +18,13 @@ body {
     border: solid #2A829F 2px;
     padding-top:2%;
     padding-bottom:2%;
+    -webkit-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
+box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
 }
 
 .project-title {
-    font-size:1.5em;
+    font-size:2.5em;
     display:flex;
     width:100%;
     align-self: center;
@@ -47,12 +50,31 @@ body {
     padding:.5em;
     text-decoration: none;
     color:black;
+    -webkit-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
 }
 
 .toolbox a:hover {
     text-decoration:underline;
 }
 
+.panel-style { 
+    width: inherit;
+    background-color: white;
+    margin:.5em;
+    border-radius: 10px 10px 10px 10px;
+    border: #2A829F 2px solid;
+    padding:1em;
+    -webkit-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
+}
+
+.panel-style textarea {
+    width:100%;
+
+}
 .danger-zone {
     width:100%;
     color:red;
@@ -61,18 +83,6 @@ body {
 
 .danger-zone button {
     color:red;
-}
-
-.panel-style {
-    max-width: 800px;
-    background-color: white;
-    margin:.5em;
-    border-radius: 10px 10px 10px 10px;
-    border: #2A829F 2px solid;
-}
-
-.panel-style {
-    padding:1em;
 }
 
 .login-area {
