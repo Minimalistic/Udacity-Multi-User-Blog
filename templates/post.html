@@ -11,9 +11,9 @@
     {% endif %}
 
   </div>
+
   <div class="panel-style">
     <div class="article-heading">
-
       <div class="article-title">
         <a method="get" href="/posts/{{ article.key().id() }}">
           <h2>
@@ -28,6 +28,7 @@
             {{ article.created.strftime("%b %d, %Y") }} by {{ article.user }}
           </h4>
       </div>
+
     </div>
 
     <div class="article-content">
@@ -36,15 +37,23 @@
       </p>
     </div>
 
-  </form>
-  <div class="panel-outline">
+  </form>      
+<div class="comment-header">
+  <h4> --- Comments --- </h4>
+</div>
+    <div class="comments">
+        <div class="panel-outline">
+        {% for commentpoll in comments %} 
+          <h4>{{ commentpoll.user }}</h4>
 
-    <h4>Comments</h4>
-      {% for commentpoll in comments %} 
-          {{ commentpoll.user }} wrote:
-          {{ commentpoll.content }}
-        <br>
-      {% endfor %}
+          <div class="single-comment">
+            <i>
+              {{ commentpoll.content }}
+            </i>
+          <br>
+          </div>
+        {% endfor %}
+    </div>
   </div>
 
 
