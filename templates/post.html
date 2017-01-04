@@ -37,14 +37,16 @@
     </div>
 
   </form>
-  <div class="comment-style">
-    THIS IS A COMMENT:
-      <h2>
-      {% for comm in comments %}
+  <div class="panel-outline">
 
-      {{ comments }}
+    <h4>Comments</h4>
+      {% for commentpoll in comments %} 
+          {{ commentpoll.user }} wrote:
+          {{ commentpoll.content }}
+        <br>
       {% endfor %}
-      </h2>
+  </div>
+
 
   </div>
 
