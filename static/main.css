@@ -77,12 +77,10 @@ box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
 }
 .danger-zone {
     width:100%;
-    color:red;
-
 }
 
 .danger-zone button {
-    color:red;
+    color:#ff0000;
 }
 
 .login-area {

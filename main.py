@@ -325,9 +325,10 @@ class EditPost(BlogHandler):
     def get(self, id):
         title = self.request.get("title")
         article = Article.get_by_id(int(id))
-        username = self.isLogged()
-        if article.user == username:
+        isLogged = self.isLogged()
+        if article.user == isLogged:
             self.render("editpost.html",
+                        isLogged=isLogged,
                         title=title,
                         article=article,
                         id=id)
@@ -341,7 +342,7 @@ class EditPost(BlogHandler):
 
         title = self.request.get("title")
         content = self.request.get('content')
-        username = self.isLogged()
+        isLogged = self.isLogged()
         article = Article.get_by_id(int(id))
 
         if title and content:
@@ -353,6 +354,7 @@ class EditPost(BlogHandler):
         else:  # In case user tries to submit an empty edit form
             error = "There must be a title and content."
             self.render("editpost.html",
+                        isLogged=isLogged,
                         article=article,
                         title=title,
                         content=content,
@@ -368,7 +370,8 @@ class DeletePost(BlogHandler):
             article.delete()
             time.sleep(.5)
             self.render('success.html',
-                        message="Post deletion successful.")
+                        message="Post deletion successful.",
+                        isLogged=isLogged)
         else:
             self.render("error.html",
                         error="That's not permitted")
