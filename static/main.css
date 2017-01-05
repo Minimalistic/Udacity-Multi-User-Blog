@@ -27,6 +27,14 @@ button:hover {
     border: 1px solid black;
 }
 
+#delete {
+    color:#ff0000;
+}
+
+#delete:hover {
+    color:white;
+    background-color:red;
+}
 .main-project-bar {
     display:flex;
     padding-top:2%;
@@ -98,13 +106,6 @@ button:hover {
 .panel-style textarea {
     width:100%;
 
-}
-.danger-zone {
-    width:100%;
-}
-
-.danger-zone button {
-    color:#ff0000;
 }
 
 .login-area {
