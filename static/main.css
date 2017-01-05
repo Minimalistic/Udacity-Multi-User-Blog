@@ -3,26 +3,35 @@ h4 {
     margin-bottom:.1em;
 }
 body {
-    padding-top:.5em;
+    background-color:#e2ded9;
     max-width: 800px;
     margin: 0 auto;
-    padding-left:1em;
-    padding-right:1em;
-    background-color: #76B4BE
+}
+
+button {
+    background-color:white;
+    border: 1px grey;
+    border-style: solid;
+    padding:.7em;
+    margin:.5em;
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    border: 1px solid #000000;
+    transition: all 0.1s ease 0s;
+}
+
+button:hover {
+    background-color:grey;
+    color:white;
+    border: 1px solid black;
 }
 
 .main-project-bar {
-    max-width:75%;
-    margin: 0 auto;
     display:flex;
-    border-radius: 10px 10px 10px 10px;
-    background-color:white;
-    border: solid #2A829F 2px;
     padding-top:2%;
     padding-bottom:2%;
-    -webkit-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
-    box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
+    background-color: white;
 }
 
 .project-title {
@@ -30,9 +39,10 @@ body {
     display:flex;
     width:100%;
     align-self: center;
-    padding-left:.7em;
     text-decoration: none;
     color:black;
+    padding-left:.5em;
+    padding-right:.5em;
 }
 
 .project-title:hover {
@@ -42,19 +52,15 @@ body {
 .toolbox {
     margin-top:.5em;
     padding:.5em;
+    display:flex;
 }
 
 .toolbox a {
-    border-radius: 10px 10px 10px 10px;
-    border: #2A829F 2px solid;
     margin-right:.25em;
     background-color:white;
     padding:.5em;
     text-decoration: none;
     color:black;
-    -webkit-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
-    box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
 }
 
 .toolbox a:hover {
@@ -74,23 +80,19 @@ body {
 
 .single-comment {
     padding-top:.5em;
-    border: 1px #2A829F;
+    border: 1px ##b0b6b7;
     border-style: solid none none none;
 }
 .divider {
-    border: 2px #2A829F;
+    border: 2px #b0b6b7;
     border-style: solid none none none;
 }
 .panel-style { 
     width: inherit;
-    background-color: white;
     margin:.5em;
-    border-radius: 10px 10px 10px 10px;
-    border: #2A829F 2px solid;
-    padding:1em;
-    -webkit-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
-    box-shadow: 0px 5px 11px -4px rgba(0,0,0,0.75);
+    padding:.5em;
+    background-color:white;
+
 }
 
 .panel-style textarea {
@@ -139,6 +141,7 @@ body {
     color:black;
     padding-left:.5em;
     margin-bottom:0;
+    margin-top:0;
 }
 
 .article-title a {
@@ -152,28 +155,30 @@ body {
     text-align:right;
     padding-right:.5em;
     width:30%;
+
 }
 
 .article-date h4{
     margin-bottom:0;
     color:black;
+
 }
 
 .article-content {
-    border: 2px #2A829F;
+    border: 2px #b0b6b7;
     border-style: solid none none none;
     padding-left:1em;
     padding-right:1em;
 }
 
 .article-footer {
-    border: 1px #2A829F;
+    border: 1px #b0b6b7;
     border-style: solid none none none;
     width:100%;
 }
 
 .comment-footer {
-    border:1px #2a829f;
+    border:1px #b0b6b7;
     border-style: solid none none none;
 
 }
@@ -181,27 +186,22 @@ body {
 .like-group {
     justify-content: space-between;
     width:100%;
-    padding-top:.25em;
 }
 .post-likes {
     color:grey;
     font-size:.8em;
-    padding-left:.5em;
-
 }
 
 .post-likes .heart {
     color:red;
-    padding-right:.3em;    
 }
 .post-likes button {
-    margin-top:.5em;
     font-weight: bold;
     display:flex;
 }
 
 .disabled button{
-    color:grey;
+    color:#c1c1c1;
     cursor: not-allowed;
     opacity: .75;
     font-weight: normal;
@@ -210,8 +210,6 @@ body {
     text-align:right;
 }
 .add-comment button{
-    padding:.5em;
-    margin:.5em;
 }
 textarea {
     width:50%;

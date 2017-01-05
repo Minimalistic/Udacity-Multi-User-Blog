@@ -4,7 +4,9 @@
 <!-- dynamic nav bar -->
 		{%if isLogged %}
 			<div class="toolbox">
-				<a href="/newpost">New post</a>
+				<form action="/newpost">
+					<button>New post</button>
+				</form>
 			</div>
 		{% endif %}
 	{% for article in articles %}

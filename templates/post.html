@@ -3,11 +3,13 @@
 {% block content %}
 
   <div class="toolbox">
-
-    <a href="/">< Return to blog</a>
-
+        <form action="/">
+          <button>Return to Blog</button>
+        </form>
     {% if isLogged == article.user %}
-      <a href="{{ "/editpost/" ~ article.key().id() }}">Edit This Post</a>
+      <form action="{{ "/editpost/" ~ article.key().id() }}">
+        <button>Edit Post</button>
+      </form>
     {% endif %}
 
   </div>
@@ -69,7 +71,7 @@
 
       {% endif %}
     </div>
-    
+
 </div>     
 <div class="comment-header">
   <h4> --- Comments --- </h4>
