@@ -125,7 +125,6 @@ class Comment(db.Model):
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
 
-
 class Like(db.Model):
     article_id = db.IntegerProperty(required=True)
     user = db.StringProperty(required=True)

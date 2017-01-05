@@ -76,7 +76,6 @@ body {
     padding-top:.5em;
     border: 1px #2A829F;
     border-style: solid none none none;
-
 }
 .divider {
     border: 2px #2A829F;
@@ -186,7 +185,18 @@ body {
     padding-top:.25em;
 }
 .post-likes {
+    color:grey;
+    font-size:.8em;
+    padding-left:.5em;
+}
 
+.post-likes button {
+    margin-top:.5em;
+}
+
+.disabled button{
+    color:grey;
+    cursor: not-allowed;
 }
 .add-comment: {
     text-align:right;
