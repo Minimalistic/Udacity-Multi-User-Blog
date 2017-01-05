@@ -36,8 +36,41 @@
         {{ article.content | safe }}
       </p>
     </div>
+  </form> 
+<div class="article-footer">
+  <div class="like-group">
+    <div class="post-likes">
+      {% if article.likes == 0 %}
+        This post has no likes.
+      {% else %}
+        This post has {{ article.likes }} likes.
+      {% endif %}
 
-  </form>      
+      {% if isLogged != article.user %}
+
+        <form action="/like/{{ article.key().id() }}">
+          <button>
+            <div class="heart">
+              &hearts;
+            </div>
+            like
+          </button>
+        </form>
+
+      {% else %}
+
+        <div class="disabled">
+          <form action="/like/{{ article.key().id() }}">
+            <button title="Can't like your own post." disabled>
+              like
+            </button>
+          </form>
+        </div>
+
+      {% endif %}
+    </div>
+    
+</div>     
 <div class="comment-header">
   <h4> --- Comments --- </h4>
 </div>

@@ -293,7 +293,7 @@ class LogoutHandler(BlogHandler):
     def get(self):
         if self.isLogged():
             self.response.headers.add_header("Set-Cookie", "username=; Path=/")
-            self.render("success.html", message="Logged out successfully.")
+            self.render("message.html", message="Logged out successfully.")
         else:
             self.render("error.html",
                         error="Can't logout when not logged in.")
@@ -368,7 +368,7 @@ class DeletePost(BlogHandler):
         if (isLogged and article.user == isLogged):
             article.delete()
             time.sleep(.5)
-            self.render('success.html',
+            self.render('message.html',
                         message="Post deletion successful.",
                         isLogged=isLogged)
         else:
@@ -378,7 +378,7 @@ class DeletePost(BlogHandler):
 
 class Success(BlogHandler):
     def get(self):
-        self.render('success.html')
+        self.render('message.html', message="Success!")
 
 
 class NewPost(BlogHandler):
@@ -427,7 +427,7 @@ class LikePostHandler(BlogHandler):
                     article.likes = article.likes - 1
                     article.put()
                     time.sleep(.1)
-                    self.redirect("/")
+                    self.redirect("/posts/" + id)
                 else:
                     like = Like(article_id=int(id),
                                 user=username)
@@ -435,10 +435,10 @@ class LikePostHandler(BlogHandler):
                     article.likes = article.likes + 1
                     article.put()
                     time.sleep(.1)
-                    self.redirect("/")
+                    self.redirect("/posts/" + id)
             else:
-                self.render("error.html",
-                            error="You can not like your own posts.")
+                self.render("message.html",
+                            error="Can't like your own posts.")
         else:
             self.redirect("/signup")
 
@@ -470,25 +470,24 @@ class LikePostHandler(BlogHandler):
 class AddCommentHandler(BlogHandler):
     def get(self, id):
         article = Article.get_by_id(int(id))
-        username = self.isLogged()
+        isLogged = self.isLogged()
         if self.isLogged():
             self.render("addcomment.html",
-                        isLogged=True,
+                        isLogged=isLogged,
                         article=article)
 
     def post(self, id):
         content = self.request.get("content")
-        article = Article.get_by_id(int(id))
         username = self.isLogged()
 
         if content:
             if username:
                 comment = Comment(content=content,
-                            user=username,
-                            article_id=int(id))
+                                  user=username,
+                                  article_id=int(id))
                 comment.put()
-                self.write("comment made")
-
+                self.render("message.html",
+                            message="Your comment has been posted!")
 
 
 class DeleteCommentHandler(BlogHandler):

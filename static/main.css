@@ -170,7 +170,6 @@ body {
     border: 1px #2A829F;
     border-style: solid none none none;
     width:100%;
-    display:flex;
 }
 
 .comment-footer {
