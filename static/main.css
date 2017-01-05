@@ -76,6 +76,9 @@ button:hover {
 }
 
 .comments {
+    width:100%;
+    flex-flow:column wrap;
+
 }
 
 .comments p{
@@ -87,12 +90,14 @@ button:hover {
 }
 
 .single-comment {
-    padding-top:.5em;
-    border: 1px ##b0b6b7;
-    border-style: solid none none none;
+    padding-top:0;
+    padding-left:1.5em;
+    padding-right:1.5em;
+    padding-bottom:1.5em;
+
 }
 .divider {
-    border: 2px #b0b6b7;
+    border: 1px grey;
     border-style: solid none none none;
 }
 .panel-style { 
@@ -176,6 +181,7 @@ button:hover {
     border: 1px #b0b6b7;
     border-style: solid none none none;
     width:100%;
+    display:flex;
 }
 
 .comment-footer {
@@ -195,6 +201,7 @@ button:hover {
 
 .post-likes .heart {
     color:red;
+    padding-right:.25em;
 }
 .post-likes button {
     font-weight: bold;
@@ -206,6 +213,10 @@ button:hover {
     cursor: not-allowed;
     opacity: .75;
     font-weight: normal;
+}
+
+.disabled .heart {
+    opacity:.15;
 }
 .add-comment: {
     text-align:right;

@@ -2,97 +2,95 @@
 
 {% block content %}
 
-  <div class="toolbox">
-        <form action="/">
-          <button>Return to Blog</button>
-        </form>
+<div class="toolbox">
+
+    <form action="/">
+        <button>Return to Blog</button>
+    </form>
+
     {% if isLogged == article.user %}
-      <form action="{{ "/editpost/" ~ article.key().id() }}">
-        <button>Edit Post</button>
-      </form>
+        <form action="{{ "/editpost/" ~ article.key().id() }}">
+            <button>Edit Post</button>
+        </form>
     {% endif %}
 
-  </div>
+</div>
 
-  <div class="panel-style">
+<div class="panel-style">
     <div class="article-heading">
-      <div class="article-title">
-        <a method="get" href="/posts/{{ article.key().id() }}">
-          <h2>
-            {{ article.title }} 
-          </h2>
-
-        </a>
+        <div class="article-title">
+            <a method="get" href="/posts/{{ article.key().id() }}">
+                <h2>{{ article.title }}</h2>
+            </a>
       </div>
 
       <div class="article-date">
-          <h4>
-            {{ article.created.strftime("%b %d, %Y") }} by {{ article.user }}
-          </h4>
+          <h4>{{ article.created.strftime("%b %d, %Y") }} by {{ article.user }}</h4>
       </div>
-
     </div>
 
     <div class="article-content">
-      <p>
-        {{ article.content | safe }}
-      </p>
+      <p>{{ article.content | safe }}</p>
     </div>
-  </form> 
-<div class="article-footer">
-  <div class="like-group">
-    <div class="post-likes">
-      {% if article.likes == 0 %}
-        This post has no likes.
-      {% else %}
-        This post has {{ article.likes }} likes.
-      {% endif %}
 
-      {% if isLogged != article.user %}
+<div class="article-footer">
+    <div class="like-group">
+        <div class="post-likes">
+        
+        {% if article.likes == 0 %}
+            This post has no likes.
+        {% else %}
+            This post has {{ article.likes }} likes.
+        {% endif %}
+
+
+        {% if isLogged != article.user %}
 
         <form action="/like/{{ article.key().id() }}">
-          <button>
-            <div class="heart">
-              &hearts;
-            </div>
-            like
-          </button>
+            <button>
+                <div class="heart">&hearts;</div>
+                like
+            </button>
         </form>
 
       {% else %}
 
         <div class="disabled">
-          <form action="/like/{{ article.key().id() }}">
-            <button title="Can't like your own post." disabled>
-              like
-            </button>
-          </form>
+            <form action="/like/{{ article.key().id() }}">
+                <button title="Can't like your own post." disabled>like</button>
+            </form>
         </div>
 
       {% endif %}
+
     </div>
 
-</div>     
-<div class="comment-header">
-  <h4> --- Comments --- </h4>
+<div class="comments">
+
+    <div class="comment-header">
+        <h4> --- Comments --- </h4>
+    </div>
+            <div class="single-comment">
+    {% for commentpoll in comments %} 
+        <h4>{{ commentpoll.user }}</h4>
+        
+    <div class="divider"></div>
+            <i>{{ commentpoll.content }}</i>
+
+        
+        <br>
+
+    {% endfor %}
+    </div>
+
+    </div>
+
 </div>
-    <div class="comments">
-        <div class="panel-outline">
-        {% for commentpoll in comments %} 
-          <h4>{{ commentpoll.user }}</h4>
-          <div class="single-comment">
-            <i>
-              {{ commentpoll.content }}
-            </i>
-          <br>
-          </div>
-        {% endfor %}
-    </div>
-  </div>
+
+</div>
 
 
-  </div>
+
 
 {% endblock %}
-  </div>
 
