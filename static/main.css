@@ -188,15 +188,24 @@ body {
     color:grey;
     font-size:.8em;
     padding-left:.5em;
+
 }
 
+.post-likes .heart {
+    color:red;
+    padding-right:.3em;    
+}
 .post-likes button {
     margin-top:.5em;
+    font-weight: bold;
+    display:flex;
 }
 
 .disabled button{
     color:grey;
     cursor: not-allowed;
+    opacity: .75;
+    font-weight: normal;
 }
 .add-comment: {
     text-align:right;

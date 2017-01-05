@@ -33,14 +33,19 @@
 			<div class="article-footer">
 						<div class="like-group">
 		 					<div class="post-likes">
-		 						{% if article.likes != 0 %}
-		        				This post has {{ article.likes }} likes.
+		 						{% if article.likes == 0 %}
+		 						This post has no likes.
 		        				{% else %}
-		        				No likes.
+		        				This post has {{ article.likes }} likes.
 		        				{% endif %}
 								{% if isLogged != article.user %}
 							      	<form action="/like/{{ article.key().id() }}">
-			      	       				<button>like</button>
+			      	       				<button>
+			      	       					<div class="heart">
+			      	       						&hearts;
+			      	       					</div>
+			      	       					 like
+			      	       				</button>
 				      				</form>
 				      			{% else %}
 				      				<div class="disabled">
