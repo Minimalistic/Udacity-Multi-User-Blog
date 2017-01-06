@@ -78,11 +78,9 @@
         <div class="divider">
         </div>
 
-        <i>{{ commentpoll.content }}</i>
-
-        <a href="/comment/{{ article.key().id() }}/{{ commentpoll.key().id() }}">VIEW COMMENT</a>
-        <br>
-
+        <a href="/comment/{{ article.key().id() }}/{{ commentpoll.key().id() }}">
+            <i>{{ commentpoll.content }}</i>
+        </a>
     {% endfor %}
     </div>
 

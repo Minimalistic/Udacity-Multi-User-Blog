@@ -502,16 +502,11 @@ class AddCommentHandler(BlogHandler):
 
 
 class DeleteCommentHandler(BlogHandler):
-    def post(self, id):
-        postKey = db.Key.from_path('Article',
-                                   int(id),
-                                   parent=blog_key())
-        key = db.Key.from_path('Comment',
-                               parent=postKey)
-        comment = db.get(key)
+    def post(self, com_id):
+        comment = Comment.get_by_id(int(com_id))
         comment.delete()
 
-        self.redirect('/' + id)
+        self.write("comment deleted.")
 
 
 class EditCommentHandler(BlogHandler):
@@ -528,7 +523,6 @@ class EditCommentHandler(BlogHandler):
     def post(self, com_id, art_id):
         content = self.request.get("content")
         username = self.isLogged()
-        article = Article.get_by_id(int(art_id))
         comment = Comment.get_by_id(int(com_id))
         if content:
             if username:
@@ -554,7 +548,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/comment/([0-9]+)/([0-9]+)', CommentHandler),
                                ('/posts/([0-9]+)/addcomment',
                                 AddCommentHandler),
-                               ('/comment/delete/([0-9]+)/([0-9]+)',
+                               ('/comment/delete/([0-9]+)',
                                 DeleteCommentHandler),
                                ('/comment/edit/([0-9]+)',
                                 EditCommentHandler),

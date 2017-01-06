@@ -27,6 +27,7 @@ button:hover {
     border: 1px solid black;
 }
 
+
 #delete {
     color:#ff0000;
 }
@@ -63,6 +64,8 @@ button:hover {
     display:flex;
 }
 
+.toolbox_contents {
+}
 .toolbox a {
     margin-right:.25em;
     background-color:white;
@@ -209,6 +212,7 @@ button:hover {
     cursor: not-allowed;
     opacity: .75;
     font-weight: normal;
+    border: 1px #d3d3d3 solid;
 }
 
 .disabled .heart {
