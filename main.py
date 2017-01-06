@@ -312,7 +312,7 @@ class WelcomeHandler(BlogHandler):
 class PostHandler(BlogHandler):
     def get(self, id):
         article = Article.get_by_id(int(id))
-        comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" + 
+        comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" +
             str(int(id)) + " ORDER BY created DESC")
         self.render("post.html",
                     isLogged=self.isLogged(),
@@ -510,13 +510,11 @@ class DeleteCommentHandler(BlogHandler):
 
 
 class EditCommentHandler(BlogHandler):
-    def get(self, com_id, art_id):
+    def get(self, com_id):
         isLogged = self.isLogged()
-        article = Article.get_by_id(int(art_id))
         comment = Comment.get_by_id(int(com_id))
         self.render("editcomment.html",
                     isLogged=isLogged,
-                    article=article,
                     comment=comment)
 
 
