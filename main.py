@@ -503,11 +503,14 @@ class AddCommentHandler(BlogHandler):
 
 class DeleteCommentHandler(BlogHandler):
     def post(self, com_id):
+        isLogged = self.isLogged()
         comment = Comment.get_by_id(int(com_id))
-        comment.delete()
-
-        self.write("comment deleted.")
-
+        if isLogged == comment.user:
+            comment.delete()
+            time.sleep(.1)
+            self.render('message.html',
+                        message="Comment deleted successfully.",
+                        isLogged=isLogged)
 
 class EditCommentHandler(BlogHandler):
     def get(self, com_id):
@@ -517,19 +520,17 @@ class EditCommentHandler(BlogHandler):
                     isLogged=isLogged,
                     comment=comment)
 
-
-    def post(self, com_id, art_id):
+    def post(self, com_id):
+        isLogged = self.isLogged()
         content = self.request.get("content")
-        username = self.isLogged()
         comment = Comment.get_by_id(int(com_id))
-        if content:
-            if username:
-                if comment.user == username:
-                    comment.content = content
-                    comment.put()
-                    self.redirect("/posts/"+ art_id)
-                else:
-                    self.write("You're not permitted to do that.")
+        comment.content = content
+        if isLogged == comment.user:
+            comment.put()
+            time.sleep(.1)
+            self.render('message.html',
+                        message="Comment edited successfully.",
+                        isLogged=isLogged)
 
 
 app = webapp2.WSGIApplication([('/', MainPage),
