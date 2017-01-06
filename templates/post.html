@@ -72,12 +72,15 @@
     </div>
             <div class="single-comment">
     {% for commentpoll in comments %} 
+
         <h4>{{ commentpoll.user }}</h4>
         
-    <div class="divider"></div>
-            <i>{{ commentpoll.content }}</i>
+        <div class="divider">
+        </div>
 
-        
+        <i>{{ commentpoll.content }}</i>
+
+        <a href="/comment/{{ article.key().id() }}/{{ commentpoll.key().id() }}">VIEW COMMENT</a>
         <br>
 
     {% endfor %}

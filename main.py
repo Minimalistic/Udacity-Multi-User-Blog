@@ -467,6 +467,18 @@ class LikePostHandler(BlogHandler):
                         error=error)
 
 
+class CommentHandler(BlogHandler):
+    def get(self, id, com_id):
+        isLogged = self.isLogged()
+        article = Article.get_by_id(int(id))
+        comment = Comment.get_by_id(int(com_id))
+
+        self.render("editcomment.html",
+                    isLogged=isLogged,
+                    article=article,
+                    comment=comment)
+
+
 class AddCommentHandler(BlogHandler):
     def get(self, id):
         article = Article.get_by_id(int(id))
@@ -479,9 +491,8 @@ class AddCommentHandler(BlogHandler):
     def post(self, id):
         content = self.request.get("content")
         username = self.isLogged()
-
         if content:
-            if username:
+            if self.isLogged():
                 comment = Comment(content=content,
                                   user=username,
                                   article_id=int(id))
@@ -504,32 +515,29 @@ class DeleteCommentHandler(BlogHandler):
 
 
 class EditCommentHandler(BlogHandler):
-    def get(self, id):
-        postKey = db.Key.from_path('Article',
-                                   int(id),
-                                   parent=blog_key())
-        key = db.Key.from_path('Comment',
-                               parent=postKey)
-        post_tool = db.get(key)
-
+    def get(self, com_id, art_id):
+        isLogged = self.isLogged()
+        article = Article.get_by_id(int(art_id))
+        comment = Comment.get_by_id(int(com_id))
         self.render("editcomment.html",
-                    post_tool=post_tool,
-                    comment_content=post_tool.comment_content,
-                    id=id)
+                    isLogged=isLogged,
+                    article=article,
+                    comment=comment)
 
-    def post(self, id):
-        comment_content = self.request.get('comment_content')
-        postKey = db.Key.from_path('Article',
-                                   int(id),
-                                   parent=blog_key())
-        key = db.Key.from_path('Comment',
-                               parent=postKey)
-        post_tool = db.get(key)
-        post_tool.comment_content = comment_content
 
-        post_tool.put()
-
-        self.redirect('/' + id)
+    def post(self, com_id, art_id):
+        content = self.request.get("content")
+        username = self.isLogged()
+        article = Article.get_by_id(int(art_id))
+        comment = Comment.get_by_id(int(com_id))
+        if content:
+            if username:
+                if comment.user == username:
+                    comment.content = content
+                    comment.put()
+                    self.redirect("/posts/"+ art_id)
+                else:
+                    self.write("You're not permitted to do that.")
 
 
 app = webapp2.WSGIApplication([('/', MainPage),
@@ -543,11 +551,12 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/delete/([0-9]+)', DeletePost),
                                ('/like/([0-9]+)', LikePostHandler),
                                ('/success', Success),
+                               ('/comment/([0-9]+)/([0-9]+)', CommentHandler),
                                ('/posts/([0-9]+)/addcomment',
                                 AddCommentHandler),
                                ('/comment/delete/([0-9]+)/([0-9]+)',
                                 DeleteCommentHandler),
-                               ('/comment/edit/([0-9]+)/([0-9]+)',
+                               ('/comment/edit/([0-9]+)',
                                 EditCommentHandler),
                                ],
                               debug=True)

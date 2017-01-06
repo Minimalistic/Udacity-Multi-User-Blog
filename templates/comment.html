@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="toolbox">
+
+    <form action="/">
+        <button>Return to Blog</button>
+    </form>
+
+
+
+    {% if isLogged == article.user %}
+        <form action="/comment/edit/{{ comment.key().id() }}">
+            <button>Edit Comment</button>
+
+        </form>
+    {% endif %}
+
+
+</div>
+    <h3>{{ isLogged }}</h3>
+        {{ comment.content }}
+{% endblock %}
+
