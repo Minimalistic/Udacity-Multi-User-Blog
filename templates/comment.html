@@ -8,18 +8,27 @@
         <button>Return to Blog</button>
     </form>
 
+<div class="panel-style">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <p>{{ comment.content }}</p>
+        </div>
+    </div>
+
+    <div class="panel-date">
+        <h4>{{ comment.created.strftime("%b %d, %Y") }}</h4>
+    </div>
 
 
     {% if isLogged == article.user %}
         <form action="/comment/edit/{{ comment.key().id() }}">
             <button>Edit Comment</button>
-
         </form>
     {% endif %}
 
-
-</div>
     <h3>{{ isLogged }}</h3>
         {{ comment.content }}
+</div>
+
 {% endblock %}
 

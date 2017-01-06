@@ -473,7 +473,7 @@ class CommentHandler(BlogHandler):
         article = Article.get_by_id(int(id))
         comment = Comment.get_by_id(int(com_id))
 
-        self.render("editcomment.html",
+        self.render("comment.html",
                     isLogged=isLogged,
                     article=article,
                     comment=comment)

@@ -131,53 +131,49 @@ button:hover {
 .blog-header {
 }
 
-
-.article-heading {
+.panel-heading {
     display:flex;
     align-items:center;
     justify-content: center;
 }
 
-.article-title {
+.panel-title {
     width:70%;
     display:flex;
 }
 
-.article-title h2 {
+.panel-title h2 {
     color:black;
     padding-left:.5em;
     margin-bottom:0;
     margin-top:0;
 }
 
-.article-title a {
+.panel-title a {
     text-decoration: none;
 }
-.article-title a:hover {
+.panel-title a:hover {
     text-decoration: underline;
 
 }
-.article-date {
+.panel-date {
     text-align:right;
     padding-right:.5em;
     width:30%;
-
 }
 
-.article-date h4{
+.panel-date h4{
     margin-bottom:0;
-    color:black;
-
 }
 
-.article-content {
+.panel-content {
     border: 2px #b0b6b7;
     border-style: solid none none none;
     padding-left:1em;
     padding-right:1em;
 }
 
-.article-footer {
+.panel-footer {
     border: 1px #b0b6b7;
     border-style: solid none none none;
     width:100%;

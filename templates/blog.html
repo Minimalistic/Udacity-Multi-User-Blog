@@ -11,28 +11,28 @@
 		{% endif %}
 	{% for article in articles %}
 		<div class="panel-style">
-			<div class="article-heading">
-				<div class="article-title">
+			<div class="panel-heading">
+				<div class="panel-title">
 					<a href={{ "/posts/" ~ article.key().id() }}>
 						<h2>
 							{{ article.title }}
 						</h2>
 					</a>
 				</div>
-				<div class="article-date">
+				<div class="panel-date">
 					<h4>
 						{{ article.created.strftime("%b %d, %Y") }} by {{ article.user }}
 					</h4>
 				</div>
 			</div>
 
-			<div class="article-content">
+			<div class="panel-content">
 				<p>
 					{{ article.content | safe }}
 				</p>
 			</div>
 
-			<div class="article-footer">
+			<div class="panel-footer">
 						<div class="like-group">
 		 					<div class="post-likes">
 		 						{% if article.likes == 0 %}
