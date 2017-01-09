@@ -390,9 +390,10 @@ class NewPost(BlogHandler):
                 self.redirect("/signup")
 
         else:
+            isLogged = self.isLogged()
             error = "Subject and content, please!"
             self.render("newpost.html",
-                        isLogged=True,
+                        isLogged=isLogged,
                         title=title,
                         content=content,
                         error=error)
@@ -551,8 +552,10 @@ class AddCommentHandler(BlogHandler):
                 self.render("message.html",
                             message="Your comment has been posted!")
         else:
+            isLogged = self.isLogged()
             error = "You need to write something."
             self.render("addcomment.html",
+                        isLogged=isLogged,
                         content=content,
                         error=error)
 

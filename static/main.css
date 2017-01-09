@@ -1,219 +1,219 @@
-/* {border:1px solid red} */
-a {
+
+body {
+    background-color: #e2ded9;
+    max-width       : 800px;
+    margin          : 0 auto;
+}
+
+a { /* Unified link styling */
     color: #1d8773;    
-    text-decoration:none;
+    text-decoration: none;
 }
 
 a:hover {
-    text-decoration:underline;
-}
-
-h4 {
-    margin-bottom:.1em;
-}
-
-body {
-    background-color:#e2ded9;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-button {
-    background:white;
-    border: 1px grey;
-    border-style: solid;
-    padding:.7em;
-    margin:.5em;
-    border-radius: 3px 3px 3px 3px;
-    -moz-border-radius: 3px 3px 3px 3px;
-    -webkit-border-radius: 3px 3px 3px 3px;
-    border: 1px solid #000000;
-    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-    -moz-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-    box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-}
-
-button:hover {
-    color:white;
-    background:grey;
-}
-
-#delete {
-    color:#ff0000;
-}
-
-#delete:hover {
-    color:white;
-    background-color:red;
-}
-
-.main-project-bar {
-    display:flex;
-    padding-top:2%;
-    padding-bottom:2%;
-    background-color: white;
-    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-    -moz-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-    box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-}
-
-.project-title {
-    font-size:2.5em;
-    display:flex;
-    width:100%;
-    align-self: center;
-    padding-left:.5em;
-    padding-right:.5em;
-}
-
-.toolbox {
-    margin-top:.5em;
-    padding:.5em;
-    display:flex;
-}
-
-.toolbox a {
-    margin-right:.25em;
-    background-color:white;
-    padding:.5em;
-    text-decoration: none;
-    color:black;
-}
-
-.toolbox a:hover {
-    text-decoration:underline;
-}
-
-.comments {
-    width:100%;
-    flex-flow:column wrap;
-}
-
-.comments p{
-    margin-top:0;
-}
-
-.comment-header {
-    text-align:center;
-}
-
-.panel-style { 
-    width: inherit;
-    margin:.5em;
-    padding:.5em;
-    background-color:white;
-    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-    -moz-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-    box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-}
-
-.panel-style textarea {
-    width:100%;
-}
-
-.login-area {
-    padding:1em;
-    text-align:right;
-    width:30%;
-}
-
-.login-link {
-    text-decoration: none;
-    color:black;
-}
-
-.login-link:hover {
     text-decoration: underline;
 }
 
+h4 { /* Snugging up the gap below 'Comments' text */
+    margin-bottom: .1em;
+}
+
+textarea { /* Ensuring text areas are sufficiently visible/rendered */
+    height: 7em;
+    width : 75%;
+}
+
+button { /* The standard button theme for the app */
+    background           : white;
+    border               : 1px grey;
+    border-style         : solid;
+    padding              : .7em;
+    margin               : .5em;
+    border-radius        : 3px 3px 3px 3px;
+    -moz-border-radius   : 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    border               : 1px solid #000000;
+    -webkit-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73);
+    -moz-box-shadow      : 0px 1px 3px -1px rgba(0,0,0,0.73);
+    box-shadow           : 0px 1px 3px -1px rgba(0,0,0,0.73);
+}
+
+button:hover {
+    color     : white;
+    background: grey;
+}
+
+.disabled button{ /* Styles a div to be disabled if assigned this class */
+    color      : #c1c1c1;
+    cursor     : not-allowed;
+    opacity    : .75;
+    font-weight: normal;
+    border     : 1px #d3d3d3 solid;
+}
+
+.error { /* error class text styling */
+    color: red;
+}
+
+#delete { /* Standard delete id for important buttons */
+    color: #ff0000;
+}
+
+#delete:hover {
+    color           : white;
+    background-color: red;
+}
+
+.main-project-bar {
+    display           : flex;
+    padding-top       : 2%;
+    padding-bottom    : 2%;
+    background-color  : white;
+    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
+    -moz-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73);
+    box-shadow        : 0px 1px 3px -1px rgba(0,0,0,0.73);
+}
+
+.project-title {
+    font-size    : 2.5em;
+    display      : flex;
+    width        : 100%;
+    align-self   : center;
+    padding-left : .5em;
+    padding-right: .5em;
+}
+
+.toolbox { /* A toolbox that contains various buttons for the blog such as "Edit Post" etc. */
+    margin-top: .5em;
+    padding   : .5em;
+    display   : flex;
+}
+
+.toolbox a {
+    margin-right    : .25em;
+    background-color: white;
+    padding         : .5em;
+    text-decoration : none;
+    color           : black;
+}
+
+.toolbox a:hover {
+    text-decoration: underline;
+}
+
+/* START General Panel Styling Theme */
+
+.panel-style { /* The standard panel styling that is employed throughout the app and is the wrapper for most of everything thats displayed. */
+    width             : inherit;
+    margin            : .5em;
+    padding           : .5em;
+    background-color  : white;
+    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
+    -moz-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73);
+    box-shadow        : 0px 1px 3px -1px rgba(0,0,0,0.73);
+}
+
 .panel-heading {
-    display:flex;
-    align-items:center;
+    display        : flex;
+    align-items    : center;
     justify-content: center;
 }
 
 .panel-title {
-    width:70%;
-    display:flex;
+    width         : 70%;
+    display       : flex;
+    text-transform: capitalize; /* Ensuring consistent article title capitilization style */
 }
 
 .panel-title h2 {
-    padding-left:.5em;
-    margin-bottom:0;
-    margin-top:0;
+    padding-left : .5em;
+    margin-bottom: 0;
+    margin-top   : 0;
 }
 
 .panel-date {
-    text-align:right;
-    padding-right:.5em;
-    width:30%;
+    text-align   : right;
+    padding-right: .5em;
+    width        : 30%;
 }
 
 .panel-date h4{
-    margin-bottom:0;
+    margin-bottom: 0;
 }
 
 .panel-content {
-    border: 2px #b0b6b7;
-    border-style: solid none none none;
-    padding-left:1em;
-    padding-right:1em;
+    border       : 2px #b0b6b7;
+    border-style : solid none none none;
+    padding-left : 1em;
+    padding-right: 1em;
 }
 
 .panel-footer {
-    border: 1px #b0b6b7;
+    border      : 1px #b0b6b7;
     border-style: solid none none none;
-    width:100%;
-    display:flex;
+    width       : 100%;
+    display     : flex;
+}
+
+/* END General Panel Styling Theme */
+
+
+.login-area {
+    padding   : 1em;
+    text-align: right;
+    width     : 30%;
+}
+
+/* START COMMENTS Styling */
+
+.add-comment: {
+    text-align: right;
+}
+
+.comment-header {
+    text-align: center;
+}
+
+.comments {
+    width         : 100%;
+    flex-flow     : column wrap;
+    padding-bottom: .5em;
+}
+
+.comments p{
+    margin-top: 0;
 }
 
 .comment-footer {
-    border:1px #b0b6b7;
+    border      : 1px #b0b6b7;
     border-style: solid none none none;
 }
+/* END COMMENTS Styling */
 
 .like-group {
     justify-content: space-between;
-    width:100%;
+    width          : 100%;
 }
 .post-likes {
-    color:grey;
-    font-size:.8em;
-    padding-left:.3em;
+    color       : grey;
+    font-size   : .8em;
+    padding-left: .3em;
 }
 
 .post-likes .heart {
-    color:red;
-    padding-right:.25em;
+    color        : red;
+    padding-right: .25em;
 }
+
 .post-likes button {
     font-weight: bold;
-    display:flex;
+    display    : flex;
 }
 
-.disabled button{
-    color:#c1c1c1;
-    cursor: not-allowed;
-    opacity: .75;
-    font-weight: normal;
-    border: 1px #d3d3d3 solid;
-}
+
 
 .disabled .heart {
-    opacity:.15;
-}
-.add-comment: {
-    text-align:right;
+    opacity: .15;
 }
 
-textarea {
-    height: 7em;
-}
 
-.error {
-    color:red;
-}
-
-.label {
-    text-align: right
-}

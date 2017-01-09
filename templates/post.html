@@ -18,15 +18,20 @@
 
 <div class="panel-style">
     <div class="panel-heading">
+
         <div class="panel-title">
             <a method="get" href="/posts/{{ article.key().id() }}">
-                <h2>{{ article.title }}</h2>
+                <h2>
+                    {{ article.title }}
+                </h2>
             </a>
         </div>
 
-      <div class="panel-date">
-          <h4>{{ article.created.strftime("%b %d, %Y") }} by {{ article.user }}</h4>
-      </div>
+        <div class="panel-date">
+            <h4>
+                {{ article.created.strftime("%b %d, %Y") }} by {{ article.user }}
+            </h4>
+        </div>
 
     </div>
 
@@ -55,9 +60,7 @@
                             like
                         </button>
                     </form>
-
                 {% else %}
-
                     <div class="disabled">
                         <form action="/like/{{ article.key().id() }}">
                             <button title="Can't like your own post." disabled>
@@ -69,36 +72,44 @@
                         </form>
                     </div>
                 {% endif %}
+
             </div>
         </div>
 
-    {% if isLogged %}
-        <div class="add-comment">
-            <form action="/posts/{{ article.key().id() }}/addcomment">
-                <button>Write a comment</button>
-            </form>
-        </div>
-    {% endif %}
-
+        {% if isLogged %}
+            <div class="add-comment">
+                <form action="/posts/{{ article.key().id() }}/addcomment">
+                    <button>
+                        Write a comment
+                    </button>
+                </form>
+            </div>
+        {% endif %}
     </div>
 
 <div class="comments">
 
     <div class="comment-header">
-        <h4>Comments</h4>
+        <h4>
+            Comments
+        </h4>
     </div>
 
     <div class="panel-content">
 
         {% for commentpoll in comments %} 
-        <div class="comment-link">
-            <h5>{{ commentpoll.user }} wrote:</h5>
-            <a href="/comment/{{ article.key().id() }}/{{ commentpoll.key().id() }}">
-                <i>{{ commentpoll.content }}</i>
-            </a>
+            <div class="comment-link">
+                <h5>
+                    {{ commentpoll.user }} wrote:
+                </h5>
+                <a href="/comment/{{ article.key().id() }}/{{ commentpoll.key().id() }}">
+                    <i>
+                        {{ commentpoll.content }}
+                    </i>
+                </a>
+            </div>
         {% endfor %}
 
-        </div>
     </div>
 </div>
 {% endblock %}
