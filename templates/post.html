@@ -68,27 +68,26 @@
 <div class="comments">
 
     <div class="comment-header">
-        <h4> --- Comments --- </h4>
+        <h4>Comments</h4>
     </div>
-            <div class="single-comment">
-    {% for commentpoll in comments %} 
 
-        <h4>{{ commentpoll.user }}</h4>
-        
-        <div class="divider">
+    <div class="panel-content">
+
+        {% for commentpoll in comments %} 
+        <div class="single-comment">
+            <h5>{{ commentpoll.user }} wrote:</h5>
+
+            <a href="/comment/{{ article.key().id() }}/{{ commentpoll.key().id() }}">
+                <i>{{ commentpoll.content }}</i>
+            </a>
+
+        {% endfor %}
         </div>
-
-        <a href="/comment/{{ article.key().id() }}/{{ commentpoll.key().id() }}">
-            <i>{{ commentpoll.content }}</i>
-        </a>
-    {% endfor %}
-    </div>
-
     </div>
 
 </div>
 
-</div>
+
 
 
 

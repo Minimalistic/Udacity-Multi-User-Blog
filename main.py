@@ -9,9 +9,14 @@ import string
 import hmac
 import logging
 
+# Import google app engine datastore lib
 from google.appengine.ext import db
 
+# Sets the location of the templates folder that are contained in the home
+# directory of this app.
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+# Envokes jinja2 environment, points it to the templates folder with the
+# user input markup automatically escaped.
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
                                autoescape=True)
 
@@ -33,9 +38,7 @@ def blog_key(name='default'):
     return db.Key.from_path('blogs', name)
 
 
-# Checks for signup
-
-
+# Signups check
 def checkUser(user):
     user2 = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
     return user2.match(user)
@@ -56,8 +59,6 @@ def checkEmail(email):
 
 
 # Cookie related
-
-
 def hash_str(s):
     return hmac.new(THE_SECRET, s).hexdigest()
 
@@ -100,6 +101,10 @@ def valid_pw(name, pw, h):
 
 
 class User(db.Model):
+    """
+    Instantiates a class to store user data in the datastore
+    made up of user attributes.
+    """
     username = db.StringProperty(required=True)
     password = db.StringProperty(required=True)
     email = db.StringProperty(required=False)
@@ -109,6 +114,10 @@ class User(db.Model):
 
 
 class Article(db.Model):
+    """
+    Instantiates a class to store articles/post data in the datastore
+    made up of post attributes.
+    """
     title = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
@@ -120,12 +129,19 @@ class Article(db.Model):
 
 
 class Comment(db.Model):
+    """
+    Instantiates a class to store comments data in the datastore.
+    """
     article_id = db.IntegerProperty(required=True)
     user = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
 
+
 class Like(db.Model):
+    """
+    Manages the likes for individual posts.
+    """
     article_id = db.IntegerProperty(required=True)
     user = db.StringProperty(required=True)
 
@@ -134,13 +150,18 @@ class Like(db.Model):
 
 
 class BlogHandler(webapp2.RequestHandler):
-    # Checks if the user is logged in
+    """
+    BlogHandler class for functions for rendering templates.
+    """
     def isLogged(self):
         cookie = self.request.cookies.get('username')
         if cookie and check_secure_val(cookie):
             return cookie.split("|")[0]
 
     def write(self, *a, **kw):
+        """
+         Displays respective function, etc.
+         """
         self.response.out.write(*a, **kw)
 
     def render_str(self, template, **params):
@@ -149,9 +170,14 @@ class BlogHandler(webapp2.RequestHandler):
 
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
+        """
+        Calls 'render_str' and 'write' to display the jinja template.
+        """
 
-    # Sets the cookie for login and redirects to welcome page
     def login(self, user):
+        """
+        Sets the cookie for login and redirects to welcome page.
+        """
         val = make_secure_val(str(user))
         self.response.headers.add_header("Set-Cookie",
                                          r"username=%s; Path=/" % val)
@@ -159,7 +185,14 @@ class BlogHandler(webapp2.RequestHandler):
 
 
 class MainPage(BlogHandler):
+    """
+    Handler for the main page of the blog
+    """
     def get(self):
+        """
+        Queries the articles database for the 10 most recent blog posts
+        and then orders them descending.
+        """
         articles = db.GqlQuery("SELECT * "
                                "FROM Article "
                                "ORDER BY created "
@@ -170,7 +203,7 @@ class MainPage(BlogHandler):
                     articles=articles)
 
 
-# Sign up page handler, shows a sign up form if user is not logged in
+# SignUpHandler shows a sign up form if user is not logged in
 class SignUpHandler(BlogHandler):
     def get(self):
         if(self.isLogged()):
@@ -270,7 +303,8 @@ class LoginHandler(BlogHandler):
         if user and password:
 
             # Checking if the username and password match
-            db_users = db.GqlQuery("SELECT * FROM User WHERE username=\'" + user + "\'")
+            db_users = db.GqlQuery("SELECT * FROM User WHERE username=\'" +
+                                   user + "\'")
             if(db_users.get()):
                 db_user = db_users[0]
                 if valid_pw(THE_SECRET, password, db_user.password):
@@ -313,11 +347,55 @@ class PostHandler(BlogHandler):
     def get(self, id):
         article = Article.get_by_id(int(id))
         comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" +
-            str(int(id)) + " ORDER BY created DESC")
+                               str(int(id)) + " ORDER BY created DESC")
         self.render("post.html",
                     isLogged=self.isLogged(),
                     article=article,
                     comments=comments)
+
+
+class NewPost(BlogHandler):
+    """
+    This handler is for posting new blog articles to the blog.
+    """
+    def get(self):
+        """
+        Uses a 'get' request to render the newpost.html by caling render
+        from 'BlogHandler'
+        """
+        isLogged = self.isLogged()
+        if self.isLogged():
+            self.render("newpost.html",
+                        isLogged=isLogged)
+        else:
+            self.redirect("/signup")
+
+    def post(self):
+        """
+        Handles the 'post' request that originates from newpost.html
+        """
+        title = self.request.get('subject')
+        content = self.request.get('content')
+        username = self.isLogged()
+
+        if title and content:
+            if username:
+                a = Article(title=title,
+                            content=content,
+                            user=username)
+                a.put()
+                # Once article has been stored, redirects user to the post.
+                self.redirect("/posts/" + str(a.key().id()))
+            else:
+                self.redirect("/signup")
+
+        else:
+            error = "Subject and content, please!"
+            self.render("newpost.html",
+                        isLogged=True,
+                        title=title,
+                        content=content,
+                        error=error)
 
 
 class EditPost(BlogHandler):
@@ -332,7 +410,7 @@ class EditPost(BlogHandler):
                         article=article,
                         id=id)
         else:
-            self.write("Dont have access to eit record")
+            self.write("You do not have authorization to edit this post.")
 
     def post(self, id):
         key = db.Key.from_path('Article',
@@ -381,39 +459,6 @@ class Success(BlogHandler):
         self.render('message.html', message="Success!")
 
 
-class NewPost(BlogHandler):
-    def get(self):
-        isLogged = self.isLogged()
-        if self.isLogged():
-            self.render("newpost.html",
-                        isLogged=isLogged)
-        else:
-            self.redirect("/signup")
-
-    def post(self):
-        title = self.request.get('subject')
-        content = self.request.get('content')
-        username = self.isLogged()
-
-        if title and content:
-            if username:
-                a = Article(title=title,
-                            content=content,
-                            user=username)
-                a.put()
-                self.redirect("/posts/" + str(a.key().id()))
-            else:
-                self.redirect("/signup")
-
-        else:
-            error = "subject and content, please!"
-            self.render("newpost.html",
-                        isLogged=True,
-                        title=title,
-                        content=content,
-                        error=error)
-
-
 class LikePostHandler(BlogHandler):
     def get(self, id):
         username = self.isLogged()
@@ -421,7 +466,7 @@ class LikePostHandler(BlogHandler):
         if username:
             if not article.user == username:
                 like = db.GqlQuery("SELECT * FROM Like WHERE article_id=" +
-                    str(id) + " AND user=\'" + username + "\'")
+                                   str(id) + " AND user=\'" + username + "\'")
                 if(like.get()):
                     like[0].delete()
                     article.likes = article.likes - 1
@@ -480,6 +525,9 @@ class CommentHandler(BlogHandler):
 
 
 class AddCommentHandler(BlogHandler):
+    """
+    Handler class for displaying a new comment form to an article post.
+    """
     def get(self, id):
         article = Article.get_by_id(int(id))
         isLogged = self.isLogged()
@@ -489,6 +537,9 @@ class AddCommentHandler(BlogHandler):
                         article=article)
 
     def post(self, id):
+        """
+        Handles the 'post' request that comes from 'addcomment.html'
+        """
         content = self.request.get("content")
         username = self.isLogged()
         if content:
@@ -499,9 +550,17 @@ class AddCommentHandler(BlogHandler):
                 comment.put()
                 self.render("message.html",
                             message="Your comment has been posted!")
+        else:
+            error = "There needs to be text input into the form."
+            self.render("addcomment.html",
+                        content=content,
+                        error=error)
 
 
 class DeleteCommentHandler(BlogHandler):
+    """
+    Handles the deletion of comments.
+    """
     def post(self, com_id):
         isLogged = self.isLogged()
         comment = Comment.get_by_id(int(com_id))
@@ -512,7 +571,11 @@ class DeleteCommentHandler(BlogHandler):
                         message="Comment deleted successfully.",
                         isLogged=isLogged)
 
+
 class EditCommentHandler(BlogHandler):
+    """
+    Handles the editing of existing comments.
+    """
     def get(self, com_id):
         isLogged = self.isLogged()
         comment = Comment.get_by_id(int(com_id))
@@ -531,6 +594,11 @@ class EditCommentHandler(BlogHandler):
             self.render('message.html',
                         message="Comment edited successfully.",
                         isLogged=isLogged)
+
+
+# GoogleAppEngine app variable
+# This sets the attributes of individual HTML files that will be served
+# using Google App Engine.
 
 
 app = webapp2.WSGIApplication([('/', MainPage),

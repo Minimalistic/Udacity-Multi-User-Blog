@@ -9,7 +9,7 @@ body {
 }
 
 button {
-    background-color:white;
+    background:white;
     border: 1px grey;
     border-style: solid;
     padding:.7em;
@@ -18,15 +18,15 @@ button {
     -moz-border-radius: 3px 3px 3px 3px;
     -webkit-border-radius: 3px 3px 3px 3px;
     border: 1px solid #000000;
-    transition: all 0.1s ease 0s;
+    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
+    -moz-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
+    box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
 }
 
 button:hover {
-    background-color:grey;
     color:white;
-    border: 1px solid black;
+    background:grey;
 }
-
 
 #delete {
     color:#ff0000;
@@ -36,11 +36,15 @@ button:hover {
     color:white;
     background-color:red;
 }
+
 .main-project-bar {
     display:flex;
     padding-top:2%;
     padding-bottom:2%;
     background-color: white;
+    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
+    -moz-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
+    box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
 }
 
 .project-title {
@@ -64,8 +68,6 @@ button:hover {
     display:flex;
 }
 
-.toolbox_contents {
-}
 .toolbox a {
     margin-right:.25em;
     background-color:white;
@@ -81,7 +83,6 @@ button:hover {
 .comments {
     width:100%;
     flex-flow:column wrap;
-
 }
 
 .comments p{
@@ -92,28 +93,18 @@ button:hover {
     text-align:center;
 }
 
-.single-comment {
-    padding-top:0;
-    padding-left:1.5em;
-    padding-right:1.5em;
-    padding-bottom:1.5em;
-
-}
-.divider {
-    border: 1px grey;
-    border-style: solid none none none;
-}
 .panel-style { 
     width: inherit;
     margin:.5em;
     padding:.5em;
     background-color:white;
-
+    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
+    -moz-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
+    box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
 }
 
 .panel-style textarea {
     width:100%;
-
 }
 
 .login-area {
@@ -129,9 +120,6 @@ button:hover {
 
 .login-link:hover {
     text-decoration: underline;
-}
-
-.blog-header {
 }
 
 .panel-heading {
@@ -186,7 +174,6 @@ button:hover {
 .comment-footer {
     border:1px #b0b6b7;
     border-style: solid none none none;
-
 }
 
 .like-group {
@@ -221,12 +208,12 @@ button:hover {
 .add-comment: {
     text-align:right;
 }
-.add-comment button{
-}
+
 textarea {
     width:50%;
     height:5em;
 }
+
 .error {
     color:red;
 }
