@@ -63,6 +63,14 @@
 
       {% endif %}
 
+    {% if isLogged %}
+        <div class="add-comment">
+            <form action="/posts/{{ article.key().id() }}/addcomment">
+                <button>Write a comment</button>
+            </form>
+        </div>
+    {% endif %}
+    
     </div>
 
 <div class="comments">
@@ -81,9 +89,12 @@
                 <i>{{ commentpoll.content }}</i>
             </a>
 
+
         {% endfor %}
         </div>
     </div>
+
+
 
 </div>
 

@@ -6,7 +6,7 @@
         <form action="/">
             <button>Return to Blog</button>
         </form>
-        {% if isLogged == article.user %}
+        {% if isLogged == comment.user %}
 
         <form action="/comment/edit/{{ comment.key().id() }}">
             <button>Edit Comment</button>
