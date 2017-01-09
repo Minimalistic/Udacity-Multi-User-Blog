@@ -551,7 +551,7 @@ class AddCommentHandler(BlogHandler):
                 self.render("message.html",
                             message="Your comment has been posted!")
         else:
-            error = "There needs to be text input into the form."
+            error = "You need to write something."
             self.render("addcomment.html",
                         content=content,
                         error=error)

@@ -22,46 +22,55 @@
             <a method="get" href="/posts/{{ article.key().id() }}">
                 <h2>{{ article.title }}</h2>
             </a>
-      </div>
+        </div>
 
       <div class="panel-date">
           <h4>{{ article.created.strftime("%b %d, %Y") }} by {{ article.user }}</h4>
       </div>
+
     </div>
 
     <div class="panel-content">
-      <p>{{ article.content | safe }}</p>
+        <p>
+            {{ article.content | safe }}
+        </p>
     </div>
 
-<div class="panel-footer">
-    <div class="like-group">
-        <div class="post-likes">
+    <div class="panel-footer">
+        <div class="like-group">
+            <div class="post-likes">
         
-        {% if article.likes == 0 %}
-            This post has no likes.
-        {% else %}
-            This post has {{ article.likes }} likes.
-        {% endif %}
+                {% if article.likes == 0 %}
+                    This post has no likes.
+                {% else %}
+                    This post has {{ article.likes }} likes.
+                {% endif %}
 
+                {% if isLogged != article.user %}
+                    <form action="/like/{{ article.key().id() }}">
+                        <button>
+                            <div class="heart">
+                                &hearts;
+                            </div>
+                            like
+                        </button>
+                    </form>
 
-        {% if isLogged != article.user %}
+                {% else %}
 
-        <form action="/like/{{ article.key().id() }}">
-            <button>
-                <div class="heart">&hearts;</div>
-                like
-            </button>
-        </form>
-
-      {% else %}
-
-        <div class="disabled">
-            <form action="/like/{{ article.key().id() }}">
-                <button title="Can't like your own post." disabled>like</button>
-            </form>
+                    <div class="disabled">
+                        <form action="/like/{{ article.key().id() }}">
+                            <button title="Can't like your own post." disabled>
+                                <div class="heart">
+                                    &hearts;
+                                </div>
+                                like
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-
-      {% endif %}
 
     {% if isLogged %}
         <div class="add-comment">
@@ -70,7 +79,7 @@
             </form>
         </div>
     {% endif %}
-    
+
     </div>
 
 <div class="comments">
@@ -82,26 +91,14 @@
     <div class="panel-content">
 
         {% for commentpoll in comments %} 
-        <div class="single-comment">
+        <div class="comment-link">
             <h5>{{ commentpoll.user }} wrote:</h5>
-
             <a href="/comment/{{ article.key().id() }}/{{ commentpoll.key().id() }}">
                 <i>{{ commentpoll.content }}</i>
             </a>
-
-
         {% endfor %}
+
         </div>
     </div>
-
-
-
 </div>
-
-
-
-
-
-
 {% endblock %}
-

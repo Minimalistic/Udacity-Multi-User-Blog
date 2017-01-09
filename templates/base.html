@@ -11,24 +11,15 @@
 				Marsh Blog
 			</a>
 
-		<div class="login-area">
-
-					{% if isLogged %}
-						{{ isLogged }}
+			<div class="login-area">
+				{% if isLogged %}
+					{{ isLogged }}
 						<a href="/logout">(Logout)</a>
-
-					{% else %}
-					
-					<a href="/signup" href="/signup">
-						Sign Up
-					</a>
+				{% else %}
+					<a href="/signup" href="/signup">Sign Up</a>
 					|
-					<a href="/login">
-						Sign In
-					</a>
-
-					{% endif %}
-
+					<a href="/login">Sign In</a>
+				{% endif %}
 			</div>
 		</div>
 		
@@ -37,5 +28,4 @@
 			{% endblock %}
 		</div>
 	</body>
-
 </html>

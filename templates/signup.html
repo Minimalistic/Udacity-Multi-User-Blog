@@ -1,22 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="panel-style">
-<h2>Sign Up Form</h2>
-<form method="post">
 
-	<input type="text" name="username" value="{{user}}" placeholder="Username">
-	<label for="inputError1">{{user_error}}</label>
-	<br>
-	<input type="password" name="password" value="" placeholder="Password">
-	<label for="inputError1">{{pass_error}}</label>
-	<br>
-	<input type="password" name="verify" value="" placeholder="Verify Password">
-	<label for="inputError1">{{pass2_error}}</label>
-	<br>
-	<input type="text" name="email" value="{{email}}" placeholder="Email">
-	<label for="inputError1">{{email_error}}</label>
-	<br>
-	<button type="submit">Submit</button>
-</form>
+<div class="panel-style">
+	<h2>
+		Sign Up Form
+	</h2>
+	<form method="post">
+		<input type="text" name="username" value="{{user}}" placeholder="Username">
+		<span class="error">
+			{{user_error}}
+		</span>
+		<br>
+		<input type="password" name="password" value="" placeholder="Password">
+		<span class="error">
+			{{pass_error}}
+		</span>
+		<br>
+		<input type="password" name="verify" value="" placeholder="Verify Password">
+		<span class="error">
+			{{pass2_error}}
+		</span>
+		<br>
+		<input type="text" name="email" value="{{email}}" placeholder="Email">
+		<span class="erorr">
+			{{email_error}}
+		</span>
+		<br>
+		<button type="submit">Submit</button>
+	</form>
 </div>
 {% endblock %}

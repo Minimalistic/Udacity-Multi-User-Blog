@@ -1,7 +1,17 @@
 /* {border:1px solid red} */
+a {
+    color: #1d8773;    
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration:underline;
+}
+
 h4 {
     margin-bottom:.1em;
 }
+
 body {
     background-color:#e2ded9;
     max-width: 800px;
@@ -52,14 +62,8 @@ button:hover {
     display:flex;
     width:100%;
     align-self: center;
-    text-decoration: none;
-    color:black;
     padding-left:.5em;
     padding-right:.5em;
-}
-
-.project-title:hover {
-    text-decoration: underline;
 }
 
 .toolbox {
@@ -134,19 +138,11 @@ button:hover {
 }
 
 .panel-title h2 {
-    color:black;
     padding-left:.5em;
     margin-bottom:0;
     margin-top:0;
 }
 
-.panel-title a {
-    text-decoration: none;
-}
-.panel-title a:hover {
-    text-decoration: underline;
-
-}
 .panel-date {
     text-align:right;
     padding-right:.5em;
@@ -183,6 +179,7 @@ button:hover {
 .post-likes {
     color:grey;
     font-size:.8em;
+    padding-left:.3em;
 }
 
 .post-likes .heart {
@@ -210,8 +207,7 @@ button:hover {
 }
 
 textarea {
-    width:50%;
-    height:5em;
+    height: 7em;
 }
 
 .error {
