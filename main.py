@@ -289,7 +289,7 @@ class SignUpHandler(BlogHandler):
 class LoginHandler(BlogHandler):
     def get(self):
         if(self.isLogged()):
-            self.render("error.html",
+            self.render("message.html",
                         error="You are already logged in!")
         else:
             self.render("login.html")
@@ -328,7 +328,7 @@ class LogoutHandler(BlogHandler):
             self.response.headers.add_header("Set-Cookie", "username=; Path=/")
             self.render("message.html", message="Logged out successfully.")
         else:
-            self.render("error.html",
+            self.render("message.html",
                         error="Can't logout when not logged in.")
 
 
@@ -336,7 +336,8 @@ class WelcomeHandler(BlogHandler):
     def get(self):
         isLogged = self.isLogged()
         if isLogged:
-            self.render("welcome.html",
+            self.render("message.html.html",
+                        message="Logged in successfully.",
                         isLogged=isLogged)
         else:
             self.redirect("/signup")
@@ -449,7 +450,7 @@ class DeletePostHandler(BlogHandler):
                         message="Post deletion successful.",
                         isLogged=isLogged)
         else:
-            self.render("error.html",
+            self.render("message.html",
                         error="That's not permitted")
 
 
@@ -497,7 +498,7 @@ class LikePostHandler(BlogHandler):
                     article.put()
                     self.redirect("/posts/" + id)
                 else:
-                    self.render("error.html",
+                    self.render("message.html",
                                 error="You do not have acces to this action!")
             else:
                 self.redirect("/signup")
