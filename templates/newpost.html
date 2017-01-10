@@ -9,6 +9,12 @@
                     Home
                 </button>
             </form>
+            <form action="/" onsubmit="return confirm('Are you sure you want to cancel creating this new post? You will lose all text you have entered.');">
+                <button id="cancel" type="submit">
+                    Cancel
+                </button>
+            </form>
+
         </div>
     {% endif %}
 

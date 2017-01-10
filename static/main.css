@@ -44,6 +44,8 @@ button { /* The standard button theme for the app */
     -webkit-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
     -moz-box-shadow      : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
     box-shadow           : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    font-weight: bold;
+    font-size: .75em;
 
 }
 
@@ -66,9 +68,13 @@ button:hover {
 }
 
 #cancel {
-    color: #d19c00;
+    color: orange;
 }
 
+#cancel:hover {
+    color:white;
+    background-color: orange;
+}
 #delete { /* Standard delete id for important buttons */
     color: #ff0000;
 }
