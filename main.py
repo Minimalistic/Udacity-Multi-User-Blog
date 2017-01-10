@@ -180,7 +180,7 @@ class BlogHandler(webapp2.RequestHandler):
         val = make_secure_val(str(user))
         self.response.headers.add_header("Set-Cookie",
                                          r"username=%s; Path=/" % val)
-        self.redirect("/welcome")
+        self.render("/message.html", message="Logged in successfully.")
 
 
 class MainPage(BlogHandler):
