@@ -152,7 +152,7 @@ class BlogHandler(webapp2.RequestHandler):
     """
     BlogHandler class for functions for rendering templates.
     """
-    def isLogged(self):
+    def isLoggedIn(self):
         cookie = self.request.cookies.get('username')
         if cookie and check_secure_val(cookie):
             return cookie.split("|")[0]
@@ -196,16 +196,16 @@ class MainPage(BlogHandler):
                                "FROM Article "
                                "ORDER BY created "
                                "DESC LIMIT 10")
-        isLogged = self.isLogged()
+        isLoggedIn = self.isLoggedIn()
         self.render("blog.html",        # takes the articles db query and
-                    isLogged=isLogged,  # renders results
+                    isLoggedIn=isLoggedIn,  # renders results
                     articles=articles)
 
 
 # SignUpHandler shows a sign up form if user is not logged in
 class SignUpHandler(BlogHandler):
     def get(self):
-        if(self.isLogged()):
+        if(self.isLoggedIn()):
             self.redirect("/")
         else:
             self.render("signup.html",
@@ -253,42 +253,11 @@ class SignUpHandler(BlogHandler):
                 db.put(user_to_be_added)
                 self.login(user)
 
-        # Initialising / setting error messages
-        if user_ok:
-            user_error = ""
-        else:
-            user_error = user_err_string
-            user = ""
-
-        if pass_ok:
-            if pass2_ok:
-                pass2_error = ""
-            else:
-                pass2_error = pass2_err_string
-            pass_error = ""
-        else:
-            pass_error = pass_err_string
-            pass2_error = ""
-
-        if email_ok:
-            email_error = ""
-        else:
-            email_error = email_err_string
-            email = ""
-
-        self.render("signup.html",
-                    user_error=user_error,
-                    pass_error=pass_error,
-                    pass2_error=pass2_error,
-                    email_error=email_error,
-                    user=user,
-                    email=email)
-
 
 # Log in handler, shows a form if the user is not logged in
 class LoginHandler(BlogHandler):
     def get(self):
-        if(self.isLogged()):
+        if(self.isLoggedIn()):
             self.render("message.html",
                         error="You are already logged in!")
         else:
@@ -324,7 +293,7 @@ class LoginHandler(BlogHandler):
 
 class LogoutHandler(BlogHandler):
     def get(self):
-        if self.isLogged():
+        if self.isLoggedIn():
             self.response.headers.add_header("Set-Cookie", "username=; Path=/")
             self.render("message.html", message="Logged out successfully.")
         else:
@@ -334,11 +303,11 @@ class LogoutHandler(BlogHandler):
 
 class WelcomeHandler(BlogHandler):
     def get(self):
-        isLogged = self.isLogged()
-        if isLogged:
-            self.render("message.html.html",
+        isLoggedIn = self.isLoggedIn()
+        if isLoggedIn:
+            self.render("message.html",
                         message="Logged in successfully.",
-                        isLogged=isLogged)
+                        isLoggedIn=isLoggedIn)
         else:
             self.redirect("/signup")
 
@@ -349,7 +318,7 @@ class PostHandler(BlogHandler):
         comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" +
                                str(int(id)) + " ORDER BY created DESC")
         self.render("post.html",
-                    isLogged=self.isLogged(),
+                    isLoggedIn=self.isLoggedIn(),
                     article=article,
                     comments=comments)
 
@@ -363,10 +332,10 @@ class NewPostHandler(BlogHandler):
         Uses a 'get' request to render the newpost.html by caling render
         from 'BlogHandler'
         """
-        isLogged = self.isLogged()
-        if self.isLogged():
+        isLoggedIn = self.isLoggedIn()
+        if self.isLoggedIn():
             self.render("newpost.html",
-                        isLogged=isLogged)
+                        isLoggedIn=isLoggedIn)
         else:
             self.redirect("/signup")
 
@@ -376,7 +345,7 @@ class NewPostHandler(BlogHandler):
         """
         title = self.request.get('subject')
         content = self.request.get('content')
-        username = self.isLogged()
+        username = self.isLoggedIn()
 
         if title and content:
             if username:
@@ -390,10 +359,10 @@ class NewPostHandler(BlogHandler):
                 self.redirect("/signup")
 
         else:
-            isLogged = self.isLogged()
+            isLoggedIn = self.isLoggedIn()
             error = "Subject and content, please!"
             self.render("newpost.html",
-                        isLogged=isLogged,
+                        isLoggedIn=isLoggedIn,
                         title=title,
                         content=content,
                         error=error)
@@ -403,10 +372,10 @@ class EditPostHandler(BlogHandler):
     def get(self, id):
         title = self.request.get("title")
         article = Article.get_by_id(int(id))
-        isLogged = self.isLogged()
-        if article.user == isLogged:
+        isLoggedIn = self.isLoggedIn()
+        if article.user == isLoggedIn:
             self.render("editpost.html",
-                        isLogged=isLogged,
+                        isLoggedIn=isLoggedIn,
                         title=title,
                         article=article,
                         id=id)
@@ -416,7 +385,7 @@ class EditPostHandler(BlogHandler):
     def post(self, id):
         title = self.request.get("title")
         content = self.request.get('content')
-        isLogged = self.isLogged()
+        isLoggedIn = self.isLoggedIn()
         article = Article.get_by_id(int(id))
 
         if title and content:
@@ -428,7 +397,7 @@ class EditPostHandler(BlogHandler):
         else:  # In case user tries to submit an empty edit form
             error = "There must be a title and content."
             self.render("editpost.html",
-                        isLogged=isLogged,
+                        isLoggedIn=isLoggedIn,
                         article=article,
                         title=title,
                         content=content,
@@ -439,12 +408,12 @@ class EditPostHandler(BlogHandler):
 class DeletePostHandler(BlogHandler):
     def post(self, id):
         article = Article.get_by_id(int(id))
-        isLogged = self.isLogged()
-        if (isLogged and article.user == isLogged):
+        isLoggedIn = self.isLoggedIn()
+        if (isLoggedIn and article.user == isLoggedIn):
             article.delete()
             self.render('message.html',
                         message="Post deletion successful.",
-                        isLogged=isLogged)
+                        isLoggedIn=isLoggedIn)
         else:
             self.render("message.html",
                         error="That's not permitted")
@@ -452,7 +421,7 @@ class DeletePostHandler(BlogHandler):
 
 class LikePostHandler(BlogHandler):
     def get(self, id):
-        username = self.isLogged()
+        username = self.isLoggedIn()
         article = Article.get_by_id(int(id))
         if username:
             if not article.user == username:
@@ -479,7 +448,7 @@ class LikePostHandler(BlogHandler):
     def post(self, id):
         title = self.request.get("subject")
         content = self.request.get("content")
-        username = self.isLogged()
+        username = self.isLoggedIn()
         article = Article.get_by_id(int(id))
         if title and content:
             if username:
@@ -503,12 +472,12 @@ class LikePostHandler(BlogHandler):
 
 class CommentHandler(BlogHandler):
     def get(self, id, com_id):
-        isLogged = self.isLogged()
+        isLoggedIn = self.isLoggedIn()
         article = Article.get_by_id(int(id))
         comment = Comment.get_by_id(int(com_id))
 
         self.render("comment.html",
-                    isLogged=isLogged,
+                    isLoggedIn=isLoggedIn,
                     article=article,
                     comment=comment)
 
@@ -519,10 +488,10 @@ class AddCommentHandler(BlogHandler):
     """
     def get(self, id):
         article = Article.get_by_id(int(id))
-        isLogged = self.isLogged()
-        if self.isLogged():
+        isLoggedIn = self.isLoggedIn()
+        if self.isLoggedIn():
             self.render("addcomment.html",
-                        isLogged=isLogged,
+                        isLoggedIn=isLoggedIn,
                         article=article)
 
     def post(self, id):
@@ -530,9 +499,9 @@ class AddCommentHandler(BlogHandler):
         Handles the 'post' request that comes from 'addcomment.html'
         """
         content = self.request.get("content")
-        username = self.isLogged()
+        username = self.isLoggedIn()
         if content:
-            if self.isLogged():
+            if self.isLoggedIn():
                 comment = Comment(content=content,
                                   user=username,
                                   article_id=int(id))
@@ -540,10 +509,10 @@ class AddCommentHandler(BlogHandler):
                 self.render("message.html",
                             message="Your comment has been posted!")
         else:
-            isLogged = self.isLogged()
+            isLoggedIn = self.isLoggedIn()
             error = "You need to write something."
             self.render("addcomment.html",
-                        isLogged=isLogged,
+                        isLoggedIn=isLoggedIn,
                         content=content,
                         error=error)
 
@@ -553,13 +522,13 @@ class DeleteCommentHandler(BlogHandler):
     Handles the deletion of comments.
     """
     def post(self, com_id):
-        isLogged = self.isLogged()
+        isLoggedIn = self.isLoggedIn()
         comment = Comment.get_by_id(int(com_id))
-        if isLogged == comment.user:
+        if isLoggedIn == comment.user:
             comment.delete()
             self.render('message.html',
                         message="Comment deleted successfully.",
-                        isLogged=isLogged)
+                        isLoggedIn=isLoggedIn)
 
 
 class EditCommentHandler(BlogHandler):
@@ -567,22 +536,22 @@ class EditCommentHandler(BlogHandler):
     Handles the editing of existing comments.
     """
     def get(self, com_id):
-        isLogged = self.isLogged()
+        isLoggedIn = self.isLoggedIn()
         comment = Comment.get_by_id(int(com_id))
         self.render("editcomment.html",
-                    isLogged=isLogged,
+                    isLoggedIn=isLoggedIn,
                     comment=comment)
 
     def post(self, com_id):
-        isLogged = self.isLogged()
+        isLoggedIn = self.isLoggedIn()
         content = self.request.get("content")
         comment = Comment.get_by_id(int(com_id))
         comment.content = content
-        if isLogged == comment.user:
+        if isLoggedIn == comment.user:
             comment.put()
             self.render('message.html',
                         message="Comment edited successfully.",
-                        isLogged=isLogged)
+                        isLoggedIn=isLoggedIn)
 
 
 # GoogleAppEngine app variable

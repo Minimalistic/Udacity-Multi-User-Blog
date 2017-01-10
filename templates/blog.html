@@ -3,7 +3,7 @@
 {% block content %}
 <!-- nav bar -->
 
-	{% if isLogged %}
+	{% if isLoggedIn %}
 		<div class="toolbox">
 			<form action="/newpost">
 				<button>New post</button>
@@ -44,7 +44,7 @@
         					This post has {{ article.likes }} likes.
         				{% endif %}
 
-						{% if isLogged != article.user %}
+						{% if isLoggedIn != article.user %}
 					      	<form action="/like/{{ article.key().id() }}">
 	      	       				<button>
 	      	       					<div class="heart">
@@ -70,7 +70,7 @@
 		        	</div>
 				</div>
 
-			{% if isLogged %}
+			{% if isLoggedIn %}
     			<div class="add-comment">
     				<form action="/posts/{{ article.key().id() }}/addcomment">
     					<button>Write a comment</button>

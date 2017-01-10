@@ -8,7 +8,7 @@
         <button>Return to Blog</button>
     </form>
 
-    {% if isLogged == article.user %}
+    {% if isLoggedIn == article.user %}
         <form action="{{ "/editpost/" ~ article.key().id() }}">
             <button>Edit Post</button>
         </form>
@@ -51,7 +51,7 @@
                     This post has {{ article.likes }} likes.
                 {% endif %}
 
-                {% if isLogged != article.user %}
+                {% if isLoggedIn != article.user %}
                     <form action="/like/{{ article.key().id() }}">
                         <button>
                             <div class="heart">
@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        {% if isLogged %}
+        {% if isLoggedIn %}
             <div class="add-comment">
                 <form action="/posts/{{ article.key().id() }}/addcomment">
                     <button>
