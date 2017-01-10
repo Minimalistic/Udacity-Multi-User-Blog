@@ -8,7 +8,7 @@
                 Return to Blog
             </button>
         </form>
-        {% if isLogged == comment.user %}
+        {% if isLoggedIn == comment.user %}
 
         <form action="/comment/edit/{{ comment.key().id() }}">
             <button>
