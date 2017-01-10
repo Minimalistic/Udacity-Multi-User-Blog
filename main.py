@@ -347,25 +347,25 @@ class NewPostHandler(BlogHandler):
         content = self.request.get('content')
         username = self.isLoggedIn()
 
-        if title and content:
-            if username:
+        if username:
+            if title and content:
                 a = Article(title=title,
                             content=content,
                             user=username)
                 a.put()
                 # Once article has been stored, redirects user to the post.
                 self.redirect("/posts/" + str(a.key().id()))
-            else:
-                self.redirect("/login")
 
+            else:
+                isLoggedIn = self.isLoggedIn()
+                error = "Subject and content, please!"
+                self.render("newpost.html",
+                            isLoggedIn=isLoggedIn,
+                            title=title,
+                            content=content,
+                            error=error)
         else:
-            isLoggedIn = self.isLoggedIn()
-            error = "Subject and content, please!"
-            self.render("newpost.html",
-                        isLoggedIn=isLoggedIn,
-                        title=title,
-                        content=content,
-                        error=error)
+            self.redirect("/login")
 
 
 class EditPostHandler(BlogHandler):
