@@ -500,6 +500,8 @@ class AddCommentHandler(BlogHandler):
             self.render("addcomment.html",
                         isLoggedIn=isLoggedIn,
                         article=article)
+        else:
+            self.redirect("/login")
 
     def post(self, id):
         """
@@ -507,21 +509,23 @@ class AddCommentHandler(BlogHandler):
         """
         content = self.request.get("content")
         username = self.isLoggedIn()
-        if content:
-            if self.isLoggedIn():
+        if self.isLoggedIn():
+            if content:
                 comment = Comment(content=content,
                                   user=username,
                                   article_id=int(id))
                 comment.put()
                 self.render("message.html",
                             message="Your comment has been posted!")
+            else:
+                isLoggedIn = self.isLoggedIn()
+                error = "You need to write something."
+                self.render("addcomment.html",
+                            isLoggedIn=isLoggedIn,
+                            content=content,
+                            error=error)
         else:
-            isLoggedIn = self.isLoggedIn()
-            error = "You need to write something."
-            self.render("addcomment.html",
-                        isLoggedIn=isLoggedIn,
-                        content=content,
-                        error=error)
+            self.redirect("/login")
 
 
 class DeleteCommentHandler(BlogHandler):
