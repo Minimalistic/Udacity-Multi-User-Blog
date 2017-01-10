@@ -4,9 +4,15 @@
 		<div class="toolbox">
  			<form action="/">
       			<button>
-      				Return to Blog
+      				Home
       			</button>
     		</form>	
+
+			<form action="/posts/{{ article.key().id() }}" method="get" onsubmit="return confirm('Are you sure you want to cancel writing this new post? You will lose all changes.');">
+				<button id="cancel" type="submit">
+					Cancel
+				</button>
+			</form>
 			
 			<form action="/delete/{{ article.key().id() }}" method="post" onsubmit="return confirm('Are you sure you want to delete this post?');">
 				<button id="delete" type="submit">

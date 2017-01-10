@@ -297,8 +297,7 @@ class LogoutHandler(BlogHandler):
             self.response.headers.add_header("Set-Cookie", "username=; Path=/")
             self.render("message.html", message="Logged out successfully.")
         else:
-            self.render("message.html",
-                        error="Can't logout when not logged in.")
+            self.redirect("/login")
 
 
 class WelcomeHandler(BlogHandler):
@@ -380,7 +379,7 @@ class EditPostHandler(BlogHandler):
                         article=article,
                         id=id)
         else:
-            self.write("You do not have authorization to edit this post.")
+            self.redirect("/login")
 
     def post(self, id):
         title = self.request.get("title")

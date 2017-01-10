@@ -65,6 +65,10 @@ button:hover {
     color: red;
 }
 
+#cancel {
+    color: #d19c00;
+}
+
 #delete { /* Standard delete id for important buttons */
     color: #ff0000;
 }
