@@ -15,7 +15,7 @@
 		<div class="panel-style">
 			<div class="panel-heading">
 				<div class="panel-title">
-					<a href={{ "/posts/" ~ article.key().id() }}>
+					<a href="/posts/{{ article.key().id() }}">
 						<h2>
 							{{ article.title }}
 						</h2>
@@ -43,7 +43,7 @@
         				{% else %}
         					This post has {{ article.likes }} likes.
         				{% endif %}
-        				
+
 						{% if isLogged != article.user %}
 					      	<form action="/like/{{ article.key().id() }}">
 	      	       				<button>

@@ -1,30 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {%if isLogged %}
-      <div class="toolbox">
-        <form action="/">
-          <button>Return to Blog</button>
-        </form>
-      </div>
+
+    {% if isLogged %}
+        <div class="toolbox">
+            <form action="/">
+                <button>
+                    Return to Blog
+                </button>
+            </form>
+        </div>
     {% endif %}
-<div class="panel-style">
-  <h2>New Post</h2>
 
-    <form method="post">
-      <label>
-        <div>Title</div>
-        <input type="text" name="subject" value="{{title}}" placeholder="Enter a title...">
-      </label>
+    <div class="panel-style">
+        <h2>
+            New Post
+        </h2>
 
-      <label>
-        <div>Content</div>
-        <textarea name="content" placeholder="Write something...">{{content}}</textarea>
-      </label>
+        <form method="post">
+            <label>
+                <input type="text" name="subject" value="{{title}}" placeholder="Enter a title...">
+            </label>
 
-      <div class="error">{{error}}</div>
+            <label>
+                <textarea name="content" placeholder="Write something...">{{content}}</textarea>
+            </label>
 
-      <button type="submit">Submit</button>
-    </form>
-</div>
+            <div class="error">
+                {{error}}
+            </div>
+
+            <button type="submit">
+                Submit
+            </button>
+        </form>
+    </div>
+
 {% endblock %}

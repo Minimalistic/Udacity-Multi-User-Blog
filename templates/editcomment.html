@@ -2,18 +2,20 @@
 
 {% block content %}
 
-<div class="panel-style">
-	<h2>Edit Comment</h2>
-	<form method="post">
-		<label>
-			<div>Comment Content</div>
-			<textarea name="content">{{ comment.content }}</textarea>
-		</label>
+	<div class="panel-style">
+		<h2>Edit Comment</h2>
+		<form method="post">
+			<label>
+				Comment Content
+				<textarea name="content">{{ comment.content }}</textarea>
+			</label>
 
-		<div class="error">{{ error }}</div>
+			<div class="error">
+				{{ error }}
+			</div>
 
-		<input type="submit">
-	</form>
+			<input type="submit">
+		</form>
 
 	</div>
 {% endblock %}

@@ -1,18 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="panel-style">
-	<h2>New Comment</h2>
-	  <div class="addcomment">
-	      <div class="text_form">
-	        <form method="post">
-              <textarea name="content"></textarea>
-              <br>
-              <button type="submit">Submit</button>
-              <span class="error">{{error}}</span>
-            </form>
-        </div>
-    </div>
+
+	<h2>
+		New Comment
+	</h2>
+
+	<div class="addcomment">
+		<div class="text_form">
+			<form method="post">
+
+				<textarea name="content">
+				</textarea>
+
+				<br>
+
+				<button type="submit">
+					Submit
+				</button>
+
+				<span class="error">
+					{{error}}
+				</span>
+
+			</form>
+		</div>
+	</div>
 </div>
 
   

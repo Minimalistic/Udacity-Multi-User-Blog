@@ -2,7 +2,6 @@ import os
 import re
 import random
 import webapp2
-import time
 import jinja2
 import hashlib
 import string
@@ -354,7 +353,7 @@ class PostHandler(BlogHandler):
                     comments=comments)
 
 
-class NewPost(BlogHandler):
+class NewPostHandler(BlogHandler):
     """
     This handler is for posting new blog articles to the blog.
     """
@@ -399,7 +398,7 @@ class NewPost(BlogHandler):
                         error=error)
 
 
-class EditPost(BlogHandler):
+class EditPostHandler(BlogHandler):
     def get(self, id):
         title = self.request.get("title")
         article = Article.get_by_id(int(id))
@@ -440,13 +439,12 @@ class EditPost(BlogHandler):
                         error=error)
 
 
-class DeletePost(BlogHandler):
+class DeletePostHandler(BlogHandler):
     def post(self, id):
         article = Article.get_by_id(int(id))
         isLogged = self.isLogged()
         if (isLogged and article.user == isLogged):
             article.delete()
-            time.sleep(.5)
             self.render('message.html',
                         message="Post deletion successful.",
                         isLogged=isLogged)
@@ -455,7 +453,7 @@ class DeletePost(BlogHandler):
                         error="That's not permitted")
 
 
-class Success(BlogHandler):
+class SuccessHandler(BlogHandler):
     def get(self):
         self.render('message.html', message="Success!")
 
@@ -472,7 +470,6 @@ class LikePostHandler(BlogHandler):
                     like[0].delete()
                     article.likes = article.likes - 1
                     article.put()
-                    time.sleep(.1)
                     self.redirect("/posts/" + id)
                 else:
                     like = Like(article_id=int(id),
@@ -480,7 +477,6 @@ class LikePostHandler(BlogHandler):
                     like.put()
                     article.likes = article.likes + 1
                     article.put()
-                    time.sleep(.1)
                     self.redirect("/posts/" + id)
             else:
                 self.render("message.html",
@@ -569,7 +565,6 @@ class DeleteCommentHandler(BlogHandler):
         comment = Comment.get_by_id(int(com_id))
         if isLogged == comment.user:
             comment.delete()
-            time.sleep(.1)
             self.render('message.html',
                         message="Comment deleted successfully.",
                         isLogged=isLogged)
@@ -593,7 +588,6 @@ class EditCommentHandler(BlogHandler):
         comment.content = content
         if isLogged == comment.user:
             comment.put()
-            time.sleep(.1)
             self.render('message.html',
                         message="Comment edited successfully.",
                         isLogged=isLogged)
@@ -610,11 +604,11 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ("/logout", LogoutHandler),
                                ("/welcome", WelcomeHandler),
                                ('/posts/([0-9]+)', PostHandler),
-                               ('/newpost', NewPost),
-                               ('/editpost/([0-9]+)', EditPost),
-                               ('/delete/([0-9]+)', DeletePost),
+                               ('/newpost', NewPostHandler),
+                               ('/editpost/([0-9]+)', EditPostHandler),
+                               ('/delete/([0-9]+)', DeletePostHandler),
                                ('/like/([0-9]+)', LikePostHandler),
-                               ('/success', Success),
+                               ('/success', SuccessHandler),
                                ('/comment/([0-9]+)/([0-9]+)', CommentHandler),
                                ('/posts/([0-9]+)/addcomment',
                                 AddCommentHandler),

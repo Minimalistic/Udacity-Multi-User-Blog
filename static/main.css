@@ -1,4 +1,5 @@
 
+/* START Base HTML Styling */
 body {
     background-color: #e2ded9;
     max-width       : 800px;
@@ -16,6 +17,13 @@ a:hover {
 
 h4 { /* Snugging up the gap below 'Comments' text */
     margin-bottom: .1em;
+    color:grey;
+}
+
+h5 { /* h5 only used to render comment text */
+    font-size:.9em;
+    margin:0;
+    padding-top:1em;
 }
 
 textarea { /* Ensuring text areas are sufficiently visible/rendered */
@@ -32,15 +40,15 @@ button { /* The standard button theme for the app */
     border-radius        : 3px 3px 3px 3px;
     -moz-border-radius   : 3px 3px 3px 3px;
     -webkit-border-radius: 3px 3px 3px 3px;
-    border               : 1px solid #000000;
-    -webkit-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73);
-    -moz-box-shadow      : 0px 1px 3px -1px rgba(0,0,0,0.73);
-    box-shadow           : 0px 1px 3px -1px rgba(0,0,0,0.73);
+    border               : 1px solid #1d8773; /* Same border color as 'a' links */
+    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    -moz-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    box-shadow        : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
 }
 
 button:hover {
     color     : white;
-    background: grey;
+    background: #278d91;
 }
 
 .disabled button{ /* Styles a div to be disabled if assigned this class */
@@ -64,14 +72,18 @@ button:hover {
     background-color: red;
 }
 
+/* END Base HTML Styling */
+
+/* START Project/App Header Bar Styling */
+
 .main-project-bar {
     display           : flex;
     padding-top       : 2%;
     padding-bottom    : 2%;
     background-color  : white;
-    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-    -moz-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73);
-    box-shadow        : 0px 1px 3px -1px rgba(0,0,0,0.73);
+    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    -moz-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    box-shadow        : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
 }
 
 .project-title {
@@ -84,8 +96,7 @@ button:hover {
 }
 
 .toolbox { /* A toolbox that contains various buttons for the blog such as "Edit Post" etc. */
-    margin-top: .5em;
-    padding   : .5em;
+    padding   : 0em;
     display   : flex;
 }
 
@@ -104,13 +115,16 @@ button:hover {
 /* START General Panel Styling Theme */
 
 .panel-style { /* The standard panel styling that is employed throughout the app and is the wrapper for most of everything thats displayed. */
-    width             : inherit;
-    margin            : .5em;
-    padding           : .5em;
-    background-color  : white;
-    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73);
-    -moz-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73);
-    box-shadow        : 0px 1px 3px -1px rgba(0,0,0,0.73);
+    width                : inherit;
+    margin               : .5em;
+    padding              : .5em;
+    background-color     : white;
+    border-radius        : 3px 3px 3px 3px;
+    -moz-border-radius   : 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    -webkit-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    -moz-box-shadow      : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    box-shadow           : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
 }
 
 .panel-heading {
@@ -158,12 +172,6 @@ button:hover {
 /* END General Panel Styling Theme */
 
 
-.login-area {
-    padding   : 1em;
-    text-align: right;
-    width     : 30%;
-}
-
 /* START COMMENTS Styling */
 
 .add-comment: {
@@ -190,6 +198,8 @@ button:hover {
 }
 /* END COMMENTS Styling */
 
+/* START LIKES Button/Text Styling */
+
 .like-group {
     justify-content: space-between;
     width          : 100%;
@@ -210,10 +220,8 @@ button:hover {
     display    : flex;
 }
 
-
-
 .disabled .heart {
     opacity: .15;
 }
 
-
+/* END LIKES Button/Text Styling */
