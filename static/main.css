@@ -1,29 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,400');
 
 /* START Base HTML Styling */
 body {
     background-color: #e2ded9;
     max-width       : 800px;
     margin          : 0 auto;
+    font-family     : 'Raleway', sans-serif;
 }
 
 a { /* Unified link styling */
-    color: #1d8773;    
+    color          : #1d8773;    
     text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+        text-decoration: underline;
 }
 
 h4 { /* Snugging up the gap below 'Comments' text */
     margin-bottom: .1em;
-    color:grey;
+    color        : grey;
 }
 
 h5 { /* h5 only used to render comment text */
-    font-size:.9em;
-    margin:0;
-    padding-top:1em;
+    font-size  : .9em;
+    margin     : 0;
+    padding-top: 1em;
 }
 
 textarea { /* Ensuring text areas are sufficiently visible/rendered */
@@ -33,17 +35,16 @@ textarea { /* Ensuring text areas are sufficiently visible/rendered */
 
 button { /* The standard button theme for the app */
     background           : white;
-    border               : 1px grey;
-    border-style         : solid;
     padding              : .7em;
     margin               : .5em;
-    border-radius        : 3px 3px 3px 3px;
-    -moz-border-radius   : 3px 3px 3px 3px;
-    -webkit-border-radius: 3px 3px 3px 3px;
+    border-radius        : 10px 10px 10px 10px;
+    -moz-border-radius   : 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
     border               : 1px solid #1d8773; /* Same border color as 'a' links */
-    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
-    -moz-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
-    box-shadow        : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    -webkit-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    -moz-box-shadow      : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    box-shadow           : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+
 }
 
 button:hover {
@@ -84,15 +85,23 @@ button:hover {
     -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
     -moz-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
     box-shadow        : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    font-weight       : 100;
+    font-size         : 1.5em;
 }
 
 .project-title {
-    font-size    : 2.5em;
-    display      : flex;
-    width        : 100%;
+    font-size    : 4vw;
+    width        : 70%;
     align-self   : center;
     padding-left : .5em;
     padding-right: .5em;
+}
+
+.login-area {
+    font-size    : .65em;
+    text-align   : right;
+    padding-right: 1em;
+    width        : 50%;
 }
 
 .toolbox { /* A toolbox that contains various buttons for the blog such as "Edit Post" etc. */
@@ -140,7 +149,6 @@ button:hover {
 }
 
 .panel-title h2 {
-    padding-left : .5em;
     margin-bottom: 0;
     margin-top   : 0;
 }
@@ -149,6 +157,7 @@ button:hover {
     text-align   : right;
     padding-right: .5em;
     width        : 30%;
+    font-size    : .75em;
 }
 
 .panel-date h4{
@@ -196,6 +205,7 @@ button:hover {
     border      : 1px #b0b6b7;
     border-style: solid none none none;
 }
+
 /* END COMMENTS Styling */
 
 /* START LIKES Button/Text Styling */
@@ -207,7 +217,6 @@ button:hover {
 .post-likes {
     color       : grey;
     font-size   : .8em;
-    padding-left: .3em;
 }
 
 .post-likes .heart {
@@ -216,8 +225,7 @@ button:hover {
 }
 
 .post-likes button {
-    font-weight: bold;
-    display    : flex;
+    display: flex;
 }
 
 .disabled .heart {

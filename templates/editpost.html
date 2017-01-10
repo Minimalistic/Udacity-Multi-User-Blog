@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 	{% block content %}
 		<div class="toolbox">
@@ -17,15 +18,15 @@
 		<div class="panel-style">
 			<h2>Edit Post</h2>
 				<form method="post">
-						<input type="text" name="title" value="{{ article.title }}">
-						<br>
-						<textarea name="content">{{ article.content }}</textarea>
+					<input type="text" name="title" value="{{ article.title }}">
+					<br>
+					<textarea name="content">{{ article.content }}</textarea>
 
 					<div class="error">
 						{{ error }}
 					</div>
 
-					<input type="submit">
+					<button type="submit">Submit</button>
 				</form>
 			<br>
 			<br>

@@ -423,7 +423,7 @@ class EditPostHandler(BlogHandler):
             article.title = title
             article.content = content
             article.put()
-            self.redirect("message.html", message="Post edited successfully.")
+            self.render("message.html", message="Post edited successfully.")
 
         else:  # In case user tries to submit an empty edit form
             error = "There must be a title and content."
@@ -448,11 +448,6 @@ class DeletePostHandler(BlogHandler):
         else:
             self.render("message.html",
                         error="That's not permitted")
-
-
-class SuccessHandler(BlogHandler):
-    def get(self):
-        self.render('message.html', message="Success!")
 
 
 class LikePostHandler(BlogHandler):
@@ -605,7 +600,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/editpost/([0-9]+)', EditPostHandler),
                                ('/delete/([0-9]+)', DeletePostHandler),
                                ('/like/([0-9]+)', LikePostHandler),
-                               ('/success', SuccessHandler),
                                ('/comment/([0-9]+)/([0-9]+)', CommentHandler),
                                ('/posts/([0-9]+)/addcomment',
                                 AddCommentHandler),
