@@ -17,17 +17,9 @@
 		<div class="panel-style">
 			<h2>Edit Post</h2>
 				<form method="post">
-					<label>
-						Title
 						<input type="text" name="title" value="{{ article.title }}">
-					</label>
-
-					<label>
-						Content
-						<textarea name="content">
-							{{ article.content }}
-						</textarea>
-					</label>
+						<br>
+						<textarea name="content">{{ article.content }}</textarea>
 
 					<div class="error">
 						{{ error }}

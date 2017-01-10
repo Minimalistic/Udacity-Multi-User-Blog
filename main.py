@@ -414,10 +414,6 @@ class EditPostHandler(BlogHandler):
             self.write("You do not have authorization to edit this post.")
 
     def post(self, id):
-        key = db.Key.from_path('Article',
-                               int(id),
-                               parent=blog_key())
-
         title = self.request.get("title")
         content = self.request.get('content')
         isLogged = self.isLogged()
@@ -427,7 +423,7 @@ class EditPostHandler(BlogHandler):
             article.title = title
             article.content = content
             article.put()
-            self.redirect("/posts/" + id)
+            self.redirect("message.html", message="Post edited successfully.")
 
         else:  # In case user tries to submit an empty edit form
             error = "There must be a title and content."
