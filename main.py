@@ -309,7 +309,7 @@ class WelcomeHandler(BlogHandler):
                         message="Logged in successfully.",
                         isLoggedIn=isLoggedIn)
         else:
-            self.redirect("/signup")
+            self.redirect("/login")
 
 
 class PostHandler(BlogHandler):
@@ -337,7 +337,7 @@ class NewPostHandler(BlogHandler):
             self.render("newpost.html",
                         isLoggedIn=isLoggedIn)
         else:
-            self.redirect("/signup")
+            self.redirect("/login")
 
     def post(self):
         """
@@ -356,7 +356,7 @@ class NewPostHandler(BlogHandler):
                 # Once article has been stored, redirects user to the post.
                 self.redirect("/posts/" + str(a.key().id()))
             else:
-                self.redirect("/signup")
+                self.redirect("/login")
 
         else:
             isLoggedIn = self.isLoggedIn()
@@ -388,21 +388,25 @@ class EditPostHandler(BlogHandler):
         isLoggedIn = self.isLoggedIn()
         article = Article.get_by_id(int(id))
 
-        if title and content:
-            article.title = title
-            article.content = content
-            article.put()
-            self.render("message.html", message="Post edited successfully.")
+        if article.user == isLoggedIn:
+            if title and content:
+                article.title = title
+                article.content = content
+                article.put()
+                self.render("message.html",
+                            message="Post edited successfully.")
 
-        else:  # In case user tries to submit an empty edit form
-            error = "There must be a title and content."
-            self.render("editpost.html",
-                        isLoggedIn=isLoggedIn,
-                        article=article,
-                        title=title,
-                        content=content,
-                        id=id,
-                        error=error)
+            else:  # In case user tries to submit an empty edit form
+                error = "There must be a title and content."
+                self.render("editpost.html",
+                            isLoggedIn=isLoggedIn,
+                            article=article,
+                            title=title,
+                            content=content,
+                            id=id,
+                            error=error)
+        else:
+            self.redirect("/login")
 
 
 class DeletePostHandler(BlogHandler):
@@ -443,7 +447,7 @@ class LikePostHandler(BlogHandler):
                 self.render("message.html",
                             error="Can't like your own posts.")
         else:
-            self.redirect("/signup")
+            self.redirect("/login")
 
     def post(self, id):
         title = self.request.get("subject")
@@ -461,7 +465,7 @@ class LikePostHandler(BlogHandler):
                     self.render("message.html",
                                 error="You do not have acces to this action!")
             else:
-                self.redirect("/signup")
+                self.redirect("/login")
         else:
             error = "We need both a title and some content!"
             self.render("editpost.html",
@@ -529,6 +533,8 @@ class DeleteCommentHandler(BlogHandler):
             self.render('message.html',
                         message="Comment deleted successfully.",
                         isLoggedIn=isLoggedIn)
+        else:
+            self.redirect("/login")
 
 
 class EditCommentHandler(BlogHandler):
@@ -552,6 +558,8 @@ class EditCommentHandler(BlogHandler):
             self.render('message.html',
                         message="Comment edited successfully.",
                         isLoggedIn=isLoggedIn)
+        else:
+            self.redirect("/login")
 
 
 # GoogleAppEngine app variable
