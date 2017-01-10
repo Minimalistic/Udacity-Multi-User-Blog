@@ -2,7 +2,7 @@
 
 /* START Base HTML Styling */
 body {
-    background-color: #e2ded9;
+    background-color: #e8e3dc;
     max-width       : 800px;
     margin          : 0 auto;
     font-family     : 'Raleway', sans-serif;
@@ -50,6 +50,7 @@ button { /* The standard button theme for the app */
 button:hover {
     color     : white;
     background: #278d91;
+    cursor: pointer;
 }
 
 .disabled button{ /* Styles a div to be disabled if assigned this class */
@@ -78,15 +79,15 @@ button:hover {
 /* START Project/App Header Bar Styling */
 
 .main-project-bar {
-    display           : flex;
-    padding-top       : 2%;
-    padding-bottom    : 2%;
-    background-color  : white;
-    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
-    -moz-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
-    box-shadow        : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
-    font-weight       : 100;
-    font-size         : 1.5em;
+    display              : flex;
+    padding-top          : 2%;
+    padding-bottom       : 2%;
+    background-color     : white;
+    -webkit-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    -moz-box-shadow      : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    box-shadow           : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
+    font-weight          : 100;
+    font-size            : 1.5em;
 }
 
 .project-title {
