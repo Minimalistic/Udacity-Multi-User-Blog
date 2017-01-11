@@ -21,9 +21,9 @@ This application requires Google App Engine to run, Follow the instructions in t
 ## III.	Running Multi User Blog
 
 To use Multi User Blog, open a terminal and navigate to the folder that contains the Multi User Blog. Once in the appropriate folder, type:
-```dev_appserver.py .
+	dev_appserver.py .
 Then press enter. After a few moments the app will be running locally on your machine.
 In a web browser, input:
-```localhost:8080
+	localhost:8080
 Then press enter. The app Multi User Blog should now be visible and running within the browser.
 
