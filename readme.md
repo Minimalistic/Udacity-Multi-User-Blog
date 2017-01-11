@@ -1,14 +1,29 @@
-# Udacity Full Stack Web Developer Nanodegree #
+# Udacity Full Stack Web Developer Nanodegree
 
-## Project: Multi User Blog ##
+## Project: Multi User Blog
 
 This is a multi user blog website that was created for a Udacity project.
 
-## How To Run This Project ##
+## Contents
 
-This site uses Google App Engine to serve the content of the site as well as all the content on it.
-To install Google App Engine SDK, Go to: <https://cloud.google.com/appengine/downloads#null>
+I.		Live Site
+II.		Installation
+III.	Running Multi User Blog
 
-Once signed up for a Google App Engine account, follow the instructions at: <https://sites.google.com/site/gdevelopercodelabs/app-engine/creating-your-app-engine-account>
+## I.	Live Site
 
-Visit <https://udacity-marsh-basicblog.appspot.com> to go to the live version of this blog.
+To view the Multi User Blog live on the web, Visit <https://udacity-marsh-basicblog.appspot.com>
+
+## II.	Installation
+
+This application requires Google App Engine to run, Follow the instructions in this link to install Google App Engine: [https://cloud.google.com/appengine/docs/python/download][https://cloud.google.com/appengine/docs/python/download]
+
+## III.	Running Multi User Blog
+
+To use Multi User Blog, open a terminal and navigate to the folder that contains the Multi User Blog. Once in the appropriate folder, type:
+```dev_appserver.py .
+Then press enter. After a few moments the app will be running locally on your machine.
+In a web browser, input:
+```localhost:8080
+Then press enter. The app Multi User Blog should now be visible and running within the browser.
+
