@@ -6,9 +6,9 @@ This is a multi user blog website that was created for a Udacity project.
 
 ## Contents
 
-I.		Live Site
-II.		Installation
-III.	Running Multi User Blog
+1.	Live Site
+2.	Installation
+3.	Running Multi User Blog
 
 ## I.	Live Site
 
