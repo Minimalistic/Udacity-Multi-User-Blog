@@ -29,6 +29,7 @@ pass2_err_string = "Passwords do not match."
 email_err_string = "Not a valid email."
 
 
+
 def blog_key(name='default'):
     """
     This is the key that defines a single blog and facilitiate multiple
@@ -294,8 +295,10 @@ class LoginHandler(BlogHandler):
 class LogoutHandler(BlogHandler):
     def get(self):
         if self.isLoggedIn():
-            self.response.headers.add_header("Set-Cookie", "username=; Path=/")
-            self.render("message.html", message="Logged out successfully.")
+            self.response.headers.add_header("Set-Cookie",
+                                             "username=; Path=/")
+            self.render("message.html",
+                        message="Logged out successfully.")
         else:
             self.redirect("/login")
 
@@ -372,14 +375,17 @@ class EditPostHandler(BlogHandler):
         title = self.request.get("title")
         article = Article.get_by_id(int(id))
         isLoggedIn = self.isLoggedIn()
-        if article.user == isLoggedIn:
-            self.render("editpost.html",
-                        isLoggedIn=isLoggedIn,
-                        title=title,
-                        article=article,
-                        id=id)
+        if article is None:
+            self.redirect('/')
         else:
-            self.redirect("/login")
+            if article.user == isLoggedIn:
+                self.render("editpost.html",
+                            isLoggedIn=isLoggedIn,
+                            title=title,
+                            article=article,
+                            id=id)
+            else:
+                self.redirect("/login")
 
     def post(self, id):
         title = self.request.get("title")
@@ -387,25 +393,28 @@ class EditPostHandler(BlogHandler):
         isLoggedIn = self.isLoggedIn()
         article = Article.get_by_id(int(id))
 
-        if article.user == isLoggedIn:
-            if title and content:
-                article.title = title
-                article.content = content
-                article.put()
-                self.render("message.html",
-                            message="Post edited successfully.")
-
-            else:  # In case user tries to submit an empty edit form
-                error = "There must be a title and content."
-                self.render("editpost.html",
-                            isLoggedIn=isLoggedIn,
-                            article=article,
-                            title=title,
-                            content=content,
-                            id=id,
-                            error=error)
+        if article is None:
+            self.redirect('/')
         else:
-            self.redirect("/login")
+            if article.user == isLoggedIn:
+                if title and content:
+                    article.title = title
+                    article.content = content
+                    article.put()
+                    self.render("message.html",
+                                message="Post edited successfully.")
+
+                else:  # In case user tries to submit an empty edit form
+                    error = "There must be a title and content."
+                    self.render("editpost.html",
+                                isLoggedIn=isLoggedIn,
+                                article=article,
+                                title=title,
+                                content=content,
+                                id=id,
+                                error=error)
+            else:
+                self.redirect("/login")
 
 
 class DeletePostHandler(BlogHandler):
