@@ -3,6 +3,9 @@ from blog_handler import BlogHandler
 
 
 class PostHandler(BlogHandler):
+    """
+    Handler that manages existing posts.
+    """
     def get(self, id):
         article = Article.get_by_id(int(id))
         comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" +

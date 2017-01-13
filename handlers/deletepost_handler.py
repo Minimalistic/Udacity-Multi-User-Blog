@@ -3,6 +3,9 @@ from blog_handler import BlogHandler
 
 
 class DeletePostHandler(BlogHandler):
+    """
+    Handler that deletes  posts.
+    """
     def post(self, id):
         article = Article.get_by_id(int(id))
         isLoggedIn = self.isLoggedIn()

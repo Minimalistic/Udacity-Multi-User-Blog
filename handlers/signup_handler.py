@@ -4,6 +4,9 @@ from blog_handler import BlogHandler
 
 # SignUpHandler shows a sign up form if user is not logged in
 class SignUpHandler(BlogHandler):
+    """
+    Handler that manages users signing up.
+    """
     def get(self):
         if(self.isLoggedIn()):
             self.redirect("/")

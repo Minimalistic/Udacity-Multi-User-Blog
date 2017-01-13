@@ -3,6 +3,9 @@ from blog_handler import BlogHandler
 
 
 class EditPostHandler(BlogHandler):
+    """
+    Handler that edits posts.
+    """
     def get(self, id):
         title = self.request.get("title")
         article = Article.get_by_id(int(id))

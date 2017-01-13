@@ -4,17 +4,21 @@ from file_helpers import *
 
 from handlers.blog_handler import BlogHandler
 from handlers.mainpage_handler import MainPage
-from handlers.post_handler import PostHandler
-from handlers.comment_handler import CommentHandler
-from handlers.editcomment_handler import EditCommentHandler
+
 from handlers.signup_handler import SignUpHandler
-from handlers.deletecomment_handler import DeleteCommentHandler
-from handlers.newpost_handler import NewPostHandler
-from handlers.addcomment_handler import AddCommentHandler
 from handlers.login_handler import LoginHandler
 from handlers.logout_handler import LogoutHandler
+
+from handlers.post_handler import PostHandler
+from handlers.newpost_handler import NewPostHandler
 from handlers.editpost_handler import EditPostHandler
 from handlers.deletepost_handler import DeletePostHandler
+
+from handlers.comment_handler import CommentHandler
+from handlers.addcomment_handler import AddCommentHandler
+from handlers.editcomment_handler import EditCommentHandler
+from handlers.deletecomment_handler import DeleteCommentHandler
+
 from handlers.likepost_handler import LikePostHandler
 
 from models import *

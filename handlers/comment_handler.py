@@ -1,7 +1,11 @@
 from file_helpers import *
 from blog_handler import BlogHandler
 
+
 class CommentHandler(BlogHandler):
+    """
+    Handler that handles existing comments.
+    """
     def get(self, id, com_id):
         isLoggedIn = self.isLoggedIn()
         article = Article.get_by_id(int(id))
