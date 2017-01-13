@@ -4,6 +4,8 @@ from file_helpers import *
 from handlers.blog_handler import BlogHandler
 from handlers.post_handler import PostHandler
 from handlers.mainpage_handler import MainPage
+from handlers.comment_handler import CommentHandler
+from handlers.editcomment_handler import EditCommentHandler
 
 from models import *
 
@@ -291,20 +293,6 @@ class LikePostHandler(BlogHandler):
                         error=error)
 
 
-class CommentHandler(BlogHandler):
-    def get(self, id, com_id):
-        isLoggedIn = self.isLoggedIn()
-        article = Article.get_by_id(int(id))
-        comment = Comment.get_by_id(int(com_id))
-        if comment is None:
-            self.redirect('/')
-        else:
-            self.render("comment.html",
-                        isLoggedIn=isLoggedIn,
-                        article=article,
-                        comment=comment)
-
-
 class AddCommentHandler(BlogHandler):
     """
     Handler class for displaying a new comment form to an article post.
@@ -365,37 +353,6 @@ class DeleteCommentHandler(BlogHandler):
                 comment.delete()
                 self.render('message.html',
                             message="Comment deleted successfully.",
-                            isLoggedIn=isLoggedIn)
-            else:
-                self.redirect("/login")
-
-
-class EditCommentHandler(BlogHandler):
-    """
-    Handles the editing of existing comments.
-    """
-    def get(self, com_id):
-        isLoggedIn = self.isLoggedIn()
-        comment = Comment.get_by_id(int(com_id))
-        if comment is None:
-            self.redirect('/')
-        else:
-            self.render("editcomment.html",
-                        isLoggedIn=isLoggedIn,
-                        comment=comment)
-
-    def post(self, com_id):
-        isLoggedIn = self.isLoggedIn()
-        content = self.request.get("content")
-        comment = Comment.get_by_id(int(com_id))
-        comment.content = content
-        if comment is None:
-            self.redirect('/')
-        else:
-            if isLoggedIn == comment.user:
-                comment.put()
-                self.render('message.html',
-                            message="Comment edited successfully.",
                             isLoggedIn=isLoggedIn)
             else:
                 self.redirect("/login")

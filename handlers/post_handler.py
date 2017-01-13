@@ -1,6 +1,5 @@
 from file_helpers import *
 from blog_handler import BlogHandler
-from models.ArticleModel import Article
 
 
 class PostHandler(BlogHandler):

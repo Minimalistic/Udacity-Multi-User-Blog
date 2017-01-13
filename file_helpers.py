@@ -8,6 +8,9 @@ import re
 import random
 import string
 
+from models.ArticleModel import Article
+from models.CommentModel import Comment
+
 # Import google app engine datastore lib
 from google.appengine.ext import db
 
