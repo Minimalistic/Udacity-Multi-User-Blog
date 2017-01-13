@@ -1,186 +1,12 @@
-import os
-import re
-import random
 import webapp2
-import jinja2
-import hashlib
-import string
-import hmac
-import logging
+
+from file_helpers import *
+from handlers.blog_handler import BlogHandler
+
+from models import *
 
 # Import google app engine datastore lib
 from google.appengine.ext import db
-
-# Sets the location of the templates folder that are contained in the home
-# directory of this app.
-template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-# Envokes jinja2 environment, points it to the templates folder with the
-# user input markup automatically escaped.
-jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
-                               autoescape=True)
-
-# FILE LEVEL FUNCTIONS #######################################################
-
-# Strings
-THE_SECRET = "TheSecretIs42"
-user_err_string = "Not a valid username."
-pass_err_string = "Not a valid password."
-pass2_err_string = "Passwords do not match."
-email_err_string = "Not a valid email."
-
-
-def blog_key(name='default'):
-    """
-    This is the key that defines a single blog and facilitiate multiple
-    blogs on the same site.
-    """
-    return db.Key.from_path('blogs', name)
-
-
-# Signups check
-def checkUser(user):
-    user2 = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-    return user2.match(user)
-
-
-def checkPass(pass1):
-    pass2 = re.compile(r"^.{3,20}$")
-    return pass2.match(pass1)
-
-
-def checkPass2(pass1, pass2):
-    return pass2 == pass1
-
-
-def checkEmail(email):
-    email2 = re.compile(r"^[\S]+@[\S]+.[\S]+$")
-    return email2.match(email) or email == ""
-
-
-# Cookie related
-def hash_str(s):
-    return hmac.new(THE_SECRET, s).hexdigest()
-
-
-def make_secure_val(s):
-    return "%s|%s" % (s, hash_str(s))
-
-
-def check_secure_val(h):
-    val = h.split('|')[0]
-    if h == make_secure_val(val):
-        return val
-
-# Password related
-
-
-def make_salt():
-    return "".join(random.choice(string.letters) for x in xrange(5))
-
-
-def make_pw_hash(name, pw, salt=make_salt()):
-    h = hashlib.sha256(name + pw + salt).hexdigest()
-    return '%s,%s' % (h, salt)
-
-
-def valid_pw(name, pw, h):
-    # This compares input password with the input confirmation password
-    split = h.split(",")
-    hash = split[0]
-    salt = split[1]
-
-    logging.warning("h =" + h)
-    logging.warning("make = " + make_pw_hash(name, pw, salt))
-    return h == make_pw_hash(name, pw, salt)
-
-
-# DATABASES ##################################################################
-
-# Create a database for user information
-
-
-class User(db.Model):
-    """
-    Instantiates a class to store user data in the datastore
-    made up of user attributes.
-    """
-    username = db.StringProperty(required=True)
-    password = db.StringProperty(required=True)
-    email = db.StringProperty(required=False)
-    created = db.DateTimeProperty(auto_now_add=True)
-
-# Create a database for blog post information
-
-
-class Article(db.Model):
-    """
-    Instantiates a class to store articles/post data in the datastore
-    made up of post attributes.
-    """
-    title = db.StringProperty(required=True)
-    content = db.TextProperty(required=True)
-    created = db.DateTimeProperty(auto_now_add=True)
-    edited = db.DateTimeProperty(auto_now=True)
-    user = db.StringProperty(required=True)
-    likes = db.IntegerProperty(default=0)
-
-# Create a database for comment information
-
-
-class Comment(db.Model):
-    """
-    Instantiates a class to store comments data in the datastore.
-    """
-    article_id = db.IntegerProperty(required=True)
-    user = db.StringProperty(required=True)
-    content = db.TextProperty(required=True)
-    created = db.DateTimeProperty(auto_now_add=True)
-
-
-class Like(db.Model):
-    """
-    Manages the likes for individual posts.
-    """
-    article_id = db.IntegerProperty(required=True)
-    user = db.StringProperty(required=True)
-
-
-# HANDLERS ###################################################################
-
-
-class BlogHandler(webapp2.RequestHandler):
-    """
-    BlogHandler class for functions for rendering templates.
-    """
-    def isLoggedIn(self):
-        cookie = self.request.cookies.get('username')
-        if cookie and check_secure_val(cookie):
-            return cookie.split("|")[0]
-
-    def write(self, *a, **kw):
-        """
-         Displays respective function, etc.
-         """
-        self.response.out.write(*a, **kw)
-
-    def render_str(self, template, **params):
-        t = jinja_env.get_template(template)
-        return t.render(params)
-
-    def render(self, template, **kw):
-        self.write(self.render_str(template, **kw))
-        """
-        Calls 'render_str' and 'write' to display the jinja template.
-        """
-
-    def login(self, user):
-        """
-        Sets the cookie for login and redirects to welcome page.
-        """
-        val = make_secure_val(str(user))
-        self.response.headers.add_header("Set-Cookie",
-                                         r"username=%s; Path=/" % val)
-        self.render("/message.html", message="Logged in successfully.")
 
 
 class MainPage(BlogHandler):
@@ -337,7 +163,7 @@ class NewPostHandler(BlogHandler):
         from 'BlogHandler'
         """
         isLoggedIn = self.isLoggedIn()
-        if isLoggedIn:
+        if self.isLoggedIn():
             self.render("newpost.html",
                         isLoggedIn=isLoggedIn)
         else:
