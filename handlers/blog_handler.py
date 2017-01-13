@@ -1,7 +1,6 @@
 import webapp2
-
-
 from file_helpers import *
+
 
 class BlogHandler(webapp2.RequestHandler):
     """
