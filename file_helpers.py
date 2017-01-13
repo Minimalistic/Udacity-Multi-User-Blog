@@ -8,6 +8,9 @@ import re
 import random
 import string
 
+# Import google app engine datastore lib
+from google.appengine.ext import db
+
 
 # Sets the location of the templates folder that are contained in the home
 # directory of this app.
