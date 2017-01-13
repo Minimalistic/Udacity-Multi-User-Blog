@@ -11,48 +11,12 @@ from handlers.signup_handler import SignUpHandler
 from handlers.deletecomment_handler import DeleteCommentHandler
 from handlers.newpost_handler import NewPostHandler
 from handlers.addcomment_handler import AddCommentHandler
+from handlers.login_handler import LoginHandler
 
 from models import *
 
 # Import google app engine datastore lib
 from google.appengine.ext import db
-
-
-# Log in handler, shows a form if the user is not logged in
-class LoginHandler(BlogHandler):
-    def get(self):
-        if(self.isLoggedIn()):
-            self.render("message.html",
-                        error="You are already logged in!")
-        else:
-            self.render("login.html")
-
-    def post(self):
-        user = self.request.get("username")
-        password = self.request.get("password")
-
-        # Checking if both fields are not empty
-        if user and password:
-
-            # Checking if the username and password match
-            db_users = db.GqlQuery("SELECT * FROM User WHERE username=\'" +
-                                   user + "\'")
-            if(db_users.get()):
-                db_user = db_users[0]
-                if valid_pw(THE_SECRET, password, db_user.password):
-                    self.login(user)
-                else:
-                    self.render("login.html",
-                                user=user,
-                                error="Username and password do not match.")
-            else:  # If the user does not exist.
-                self.render("login.html",
-                            user=user,
-                            error="Username and password do not match.")
-        else:
-            self.render("login.html",
-                        user=user,
-                        error="A username and password are required.")
 
 
 class LogoutHandler(BlogHandler):
