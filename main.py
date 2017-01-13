@@ -12,33 +12,12 @@ from handlers.deletecomment_handler import DeleteCommentHandler
 from handlers.newpost_handler import NewPostHandler
 from handlers.addcomment_handler import AddCommentHandler
 from handlers.login_handler import LoginHandler
+from handlers.logout_handler import LogoutHandler
 
 from models import *
 
 # Import google app engine datastore lib
 from google.appengine.ext import db
-
-
-class LogoutHandler(BlogHandler):
-    def get(self):
-        if self.isLoggedIn():
-            self.response.headers.add_header("Set-Cookie",
-                                             "username=; Path=/")
-            self.render("message.html",
-                        message="Logged out successfully.")
-        else:
-            self.redirect("/login")
-
-
-class WelcomeHandler(BlogHandler):
-    def get(self):
-        isLoggedIn = self.isLoggedIn()
-        if isLoggedIn:
-            self.render("message.html",
-                        message="Logged in successfully.",
-                        isLoggedIn=isLoggedIn)
-        else:
-            self.redirect("/login")
 
 
 class EditPostHandler(BlogHandler):
@@ -174,7 +153,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ("/signup", SignUpHandler),
                                ("/login", LoginHandler),
                                ("/logout", LogoutHandler),
-                               ("/welcome", WelcomeHandler),
                                ('/posts/([0-9]+)', PostHandler),
                                ('/newpost', NewPostHandler),
                                ('/editpost/([0-9]+)', EditPostHandler),
