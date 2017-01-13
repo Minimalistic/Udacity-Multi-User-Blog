@@ -11,6 +11,7 @@ import string
 from models.ArticleModel import Article
 from models.CommentModel import Comment
 from models.UserModel import User
+from models.LikeModel import Like
 
 # Import google app engine datastore lib
 from google.appengine.ext import db
