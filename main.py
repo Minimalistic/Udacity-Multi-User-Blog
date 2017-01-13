@@ -29,7 +29,6 @@ pass2_err_string = "Passwords do not match."
 email_err_string = "Not a valid email."
 
 
-
 def blog_key(name='default'):
     """
     This is the key that defines a single blog and facilitiate multiple
@@ -319,10 +318,13 @@ class PostHandler(BlogHandler):
         article = Article.get_by_id(int(id))
         comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" +
                                str(int(id)) + " ORDER BY created DESC")
-        self.render("post.html",
-                    isLoggedIn=self.isLoggedIn(),
-                    article=article,
-                    comments=comments)
+        if article is None:
+            self.redirect('/')
+        else:
+            self.render("post.html",
+                        isLoggedIn=self.isLoggedIn(),
+                        article=article,
+                        comments=comments)
 
 
 class NewPostHandler(BlogHandler):
@@ -335,7 +337,7 @@ class NewPostHandler(BlogHandler):
         from 'BlogHandler'
         """
         isLoggedIn = self.isLoggedIn()
-        if self.isLoggedIn():
+        if isLoggedIn:
             self.render("newpost.html",
                         isLoggedIn=isLoggedIn)
         else:
@@ -375,6 +377,7 @@ class EditPostHandler(BlogHandler):
         title = self.request.get("title")
         article = Article.get_by_id(int(id))
         isLoggedIn = self.isLoggedIn()
+
         if article is None:
             self.redirect('/')
         else:
@@ -421,44 +424,52 @@ class DeletePostHandler(BlogHandler):
     def post(self, id):
         article = Article.get_by_id(int(id))
         isLoggedIn = self.isLoggedIn()
-        if isLoggedIn:
-            if (isLoggedIn and article.user == isLoggedIn):
-                article.delete()
-                self.render('message.html',
-                            message="Post deletion successful.",
-                            isLoggedIn=isLoggedIn)
-            else:
-                self.render("message.html",
-                            error="That's not permitted")
+
+        if article is None:
+            self.redirect('/')
         else:
-            self.redirect("/login")
+            if isLoggedIn:
+                if (isLoggedIn and article.user == isLoggedIn):
+                    article.delete()
+                    self.render('message.html',
+                                message="Post deletion successful.",
+                                isLoggedIn=isLoggedIn)
+                else:
+                    self.render("message.html",
+                                error="That's not permitted")
+            else:
+                self.redirect("/login")
 
 
 class LikePostHandler(BlogHandler):
     def get(self, id):
         username = self.isLoggedIn()
         article = Article.get_by_id(int(id))
-        if username:
-            if not article.user == username:
-                like = db.GqlQuery("SELECT * FROM Like WHERE article_id=" +
-                                   str(id) + " AND user=\'" + username + "\'")
-                if(like.get()):
-                    like[0].delete()
-                    article.likes = article.likes - 1
-                    article.put()
-                    self.redirect("/posts/" + id)
-                else:
-                    like = Like(article_id=int(id),
-                                user=username)
-                    like.put()
-                    article.likes = article.likes + 1
-                    article.put()
-                    self.redirect("/posts/" + id)
-            else:
-                self.render("message.html",
-                            error="Can't like your own posts.")
+
+        if article is None:
+            self.redirect('/')
         else:
-            self.redirect("/login")
+            if username:
+                if not article.user == username:
+                    like = db.GqlQuery("SELECT * FROM Like WHERE article_id="
+                            + str(id) + " AND user=\'" + username + "\'")
+                    if(like.get()):
+                        like[0].delete()
+                        article.likes = article.likes - 1
+                        article.put()
+                        self.redirect("/posts/" + id)
+                    else:
+                        like = Like(article_id=int(id),
+                                    user=username)
+                        like.put()
+                        article.likes = article.likes + 1
+                        article.put()
+                        self.redirect("/posts/" + id)
+                else:
+                    self.render("message.html",
+                                error="Can't like your own posts.")
+            else:
+                self.redirect("/login")
 
     def post(self, id):
         title = self.request.get("subject")
@@ -490,11 +501,13 @@ class CommentHandler(BlogHandler):
         isLoggedIn = self.isLoggedIn()
         article = Article.get_by_id(int(id))
         comment = Comment.get_by_id(int(com_id))
-
-        self.render("comment.html",
-                    isLoggedIn=isLoggedIn,
-                    article=article,
-                    comment=comment)
+        if comment is None:
+            self.redirect('/')
+        else:
+            self.render("comment.html",
+                        isLoggedIn=isLoggedIn,
+                        article=article,
+                        comment=comment)
 
 
 class AddCommentHandler(BlogHandler):
@@ -504,12 +517,15 @@ class AddCommentHandler(BlogHandler):
     def get(self, id):
         article = Article.get_by_id(int(id))
         isLoggedIn = self.isLoggedIn()
-        if self.isLoggedIn():
-            self.render("addcomment.html",
-                        isLoggedIn=isLoggedIn,
-                        article=article)
+        if article is None:
+            self.redirect('/')
         else:
-            self.redirect("/login")
+            if self.isLoggedIn():
+                self.render("addcomment.html",
+                            isLoggedIn=isLoggedIn,
+                            article=article)
+            else:
+                self.redirect("/login")
 
     def post(self, id):
         """
@@ -517,23 +533,27 @@ class AddCommentHandler(BlogHandler):
         """
         content = self.request.get("content")
         username = self.isLoggedIn()
-        if self.isLoggedIn():
-            if content:
-                comment = Comment(content=content,
-                                  user=username,
-                                  article_id=int(id))
-                comment.put()
-                self.render("message.html",
-                            message="Your comment has been posted!")
-            else:
-                isLoggedIn = self.isLoggedIn()
-                error = "You need to write something."
-                self.render("addcomment.html",
-                            isLoggedIn=isLoggedIn,
-                            content=content,
-                            error=error)
+        article = Article.get_by_id(int(id))
+        if article is None:
+            self.redirect('/')
         else:
-            self.redirect("/login")
+            if self.isLoggedIn():
+                if content:
+                    comment = Comment(content=content,
+                                      user=username,
+                                      article_id=int(id))
+                    comment.put()
+                    self.render("message.html",
+                                message="Your comment has been posted!")
+                else:
+                    isLoggedIn = self.isLoggedIn()
+                    error = "You need to write something."
+                    self.render("addcomment.html",
+                                isLoggedIn=isLoggedIn,
+                                content=content,
+                                error=error)
+            else:
+                self.redirect("/login")
 
 
 class DeleteCommentHandler(BlogHandler):
@@ -543,13 +563,16 @@ class DeleteCommentHandler(BlogHandler):
     def post(self, com_id):
         isLoggedIn = self.isLoggedIn()
         comment = Comment.get_by_id(int(com_id))
-        if isLoggedIn == comment.user:
-            comment.delete()
-            self.render('message.html',
-                        message="Comment deleted successfully.",
-                        isLoggedIn=isLoggedIn)
+        if comment is None:
+            self.redirect('/')
         else:
-            self.redirect("/login")
+            if isLoggedIn == comment.user:
+                comment.delete()
+                self.render('message.html',
+                            message="Comment deleted successfully.",
+                            isLoggedIn=isLoggedIn)
+            else:
+                self.redirect("/login")
 
 
 class EditCommentHandler(BlogHandler):
@@ -559,22 +582,28 @@ class EditCommentHandler(BlogHandler):
     def get(self, com_id):
         isLoggedIn = self.isLoggedIn()
         comment = Comment.get_by_id(int(com_id))
-        self.render("editcomment.html",
-                    isLoggedIn=isLoggedIn,
-                    comment=comment)
+        if comment is None:
+            self.redirect('/')
+        else:
+            self.render("editcomment.html",
+                        isLoggedIn=isLoggedIn,
+                        comment=comment)
 
     def post(self, com_id):
         isLoggedIn = self.isLoggedIn()
         content = self.request.get("content")
         comment = Comment.get_by_id(int(com_id))
         comment.content = content
-        if isLoggedIn == comment.user:
-            comment.put()
-            self.render('message.html',
-                        message="Comment edited successfully.",
-                        isLoggedIn=isLoggedIn)
+        if comment is None:
+            self.redirect('/')
         else:
-            self.redirect("/login")
+            if isLoggedIn == comment.user:
+                comment.put()
+                self.render('message.html',
+                            message="Comment edited successfully.",
+                            isLoggedIn=isLoggedIn)
+            else:
+                self.redirect("/login")
 
 
 # GoogleAppEngine app variable
