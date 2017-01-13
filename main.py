@@ -2,6 +2,7 @@ import webapp2
 
 from file_helpers import *
 from handlers.blog_handler import BlogHandler
+from handlers.post_handler import PostHandler
 from handlers.mainpage_handler import MainPage
 
 from models import *
@@ -119,20 +120,6 @@ class WelcomeHandler(BlogHandler):
                         isLoggedIn=isLoggedIn)
         else:
             self.redirect("/login")
-
-
-class PostHandler(BlogHandler):
-    def get(self, id):
-        article = Article.get_by_id(int(id))
-        comments = db.GqlQuery("SELECT * FROM Comment WHERE article_id=" +
-                               str(int(id)) + " ORDER BY created DESC")
-        if article is None:
-            self.redirect('/')
-        else:
-            self.render("post.html",
-                        isLoggedIn=self.isLoggedIn(),
-                        article=article,
-                        comments=comments)
 
 
 class NewPostHandler(BlogHandler):
