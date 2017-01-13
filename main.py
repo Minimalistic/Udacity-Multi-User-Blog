@@ -14,31 +14,12 @@ from handlers.addcomment_handler import AddCommentHandler
 from handlers.login_handler import LoginHandler
 from handlers.logout_handler import LogoutHandler
 from handlers.editpost_handler import EditPostHandler
+from handlers.deletepost_handler import DeletePostHandler
+
 from models import *
 
 # Import google app engine datastore lib
 from google.appengine.ext import db
-
-
-class DeletePostHandler(BlogHandler):
-    def post(self, id):
-        article = Article.get_by_id(int(id))
-        isLoggedIn = self.isLoggedIn()
-
-        if article is None:
-            self.redirect('/')
-        else:
-            if isLoggedIn:
-                if (isLoggedIn and article.user == isLoggedIn):
-                    article.delete()
-                    self.render('message.html',
-                                message="Post deletion successful.",
-                                isLoggedIn=isLoggedIn)
-                else:
-                    self.render("message.html",
-                                error="That's not permitted")
-            else:
-                self.redirect("/login")
 
 
 class LikePostHandler(BlogHandler):
