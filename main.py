@@ -9,6 +9,7 @@ from handlers.comment_handler import CommentHandler
 from handlers.editcomment_handler import EditCommentHandler
 from handlers.signup_handler import SignUpHandler
 from handlers.deletecomment_handler import DeleteCommentHandler
+from handlers.newpost_handler import NewPostHandler
 
 from models import *
 
@@ -71,51 +72,6 @@ class WelcomeHandler(BlogHandler):
             self.render("message.html",
                         message="Logged in successfully.",
                         isLoggedIn=isLoggedIn)
-        else:
-            self.redirect("/login")
-
-
-class NewPostHandler(BlogHandler):
-    """
-    This handler is for posting new blog articles to the blog.
-    """
-    def get(self):
-        """
-        Uses a 'get' request to render the newpost.html by caling render
-        from 'BlogHandler'
-        """
-        isLoggedIn = self.isLoggedIn()
-        if self.isLoggedIn():
-            self.render("newpost.html",
-                        isLoggedIn=isLoggedIn)
-        else:
-            self.redirect("/login")
-
-    def post(self):
-        """
-        Handles the 'post' request that originates from newpost.html
-        """
-        title = self.request.get('subject')
-        content = self.request.get('content')
-        username = self.isLoggedIn()
-
-        if username:
-            if title and content:
-                a = Article(title=title,
-                            content=content,
-                            user=username)
-                a.put()
-                # Once article has been stored, redirects user to the post.
-                self.redirect("/posts/" + str(a.key().id()))
-
-            else:
-                isLoggedIn = self.isLoggedIn()
-                error = "Subject and content, please!"
-                self.render("newpost.html",
-                            isLoggedIn=isLoggedIn,
-                            title=title,
-                            content=content,
-                            error=error)
         else:
             self.redirect("/login")
 
