@@ -1,68 +1,19 @@
 import webapp2
 
 from file_helpers import *
+
 from handlers.blog_handler import BlogHandler
-from handlers.post_handler import PostHandler
 from handlers.mainpage_handler import MainPage
+from handlers.post_handler import PostHandler
 from handlers.comment_handler import CommentHandler
 from handlers.editcomment_handler import EditCommentHandler
+from handlers.signup_handler import SignUpHandler
+from handlers.deletecomment_handler import DeleteCommentHandler
 
 from models import *
 
 # Import google app engine datastore lib
 from google.appengine.ext import db
-
-
-# SignUpHandler shows a sign up form if user is not logged in
-class SignUpHandler(BlogHandler):
-    def get(self):
-        if(self.isLoggedIn()):
-            self.redirect("/")
-        else:
-            self.render("signup.html",
-                        user_error="",
-                        pass_error="",
-                        pass2_error="",
-                        email_error="")
-
-    def post(self):
-        user = self.request.get("username")
-        pass1 = self.request.get("password")
-        pass2 = self.request.get("verify")
-        email = self.request.get("email")
-
-        # Checking every field
-        user_ok = checkUser(user)
-        pass_ok = checkPass(pass1)
-        pass2_ok = checkPass2(pass1, pass2)
-        email_ok = checkEmail(email)
-
-        # Checking if all fields are ok
-        if(user_ok and pass_ok and pass2_ok and email_ok):
-
-            # Checking if the user already exists
-            existing_user = db.GqlQuery("""SELECT * FROM User
-                                        WHERE username=\'""" +
-                                        user + "\'").get()
-            if(existing_user):
-                user_error = "There already is a user with that name."
-                self.render("signup.html",
-                            user_error=user_error,
-                            email=email)
-                return
-            else:
-                # Signing up
-                salt = make_salt()
-                password = make_pw_hash(THE_SECRET, pass1, salt)
-                if(email):
-                    user_to_be_added = User(username=user,
-                                            password=password,
-                                            email=email)
-                else:
-                    user_to_be_added = User(username=user,
-                                            password=password)
-                db.put(user_to_be_added)
-                self.login(user)
 
 
 # Log in handler, shows a form if the user is not logged in
@@ -335,25 +286,6 @@ class AddCommentHandler(BlogHandler):
                                 isLoggedIn=isLoggedIn,
                                 content=content,
                                 error=error)
-            else:
-                self.redirect("/login")
-
-
-class DeleteCommentHandler(BlogHandler):
-    """
-    Handles the deletion of comments.
-    """
-    def post(self, com_id):
-        isLoggedIn = self.isLoggedIn()
-        comment = Comment.get_by_id(int(com_id))
-        if comment is None:
-            self.redirect('/')
-        else:
-            if isLoggedIn == comment.user:
-                comment.delete()
-                self.render('message.html',
-                            message="Comment deleted successfully.",
-                            isLoggedIn=isLoggedIn)
             else:
                 self.redirect("/login")
 
