@@ -33,6 +33,13 @@ pass2_err_string = "Passwords do not match."
 email_err_string = "Not a valid email."
 
 
+def post_exists(function):
+    @wraps(function)
+    def wrapper(self, post_id):
+        article = Article.get_by_id(int(id))
+    return wrapper
+
+
 def blog_key(name='default'):
     """
     This is the key that defines a single blog and facilitiate multiple
