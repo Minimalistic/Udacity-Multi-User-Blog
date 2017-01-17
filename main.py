@@ -1,8 +1,5 @@
 import webapp2
 
-from file_helpers import *
-
-from handlers.blog_handler import BlogHandler
 from handlers.mainpage_handler import MainPage
 
 from handlers.signup_handler import SignUpHandler
@@ -20,12 +17,6 @@ from handlers.editcomment_handler import EditCommentHandler
 from handlers.deletecomment_handler import DeleteCommentHandler
 
 from handlers.likepost_handler import LikePostHandler
-
-from models import *
-
-# Import google app engine datastore lib
-from google.appengine.ext import db
-
 
 # GoogleAppEngine app variable
 # This sets the attributes of individual HTML files that will be served

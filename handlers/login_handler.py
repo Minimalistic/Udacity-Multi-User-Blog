@@ -2,6 +2,8 @@ from file_helpers import *
 from blog_handler import BlogHandler
 
 # Log in handler, shows a form if the user is not logged in
+
+
 class LoginHandler(BlogHandler):
     """
     Handler that manages users logging in.
