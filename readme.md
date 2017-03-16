@@ -1,3 +1,5 @@
+![Udacity Logo](/img/Udacity_200.png)
+
 # Udacity Full Stack Web Developer Nanodegree
 
 ## Project: Multi User Blog
