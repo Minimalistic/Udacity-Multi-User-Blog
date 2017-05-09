@@ -14,7 +14,7 @@ a { /* Unified link styling */
 }
 
 a:hover {
-        text-decoration: underline;
+    text-decoration: underline;
 }
 
 h4 { /* Snugging up the gap below 'Comments' text */
@@ -44,8 +44,8 @@ button { /* The standard button theme for the app */
     -webkit-box-shadow   : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
     -moz-box-shadow      : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
     box-shadow           : 0px 1px 3px -1px rgba(0,0,0,0.73), 0px 4px 10px -1px rgba(0,0,0,0.33);
-    font-weight: bold;
-    font-size: .75em;
+    font-weight          : bold;
+    font-size            : .75em;
 
 }
 
