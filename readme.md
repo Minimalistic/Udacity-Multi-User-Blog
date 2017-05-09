@@ -1,6 +1,7 @@
-# Marsh Blog: A Multi User Blog for a Udacity Project
-
 ![Marsh Blog Cover Image](/img/marsh_blog_cover.png)
+# A Multi User Blog for a Udacity Project
+
+
 
 This is a multi user blog website that was created for a Udacity project.
 
