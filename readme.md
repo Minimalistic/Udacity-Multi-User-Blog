@@ -1,8 +1,6 @@
-![Udacity Logo](/img/Udacity_200.png)
+# Marsh Blog: A Multi User Blog for a Udacity Project
 
-# Udacity Full Stack Web Developer Nanodegree
-
-## Project: Multi User Blog
+![Marsh Blog Cover Image](/img/marsh_blog_cover.png)
 
 This is a multi user blog website that was created for a Udacity project.
 
